@@ -1,0 +1,39 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "WordBucket",
+    "type": "object",
+    "required": ["name", "words"],
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Name for the word bucket"
+        },
+        "children": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Names for child buckets"
+        },
+        "words": {
+            "type": "array",
+            "items": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "Word data"
+                        },
+                        "weight": {
+                            "type": "number",
+                            "description": "Weighting of the listed word data"
+                        }
+                    }
+                }
+            },
+            "description": "Data for this word bucket"
+        }
+    }
+  }
