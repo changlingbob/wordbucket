@@ -19,7 +19,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "node-debug": "^0.1.0"
-  }
+  "dependencies": {}
 }
