@@ -7,49 +7,85 @@ export default class Bucket {
   
   public id: string;
   private children: {[key: string]: Bucket} = {};
+  private parent: Bucket|null;
   private wordList: WordEntry[] = [];
   private weight: number = 0;
 
-  constructor(name?: string, parent?: Bucket|string) {
-    if (!name && Bucket.root) {
-      throw "Buckets must have a name"
-    }
-    this.id = name || '';
+  constructor(name?: string|string[], parent?: Bucket) {
     if (!Bucket.root) {
       if (name === undefined) {
         Bucket.root = this;
+        this.id = '';
+        this.parent = null;
+        return;
       } else {
-        Bucket.root = new Bucket();
+        new Bucket();
       }
-    } else if (this.findBucket(name) !== Bucket.root) {
-      throw "Duplicate bucket name!"
     }
-    if (parent instanceof Bucket) {
-      parent.addChild(this);
-    } else if (Bucket.root !== this) {
-      Bucket.root.findBucket(parent).addChild(this);
+    if (!name) {
+      throw "Buckets must have a name"
     }
+    if (parent && Bucket.root.findBucket(`${parent.getName()}.${name}`) 
+    || !parent && Bucket.root.findBucket(name)) {
+      throw "A bucket with this name already exists"
+    }
+    if (!(name instanceof Array)) {
+      name = name.split('.');
+    }
+    this.id = name.slice(-1)[0];
+    if (typeof parent == 'string' && parent) {
+      parent = Bucket.root.findBucket(parent);
+    }
+    let realParent:Bucket = Bucket.root;
+    if (name.length > 1) {
+      const foundParent = Bucket.root.findBucket(name.slice(0,-1));
+      if (foundParent && parent && foundParent !== parent) {
+        throw "Supplied parent doesn't match namespaced parent"
+      } else if (foundParent) {
+        realParent = foundParent;
+      } else if (parent) {
+        realParent = parent;
+      } else {
+        realParent = new Bucket(name.slice(0,-1));
+      }
+    } else if (parent instanceof Bucket) {
+      realParent = parent;
+    }
+    realParent.children[this.id] = this;
+    this.parent = realParent;
+    // if we don't have one, recursively generate a parent
   }
   
-  public findBucket(name?: string|string[]): Bucket {
+  // make indempotent
+  public findBucket(name?: string|string[]): Bucket|undefined {
     if (!!name) {
       if (!(name instanceof Array)) {
         name = name.split('.');
       }
-      if (this.children[name[0]]) {
+      let target = this.children[name[0]];
+      if (target) {
         if (name.length > 1) {
-          return this.children[name[0]].findBucket(name.slice(1));
+          return target.findBucket(name.slice(1));
         } else {
-          return this.children[name[0]];
+          return target;
         }
       }
     }
-    return Bucket.root;
+    return undefined;
+  }
+
+  public getName():string {
+    if (!this.parent) {
+      return ''
+    } else {
+      return `${this.parent.getName()}${this.parent !== Bucket.root ? '.' : ''}${this.id}`;
+    }
   }
 
   public generate(identifier?: string|string[]): string {
-    if (identifier) {
-      return Bucket.root.findBucket(identifier).generate();
+    const bucket = Bucket.root.findBucket(identifier);
+    if (bucket) {
+      return bucket.generate();
     } else {
       return this.rollWords();
     }
