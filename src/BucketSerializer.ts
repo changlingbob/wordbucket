@@ -80,6 +80,70 @@ export function fromCSV(data:string): void {
   }
 }
 
+let exportBuckets:dumbBucket[];
+interface dumbBucket {
+  name: string,
+  words: string[],
+  weights: number[]
+}
+
 export function toCSV(data:Bucket): string {
-  return '';
+  exportBuckets = [];
+  csvHelper(data);
+
+  let maxArray = 0;
+  for (let bucket of exportBuckets) {
+    if (maxArray < bucket.words.length) {
+      maxArray = bucket.words.length;
+    }
+  }
+
+  const outputBuckets = exportBuckets.map((bucket) => {
+    let newBucket:dumbBucket = {name: bucket.name, words: [], weights: []}
+    for (let iii = 0; iii < maxArray; iii++)
+    {
+      newBucket.words.push(bucket.words[iii] || '');
+      newBucket.weights.push(bucket.weights[iii] || 0);
+    }
+    return newBucket;
+  });
+
+  let outString = '';
+  for (let counter = -1; counter < maxArray; counter++) {
+    for (let bucket of outputBuckets) {
+      if (counter === -1) {
+        outString += `${makeCsvCell(bucket.name)},,`;
+      } else {
+        outString += `${makeCsvCell(bucket.words[counter])},${(bucket.weights[counter] || '')},`;
+      }
+    }
+    outString = outString.slice(0,-1) + '\n';
+  }
+
+  return outString;
+}
+
+function makeCsvCell(cell:string): string {
+  cell = cell.replace(/"/, '""');
+  if (cell.indexOf(',') > -1) {
+    cell = `"${cell}"`;
+  }
+  return cell;
+}
+
+function csvHelper(data:Bucket): void {
+  let bucket:dumbBucket = {
+    name: data.getName(),
+    words: [],
+    weights: []
+  };
+  const wordList = data.getWords();
+  for (let word of wordList) {
+    bucket.words.push(word.words);
+    bucket.weights.push(word.weight);
+  }
+  exportBuckets.push(bucket);
+  for (let child of data.getChildren()) {
+    csvHelper(child);
+  }
 }

@@ -53,10 +53,8 @@ export default class Bucket {
     }
     realParent.children[this.id] = this;
     this.parent = realParent;
-    // if we don't have one, recursively generate a parent
   }
   
-  // make indempotent
   public findBucket(name?: string|string[]): Bucket|undefined {
     if (!!name) {
       if (!(name instanceof Array)) {
@@ -99,6 +97,14 @@ export default class Bucket {
     }
   }
 
+  public getChildren(): Bucket[] {
+    const children:Bucket[] = [];
+    for (let child of Object.keys(this.children)) {
+      children.push(this.children[child]);
+    }
+
+    return children;
+  }
   
   public putWords(words: WordEntry|string, weight?: number): void {
     if (words instanceof WordEntry) {
@@ -109,7 +115,10 @@ export default class Bucket {
       this.weight += 1;
     }
   }
-  public addWords = this.putWords;
+  
+  public getWords(): WordEntry[] {
+    return this.wordList;
+  }
 
   public removeWords(id: number): void {
     this.wordList.splice(id, 1);
