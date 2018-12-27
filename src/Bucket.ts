@@ -1,5 +1,5 @@
 import WordEntry from './WordEntry';
-import { ISerializedBucket } from './BucketSerializer'
+import { ISerializedBucket, fromCSV, toCSV, load } from './BucketSerializer'
 
 export default class Bucket {
   public static generate(identifier?: string|string[]):string {return Bucket.root.generate(identifier)};
@@ -168,4 +168,10 @@ export default class Bucket {
 
     return bucket;
   }
+
+  public static load = load;
+  public static fromCSV = fromCSV;
+  public toCSV(): string {
+    return toCSV(this);
+  };
 }
