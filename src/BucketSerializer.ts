@@ -80,8 +80,8 @@ export function fromCSV(data:string): void {
   }
 }
 
-let exportBuckets:dumbBucket[];
-interface dumbBucket {
+let exportBuckets:IDumbBucket[];
+interface IDumbBucket {
   name: string,
   words: string[],
   weights: number[]
@@ -99,7 +99,7 @@ export function toCSV(data:Bucket): string {
   }
 
   const outputBuckets = exportBuckets.map((bucket) => {
-    let newBucket:dumbBucket = {name: bucket.name, words: [], weights: []}
+    let newBucket:IDumbBucket = {name: bucket.name, words: [], weights: []}
     for (let iii = 0; iii < maxArray; iii++)
     {
       newBucket.words.push(bucket.words[iii] || '');
@@ -132,7 +132,7 @@ function makeCsvCell(cell:string): string {
 }
 
 function csvHelper(data:Bucket): void {
-  let bucket:dumbBucket = {
+  let bucket:IDumbBucket = {
     name: data.getName(),
     words: [],
     weights: []
