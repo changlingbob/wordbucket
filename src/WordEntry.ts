@@ -1,5 +1,5 @@
-import Bucket from './Bucket';
-import { ISerializedWordEntry } from './BucketSerializer';
+import Bucket from "./Bucket";
+import { ISerializedWordEntry } from "./BucketSerializer";
 
 export default class WordEntry {
   public weight: number;
@@ -9,29 +9,29 @@ export default class WordEntry {
     this.words = words;
     this.weight = weight || 1;
   }
-  
-    public generate(): string {
-  
-      return this.partialGenerator(this.words, '');
-    }
+
+  public generate(): string {
+
+    return this.partialGenerator(this.words, "");
+  }
+
+  public serialize(): ISerializedWordEntry {
+    return {words: this.words, weight: this.weight};
+  }
 
   private partialGenerator(input: string, result: string): string {
-    const command = input.indexOf('${');
+    const command = input.indexOf("${");
     if (command === -1) {
 
       return result.concat(input);
     } else {
       const initial = input.slice(0, command);
-      const commandEnd = input.slice(command + 2).indexOf('}') + command + 2;
+      const commandEnd = input.slice(command + 2).indexOf("}") + command + 2;
 
       const remaining = input.slice(commandEnd + 1);
       const bucketName = input.slice(command + 2, commandEnd);
 
       return this.partialGenerator(remaining, result + initial + Bucket.generate(bucketName));
     }
-  }
-
-  public serialize(): ISerializedWordEntry {
-    return {words: this.words, weight: this.weight};
   }
 }
