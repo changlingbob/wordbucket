@@ -19,19 +19,34 @@ export default class WordEntry {
     return {words: this.words, weight: this.weight};
   }
 
+  private addAOrAn(input: string): string {
+    const vowelArray = ["a", "e", "i", "o", "u", "1", "8"];
+    if (vowelArray.indexOf(input[input.search(/[a-zA-Z0-9]/)]) > -1) {
+      return "an ";
+    } else {
+      return "a ";
+    }
+  }
+
   private partialGenerator(input: string, result: string): string {
-    const command = input.indexOf("${");
+    const command = input.search(/[\$\&]\{/);
     if (command === -1) {
 
       return result.concat(input);
     } else {
-      const initial = input.slice(0, command);
+      let initial = input.slice(0, command);
       const commandEnd = input.slice(command + 2).indexOf("}") + command + 2;
 
       const remaining = input.slice(commandEnd + 1);
       const bucketName = input.slice(command + 2, commandEnd);
 
-      return this.partialGenerator(remaining, result + initial + Bucket.generate(bucketName));
+      const bucketResponse = Bucket.generate(bucketName);
+
+      if (input[command] === "&") {
+        initial += this.addAOrAn(bucketResponse);
+      }
+
+      return this.partialGenerator(remaining, result + initial + bucketResponse);
     }
   }
 }

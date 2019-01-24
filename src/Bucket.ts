@@ -46,7 +46,7 @@ export default class Bucket {
     }
     if (parent && Bucket.root.findBucket(`${parent.getName()}.${name}`)
     || !parent && Bucket.root.findBucket(name)) {
-      throw new Error("A bucket with this name already exists");
+      throw new Error(`A bucket with the name '${name}' already exists`);
     }
     if (!(name instanceof Array)) {
       name = name.split(".");
