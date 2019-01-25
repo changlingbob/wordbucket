@@ -68,7 +68,7 @@ export function fromCSV(data: string): void {
           }
         } else {
           const bucket = buckets[cell];
-          if (bucket !== null && row[cell] !== "") {
+          if (bucket !== null && row[cell + 1] !== "") {
             bucket.putWords(row[cell], +row[cell + 1]);
             cell++;
           }

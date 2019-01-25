@@ -21,10 +21,14 @@ export default class WordEntry {
 
   private addAOrAn(input: string): string {
     const vowelArray = ["a", "e", "i", "o", "u", "1", "8"];
+    let out = "";
+    if (input.search(/\W/) === 0) {
+      out = " ";
+    }
     if (vowelArray.indexOf(input[input.search(/[a-zA-Z0-9]/)]) > -1) {
-      return "an ";
+      return "an" + out;
     } else {
-      return "a ";
+      return "a" + out;
     }
   }
 
