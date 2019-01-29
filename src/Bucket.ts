@@ -8,9 +8,17 @@ export default class Bucket {
   public static serialize(): string {
     return JSON.stringify(Bucket.root.serialize());
   }
+  public static get(name: string) {
+    return Bucket.root.findBucket(name);
+  }
 
   public static deserialize(data: ISerializedBucket, parent?: Bucket): Bucket {
-    const bucket = new Bucket(data.name, parent);
+    let bucket;
+    if (data.name.length > 0) {
+      bucket = new Bucket(data.name, parent);
+    } else {
+       bucket = Bucket.root;
+    }
 
     for (const child of data.children) {
       this.deserialize(child, bucket);
