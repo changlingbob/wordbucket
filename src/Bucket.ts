@@ -5,8 +5,17 @@ export default class Bucket {
   public static load = load;
   public static fromCSV = fromCSV;
   public static generate(identifier?: string|string[]): string {return Bucket.root.generate(identifier); }
-  public static serialize(): string {
-    return JSON.stringify(Bucket.root.serialize());
+  public static serialize(name?: string): string {
+    if (name) {
+      const bucket = Bucket.get(name);
+      if (bucket) {
+        return JSON.stringify(bucket.serialize());
+      } else {
+        throw new Error(`Could not find bucket named ${name}`);
+      }
+    } else {
+      return JSON.stringify(Bucket.root.serialize());
+    }
   }
   public static get(name: string) {
     return Bucket.root.findBucket(name);
