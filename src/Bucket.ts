@@ -148,7 +148,7 @@ export default class Bucket {
       this.weight += words.weight;
     } else {
       this.wordList.push(new WordEntry(words, weight || 1));
-      this.weight += weight;
+      this.weight += weight || 1;
     }
   }
 
