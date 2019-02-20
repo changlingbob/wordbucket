@@ -1,3 +1,4 @@
+import { parseAndRoll as rollDice } from "roll-parser";
 import Bucket from "./Bucket";
 import { ISerializedWordEntry } from "./BucketSerializer";
 
@@ -32,25 +33,50 @@ export default class WordEntry {
     }
   }
 
+  private runCommand(type: string, command: string ): string {
+    if (type === "d") {
+      return rollDice(command);
+    } else {
+      return Bucket.generate(command);
+    }
+  }
+
   private partialGenerator(input: string, result: string): string {
-    const command = input.search(/[\$\&]\{/);
+    const command = input.search(/[\$\&d][\{\[]/);
     if (command === -1) {
 
-      return result.concat(input);
+      return result.concat(input).replace(/(\s)\s+/, "$1");
     } else {
+      const commandChar = input[command];
+      const groupingChar = input[command + 1];
       let initial = input.slice(0, command);
-      const commandEnd = input.slice(command + 2).indexOf("}") + command + 2;
 
+      const commandEnd = input.slice(command + 2).search(/[\}\]]/) + command + 2;
       const remaining = input.slice(commandEnd + 1);
-      const bucketName = input.slice(command + 2, commandEnd);
 
-      const bucketResponse = Bucket.generate(bucketName);
-
-      if (input[command] === "&") {
-        initial += this.addAOrAn(bucketResponse);
+      let commandOutput: string;
+      if (groupingChar === "{") {
+        commandOutput = this.runCommand(commandChar, input.slice(command + 2, commandEnd));
+      } else {
+        const commandList = input.slice(command + 2, commandEnd).split(/,\s*/);
+        commandOutput = commandList.reduce(
+          (accumulator, currentValue) => {
+            let output = this.runCommand(commandChar, currentValue);
+            if (accumulator.length > 0 && output.length > 0) {
+              output = accumulator + ", " + output;
+            } else if (accumulator.length > 0) {
+              output = accumulator;
+            }
+            return output;
+          }, "",
+        );
       }
 
-      return this.partialGenerator(remaining, result + initial + bucketResponse);
+      if (commandChar === "&") {
+        initial += this.addAOrAn(commandOutput);
+      }
+
+      return this.partialGenerator(remaining, result + initial + commandOutput);
     }
   }
 }
