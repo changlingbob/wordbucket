@@ -55,22 +55,22 @@ export default class WordEntry {
       const remaining = input.slice(commandEnd + 1);
 
       let commandOutput: string;
-      if (groupingChar === "{") {
-        commandOutput = this.runCommand(commandChar, input.slice(command + 2, commandEnd));
-      } else {
-        const commandList = input.slice(command + 2, commandEnd).split(/,\s*/);
-        commandOutput = commandList.reduce(
-          (accumulator, currentValue) => {
-            let output = this.runCommand(commandChar, currentValue);
-            if (accumulator.length > 0 && output.length > 0) {
+      const commandList = input.slice(command + 2, commandEnd).split(/,\s*/);
+      commandOutput = commandList.reduce(
+        (accumulator, currentValue) => {
+          let output = this.runCommand(commandChar, currentValue);
+          if (accumulator.length > 0 && output.length > 0) {
+            if (groupingChar === "[") {
               output = accumulator + ", " + output;
-            } else if (accumulator.length > 0) {
-              output = accumulator;
+            } else {
+              output = accumulator + " " + output;
             }
-            return output;
-          }, "",
-        );
-      }
+          } else if (accumulator.length > 0) {
+            output = accumulator;
+          }
+          return output;
+        }, "",
+      );
 
       if (commandChar === "&") {
         initial += this.addAOrAn(commandOutput);
