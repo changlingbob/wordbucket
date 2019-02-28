@@ -12,10 +12,10 @@ export default class WordEntry {
   }
 
   public update({words, weight}: {words?: string, weight?: number}): void {
-    if (words) {
+    if (words !== undefined) {
       this.words = words;
     }
-    if (weight) {
+    if (weight !== undefined) {
       this.weight = weight;
     }
   }
