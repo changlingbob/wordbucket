@@ -1,5 +1,6 @@
 import { fromCSV, ISerializedBucket, load, toCSV } from "./BucketSerializer";
 import WordEntry from "./WordEntry";
+export { default as WordEntry } from "./WordEntry";
 
 export default class Bucket {
   public static load = load;
