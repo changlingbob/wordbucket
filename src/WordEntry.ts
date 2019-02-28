@@ -11,6 +11,15 @@ export default class WordEntry {
     this.weight = weight || 1;
   }
 
+  public update({words, weight}: {words?: string, weight?: number}): void {
+    if (words) {
+      this.words = words;
+    }
+    if (weight) {
+      this.weight = weight;
+    }
+  }
+
   public generate(): string {
 
     return this.partialGenerator(this.words, "");
