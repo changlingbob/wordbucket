@@ -157,8 +157,13 @@ export default class Bucket {
     return this.wordList;
   }
 
-  public removeWords(id: number): void {
-    this.wordList.splice(id, 1);
+  public removeWords({id, word}: {id?: number, word?: WordEntry}): void {
+    if (word && id === undefined) {
+      id = this.wordList.indexOf(word);
+    }
+    if (id !== undefined && id > -1) {
+      this.wordList.splice(id, 1);
+    }
   }
   public toCSV(): string {
     return toCSV(this);
