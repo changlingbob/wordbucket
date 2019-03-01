@@ -43,10 +43,10 @@ export default class Bucket {
   private static root: Bucket;
 
   public id: string;
+  public weight: number = 0;
   private children: {[key: string]: Bucket} = {};
   private parent: Bucket|null;
   private wordList: WordEntry[] = [];
-  private weight: number = 0;
 
   constructor(name?: string|string[], parent?: Bucket) {
     if (!Bucket.root) {
@@ -148,7 +148,7 @@ export default class Bucket {
       this.wordList.push(words);
       this.weight += words.weight;
     } else {
-      this.wordList.push(new WordEntry(words, weight || 1));
+      this.wordList.push(new WordEntry(words, weight || 1, this));
       this.weight += weight || 1;
     }
   }

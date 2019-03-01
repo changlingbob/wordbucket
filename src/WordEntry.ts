@@ -5,10 +5,12 @@ import { ISerializedWordEntry } from "./BucketSerializer";
 export default class WordEntry {
   public weight: number;
   public words: string;
+  private parent: Bucket|undefined;
 
-  constructor(words: string, weight?: number) {
+  constructor(words: string, weight?: number, bucket?: Bucket) {
     this.words = words;
     this.weight = weight || 1;
+    this.parent = bucket;
   }
 
   public update({words, weight}: {words?: string, weight?: number}): void {
@@ -16,6 +18,7 @@ export default class WordEntry {
       this.words = words;
     }
     if (weight !== undefined) {
+      if (this.parent) { this.parent.weight += weight - this.weight; }
       this.weight = weight;
     }
   }
