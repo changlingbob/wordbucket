@@ -162,6 +162,7 @@ export default class Bucket {
       id = this.wordList.indexOf(word);
     }
     if (id !== undefined && id > -1) {
+      this.weight -= this.wordList[id].weight;
       this.wordList.splice(id, 1);
     }
   }
