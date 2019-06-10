@@ -134,6 +134,18 @@ export default class Bucket {
     }
   }
 
+  public removeChild(child: Bucket|string): void {
+    let childId: string = "";
+    if (child instanceof Bucket) {
+      childId = child.id;
+    } else {
+      childId = child;
+    }
+    if (childId) {
+      delete this.children[childId];
+    }
+  }
+
   public getChildren(): Bucket[] {
     const children: Bucket[] = [];
     for (const child of Object.keys(this.children)) {
