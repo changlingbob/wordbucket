@@ -142,7 +142,7 @@ export default class Bucket {
       childId = child;
     }
     if (childId) {
-      delete this.children[childId];
+      delete this.children[childId.split(this.id + ".")[1]];
     }
   }
 
