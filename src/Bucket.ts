@@ -18,6 +18,7 @@ export default class Bucket {
       return JSON.stringify(Bucket.root.serialize());
     }
   }
+
   public static get(name: string) {
     return Bucket.root.findBucket(name);
   }
@@ -142,7 +143,10 @@ export default class Bucket {
       childId = child;
     }
     if (childId) {
-      delete this.children[childId.split(this.id + ".")[1]];
+      if (childId.indexOf(".") > -1) {
+        childId = childId.split(this.id + ".")[1];
+      }
+      delete this.children[childId];
     }
   }
 
