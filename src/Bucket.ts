@@ -25,7 +25,8 @@ export default class Bucket {
   }
 
   public static deserialize(data: ISerializedBucket, parent?: Bucket): Bucket {
-    let bucket;
+    let bucket = Bucket.root;
+
     if (data.name.length > 0) {
       try {
         bucket = new Bucket(data.name, parent);
@@ -36,8 +37,6 @@ export default class Bucket {
           throw e;
         }
       }
-    } else {
-       bucket = Bucket.root;
     }
 
     for (const child of data.children) {
@@ -75,7 +74,7 @@ export default class Bucket {
     }
 
     let oldBucket: Bucket | undefined;
-    if (parent) {
+    if (parent && parent !== Bucket.root) {
       oldBucket = Bucket.root.findBucket(`${parent.getName()}.${name}`);
     } else {
       oldBucket = Bucket.root.findBucket(name);
