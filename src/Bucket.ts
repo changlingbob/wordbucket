@@ -1,4 +1,5 @@
 import { fromCSV, ISerializedBucket, load, toCSV } from "./BucketSerializer";
+import { DuplicateNameError } from "./Errors";
 import WordEntry from "./WordEntry";
 export { default as WordEntry } from "./WordEntry";
 
@@ -26,18 +27,29 @@ export default class Bucket {
   public static deserialize(data: ISerializedBucket, parent?: Bucket): Bucket {
     let bucket;
     if (data.name.length > 0) {
-      bucket = new Bucket(data.name, parent);
+      try {
+        bucket = new Bucket(data.name, parent);
+      } catch (e) {
+        console.log(e);
+        if (e instanceof DuplicateNameError) {
+          console.log(e.duplicate);
+        } else {
+          console.log("error type fail");
+          throw e;
+        }
+        throw e;
+      }
     } else {
        bucket = Bucket.root;
     }
 
     for (const child of data.children) {
-      this.deserialize(child, bucket);
-    }
+    this.deserialize(child, bucket);
+  }
 
     for (const words of data.words) {
-      bucket.putWords(words.words, words.weight);
-    }
+    bucket.putWords(words.words, words.weight);
+  }
 
     return bucket;
   }
@@ -60,20 +72,26 @@ export default class Bucket {
         new Bucket();
       }
     }
+
     if (!name) {
       throw new Error("Buckets must have a name");
     }
-    if (parent && Bucket.root.findBucket(`${parent.getName()}.${name}`)
-    || !parent && Bucket.root.findBucket(name)) {
-      throw new Error(`A bucket with the name '${name}' already exists`);
+
+    let oldBucket: Bucket | undefined;
+    if (parent) {
+      oldBucket = Bucket.root.findBucket(`${parent.getName()}.${name}`);
+    } else {
+      oldBucket = Bucket.root.findBucket(name);
     }
+    if (oldBucket) {
+      throw new DuplicateNameError(`A bucket with the name '${name}' already exists`, oldBucket);
+    }
+
     if (!(name instanceof Array)) {
       name = name.split(".");
     }
     this.id = name.slice(-1)[0];
-    if (typeof parent === "string" && parent) {
-      parent = Bucket.root.findBucket(parent);
-    }
+
     let realParent: Bucket = Bucket.root;
     if (name.length > 1) {
       const foundParent = Bucket.root.findBucket(name.slice(0, -1));
