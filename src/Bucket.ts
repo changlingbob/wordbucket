@@ -30,26 +30,23 @@ export default class Bucket {
       try {
         bucket = new Bucket(data.name, parent);
       } catch (e) {
-        console.log(e);
         if (e instanceof DuplicateNameError) {
-          console.log(e.duplicate);
+          bucket = e.duplicate;
         } else {
-          console.log("error type fail");
           throw e;
         }
-        throw e;
       }
     } else {
        bucket = Bucket.root;
     }
 
     for (const child of data.children) {
-    this.deserialize(child, bucket);
-  }
+      this.deserialize(child, bucket);
+    }
 
     for (const words of data.words) {
-    bucket.putWords(words.words, words.weight);
-  }
+      bucket.putWords(words.words, words.weight);
+    }
 
     return bucket;
   }
