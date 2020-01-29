@@ -8,9 +8,7 @@
     "test": "test"
   },
   "files": [
-    "**.js",
-    "**.d.ts",
-    "**.schema.json"
+    "out/"
   ],
   "scripts": {
     "build": "tsc src/* --outDir out/ -d",
