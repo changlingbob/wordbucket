@@ -8,7 +8,7 @@
     "test": "test"
   },
   "files": [
-    "out/"
+    "out/*"
   ],
   "scripts": {
     "build": "tsc src/* --outDir out/ -d",
