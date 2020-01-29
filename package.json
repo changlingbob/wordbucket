@@ -2,14 +2,10 @@
   "name": "wordbucket",
   "version": "0.1.0",
   "description": "A small project from rolling randomly on nested tables",
-  "main": "out/Bucket.js",
   "types": "out/Bucket.d.js",
   "directories": {
     "test": "test"
   },
-  "files": [
-    "out/*"
-  ],
   "scripts": {
     "build": "tsc src/* --outDir out/ -d",
     "dev": "tsc src/* --outDir out/ -d -w"
