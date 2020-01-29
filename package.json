@@ -15,7 +15,10 @@
     "dev": "tsc src/* --outDir out/ -d -w"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Greg Skinner",
+    "email": "changling.bob@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "roll-parser": "^2.3.2",
