@@ -3,10 +3,6 @@ exports.__esModule = true;
 var BucketSerializer_1 = require("./BucketSerializer");
 var Errors_1 = require("./Errors");
 var WordEntry_1 = require("./WordEntry");
-var WordEntry_2 = require("./WordEntry");
-exports.WordEntry = WordEntry_2["default"];
-var Errors_2 = require("./Errors");
-exports.DuplicateNameError = Errors_2.DuplicateNameError;
 var Bucket = /** @class */ (function () {
     function Bucket(name, parent) {
         this.weight = 0;

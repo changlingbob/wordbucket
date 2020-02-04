@@ -1,7 +1,5 @@
 import { fromCSV, ISerializedBucket, load } from "./BucketSerializer";
 import WordEntry from "./WordEntry";
-export { default as WordEntry } from "./WordEntry";
-export { DuplicateNameError as DuplicateNameError } from "./Errors";
 export default class Bucket {
     static load: typeof load;
     static fromCSV: typeof fromCSV;
