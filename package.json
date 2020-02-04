@@ -2,7 +2,8 @@
   "name": "wordbucket",
   "version": "0.1.0",
   "description": "A small project from rolling randomly on nested tables",
-  "types": "out/Bucket.d.js",
+  "main": "out/index.js",
+  "types": "out/index.d.ts",
   "directories": {
     "test": "test"
   },
