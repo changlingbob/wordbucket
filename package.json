@@ -16,8 +16,8 @@
     "build": "tsc -d",
     "build:dev": "tsc -d -w",
     "lint": "tslint --fix 'src/**/*.ts'",
-    "test": "jest .*\\.test\\..* --coverage",
-    "test:dev": "jest .*\\.test\\..* --watch"
+    "test": "jest --coverage",
+    "test:dev": "jest --watch"
   },
   "keywords": [],
   "author": "",

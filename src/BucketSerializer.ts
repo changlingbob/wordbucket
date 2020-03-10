@@ -57,7 +57,7 @@ export function fromCSV(data: string): void {
   const cells: string[][] = rows.map(parseCsvRow);
 
   try {
-    const buckets: Array<Bucket|null> = [];
+    const buckets: (Bucket|null)[] = [];
     for (const row of cells) {
       for (let cell = 0; cell < row.length; cell++) {
         if (row === cells[0]) {
