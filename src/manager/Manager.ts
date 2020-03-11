@@ -7,7 +7,7 @@ const get = (title: string) => new Bucket(title);
 const create = (title: string): Bucket => {
   const bucket = new Bucket(title);
   buckets[title] = bucket
-  
+
   return bucket;
 }
 
