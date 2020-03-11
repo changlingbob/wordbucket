@@ -1,4 +1,4 @@
-import { wordSummer } from "./wordUtils";
+import { wordSummer } from "./index";
 import Word from "../word";
 
 const word = new Word("the", 1);

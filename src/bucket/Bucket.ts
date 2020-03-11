@@ -5,14 +5,14 @@ class Bucket {
   private children: Bucket[];
   private words: Word[];
 
-  constructor(title: string = "__root__") {
+  constructor(title: string) {
     this.children = [];
     this.words = [];
     this.title = title;
   }
 
   public create = (title: string): Bucket => {
-    const bucket = new Bucket();
+    const bucket = new Bucket(title);
     this.children.push(bucket);
 
     return bucket;
