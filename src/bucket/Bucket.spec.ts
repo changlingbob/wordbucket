@@ -24,8 +24,8 @@ describe("Bucket", () => {
 
     expect(testArray.filter(s => s === "rare string").length).toBeLessThan(4);
   });
-  
+
   it("doesn't throw with no words", () => {
     expect(new Bucket().generate()).toBe("");
-  })
+  });
 });
