@@ -9,6 +9,9 @@ describe("Manager", () => {
   it("rolls down the tables", () => {
     const test = Manager.create("title");
     test.add("test string");
+    
+    // console.log(test);
+    
     expect(Manager.generate("title")).toBe("test string");
-  })
+  });
 });

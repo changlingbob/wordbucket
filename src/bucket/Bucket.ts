@@ -28,14 +28,20 @@ class Bucket {
     const max = wordSummer(this.words) * 10;
     let accumulator = 0;
     let target = Math.floor(Math.random() * max) + 1;
-    for (let word of this.words) {
+    let word: Word|undefined = undefined;
+    
+    for (word of this.words) {
       accumulator += word.weight * 10;
       if (accumulator > target) {
-        return word.generate();
+        break;
       }
     }
     
-    return "";
+    if (word !== undefined) {
+      return word.generate();
+    } else {
+      return "";
+    }
   }
 }
 
