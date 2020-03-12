@@ -28,8 +28,9 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "@types/node": "^13.9.0",
     "jest": "^25.1.0",
-    "tslint": "^6.0.0",
-    "ts-jest": "^24.1.0"
+    "ts-jest": "^24.1.0",
+    "tslint": "^6.0.0"
   }
 }

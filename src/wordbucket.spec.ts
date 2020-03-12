@@ -6,10 +6,10 @@ describe("barrel file", () => {
     hex.add("test1", 1);
     hex.add("test2", 1);
     hex.create("subtable");
-    const subtable = Bucket.get("subtable");
+    const subtable = Bucket.get("hex.subtable");
     subtable.add("test3", 1);
-    subtable.roll();
+    subtable.generate();
     
-    Bucket.roll("hex");
+    Bucket.generate("hex");
   })
 })

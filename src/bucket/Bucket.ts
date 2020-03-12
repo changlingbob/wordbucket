@@ -1,19 +1,20 @@
 import Word from '../word';
+import { wordSummer } from "../utils";
 
 class Bucket {
   public title: string;
-  private children: Bucket[];
+  private children: {[key:string]: Bucket};
   private words: Word[];
 
-  constructor(title: string) {
-    this.children = [];
+  constructor(title: string = "__MISSING__") {
+    this.children = {};
     this.words = [];
     this.title = title;
   }
 
   public create = (title: string): Bucket => {
     const bucket = new Bucket(title);
-    this.children.push(bucket);
+    this.children[title] = bucket;
 
     return bucket;
   }
@@ -23,7 +24,17 @@ class Bucket {
     return;
   }
 
-  public roll = (): string => {
+  public generate = (): string => {
+    const max = wordSummer(this.words) * 10;
+    let accumulator = 0;
+    let target = Math.floor(Math.random() * max) + 1;
+    for (let word of this.words) {
+      accumulator += word.weight * 10;
+      if (accumulator > target) {
+        return word.generate();
+      }
+    }
+    
     return "";
   }
 }

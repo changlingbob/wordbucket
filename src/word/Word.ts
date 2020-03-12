@@ -7,7 +7,7 @@ class Word {
     this.weight = weight;
   }
 
-  public roll = (): string => {
+  public generate = (): string => {
     return this.words;
   }
 }

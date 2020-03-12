@@ -2,7 +2,10 @@ import Bucket from "../bucket";
 
 const buckets: {[key:string]: Bucket} = {};
 
-const get = (title: string) => new Bucket(title);
+const get = (title: string, forceCreate: boolean = true): Bucket => {
+  return buckets[title] || new Bucket();
+}
+
 
 const create = (title: string): Bucket => {
   const bucket = new Bucket(title);
@@ -11,8 +14,12 @@ const create = (title: string): Bucket => {
   return bucket;
 }
 
+const generate = (title: string): string => {
+  return get(title).generate();
+}
+
 export default {
   create,
   get,
-  roll: (title: string): string => get(title).roll(),
+  generate,
 };
