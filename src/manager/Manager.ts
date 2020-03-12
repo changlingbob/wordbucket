@@ -2,7 +2,7 @@ import Bucket from "../bucket";
 
 const buckets: {[key:string]: Bucket} = {};
 
-const get = (title: string, forceCreate: boolean = true): Bucket => {
+const get = (title: string): Bucket => {
   return buckets[title] || new Bucket();
 }
 
