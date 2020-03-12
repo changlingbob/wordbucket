@@ -9,7 +9,7 @@ describe("barrel file", () => {
     const subtable = Bucket.get("hex.subtable");
     subtable.add("test3", 1);
     subtable.generate();
-    
+
     Bucket.generate("hex");
   })
 })
