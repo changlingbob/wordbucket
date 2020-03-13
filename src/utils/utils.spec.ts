@@ -36,29 +36,29 @@ describe("tupleToPath", () => {
 
 describe("findCommand", () => {
   it("finds commands", () => {
-    expect(findCommand("0123${test}")).toBe(4);
+    expect(findCommand("0123${test}").commandChar).toBe(4);
   });
   
   it("returns -1 on empty", () => {
-    expect(findCommand("no commands here")).toBe(-1);
+    expect(findCommand("no commands here").commandChar).toBe(-1);
   });
   
   it("only returns the first command", () => {
-    expect(findCommand("${first command}, ${second command}")).toBe(0);
+    expect(findCommand("${first command}, ${second command}").commandChar).toBe(0);
   });
 })
 
-describe.skip("splitString", () => {
+describe("splitString", () => {
   it("does a proper no-op on commandless strings", () => {
-    expect(splitString("test")).toBe(["test"]);
+    expect(splitString("test")).toEqual(["test"]);
   });
   
   it("breaks apart commands", () => {
-    expect(splitString("test ${command} test")).toBe(["test", "${command}", "test"])
+    expect(splitString("test ${command} test")).toEqual(["test", "${command}", "test"])
   });
   
   it("handles weird spacing, punctuation, etc", () => {
     expect(splitString("lo, I spot a ${creature}; I guess he is of ${size}-ish height"))
-    .toBe(["lo, I spot a", "${creature}", "; I guess he is of", "${size}", "-ish height"]);
+    .toEqual(["lo, I spot a", "${creature}", "; I guess he is of", "${size}", "-ish height"]);
   });
 });
