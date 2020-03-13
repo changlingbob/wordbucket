@@ -1,4 +1,5 @@
 import { wordSummer, splitPath, pathEnding, pathToTuple, tupleToPath } from "./index";
+import { findCommand, splitString } from "./splitter";
 import Word from "../word";
 
 const word = new Word("the", 1);
@@ -31,4 +32,33 @@ describe("tupleToPath", () => {
   it("joins paths back together", () => {
     expect(tupleToPath(["a", "b.c"])).toBe("a.b.c");
   })
+});
+
+describe("findCommand", () => {
+  it("finds commands", () => {
+    expect(findCommand("0123${test}")).toBe(4);
+  });
+  
+  it("returns -1 on empty", () => {
+    expect(findCommand("no commands here")).toBe(-1);
+  });
+  
+  it("only returns the first command", () => {
+    expect(findCommand("${first command}, ${second command}")).toBe(0);
+  });
+})
+
+describe.skip("splitString", () => {
+  it("does a proper no-op on commandless strings", () => {
+    expect(splitString("test")).toBe(["test"]);
+  });
+  
+  it("breaks apart commands", () => {
+    expect(splitString("test ${command} test")).toBe(["test", "${command}", "test"])
+  });
+  
+  it("handles weird spacing, punctuation, etc", () => {
+    expect(splitString("lo, I spot a ${creature}; I guess he is of ${size}-ish height"))
+    .toBe(["lo, I spot a", "${creature}", "; I guess he is of", "${size}", "-ish height"]);
+  });
 });

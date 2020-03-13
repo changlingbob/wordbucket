@@ -1,3 +1,5 @@
+import Manager from "../manager";
+
 class Word {
   private words: string;
   public weight: number;
