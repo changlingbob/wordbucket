@@ -1,4 +1,5 @@
-import { wordSummer, splitPath, pathEnding, pathToTuple, tupleToPath } from "./index";
+import { wordSummer} from "./wordSummer";
+import { getParentFromPath, splitPath, pathEnding, pathToTuple, tupleToPath } from "./namespacing";
 import { findCommand, splitString } from "./splitter";
 import Word from "../word";
 
@@ -22,9 +23,18 @@ describe("pathEnding", () => {
   })
 });
 
+describe("getParentFromPath", () => {
+  it("gets the leading parts of a dotted path", () => {
+    expect(getParentFromPath("a.b.c")).toBe("a.b");
+  })
+});
+
 describe("pathToTuple", () => {
   it("splits the first part off a path", () => {
-    expect(pathToTuple("a.b.c")).toEqual(["a", "b.c"]);
+    expect(pathToTuple("a.b.c")).toEqual({
+      parent: "a",
+      child: "b.c"
+    });
   })
 });
 

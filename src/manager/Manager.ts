@@ -1,16 +1,33 @@
 import Bucket from "../bucket";
-import { DuplicateNameError } from "../errors";
+import { DuplicateNameError, MissingBucketError } from "../errors";
+import { pathToTuple, getParentFromPath } from "../utils";
 
 const buckets: {[key:string]: Bucket} = {};
 
-const get = (title: string): Bucket => {
+const check = (title: string = ""): boolean => {
+  if (title.length === 0) {
+    return true;
+  }
+  
+  const {parent, child} = pathToTuple(title);
+  if (buckets[parent] === undefined) {
+    return false;
+  }
+  
+  return buckets[parent].check(child);
+}
+
+const fetch = (title: string): Bucket => {
   return buckets[title] || new Bucket();
 }
 
 
 const create = (title: string): Bucket => {
-  if (get(title).title === title) {
-    throw new DuplicateNameError(`A bucket with the name '${title}' already exists`, get(title));
+  if (check(title)) {
+    throw new DuplicateNameError(`A bucket with the name '${title}' already exists`, fetch(title));
+  }
+  if (!!!check(getParentFromPath(title))) {
+    throw new MissingBucketError(`The parent of the bucket ${title} does not exist yet!`, title);
   }
 
   const bucket = new Bucket(title);
@@ -20,11 +37,17 @@ const create = (title: string): Bucket => {
 }
 
 const generate = (title: string): string => {
-  return get(title).generate();
+  return fetch(title).generate();
+}
+
+const serialise = (spacing: number = 0): string => {
+  return JSON.stringify(buckets);
 }
 
 export default {
+  check,
   create,
-  get,
+  fetch,
   generate,
+  serialise,
 };

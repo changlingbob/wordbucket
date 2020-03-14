@@ -1,5 +1,6 @@
 import Word from '../word';
-import { wordSummer } from "../utils";
+import { pathToTuple, wordSummer } from "../utils";
+import { MissingBucketError } from "../errors";
 
 class Bucket {
   public title: string;
@@ -43,6 +44,34 @@ class Bucket {
       return "";
     }
   }
+  
+  public check = (title: string): boolean => {
+    if (title === undefined) {
+      return true;
+    }
+    const {parent, child} = pathToTuple(title);
+    if (this.children[parent] === undefined) {
+      return false;
+    }
+  
+    return this.children[parent].check(child);
+  }
+
+  
+  // public get = (title: string): Bucket => {
+  //   const name = pathToTuple(title);
+  //   if (this.children[name[0]] !== undefined) {
+  //     if (name[1] !== undefined) {
+  //       return this.children[title].get(name[1]);
+  //     } else {
+  //       return this.children[title];
+  //     }
+  //   }
+    
+  //   throw new MissingBucketError(`Bucket with the name ${title} not found`, title);
+  //   return new Bucket();
+  // }
+
 }
 
 export default Bucket;
