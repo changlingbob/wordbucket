@@ -2,8 +2,6 @@ import Bucket from "../bucket";
 import { DuplicateNameError } from "../errors";
 
 const buckets: {[key:string]: Bucket} = {};
-let COMMAND = "$";
-let BRACE = ["{","}"];
 
 const get = (title: string): Bucket => {
   return buckets[title] || new Bucket();
@@ -26,8 +24,6 @@ const generate = (title: string): string => {
 }
 
 export default {
-  BRACE,
-  COMMAND,
   create,
   get,
   generate,

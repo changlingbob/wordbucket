@@ -1,4 +1,5 @@
-import Manager from "../manager";
+import Manager, { VARS } from "../manager";
+import { splitString } from "../utils";
 
 class Word {
   private words: string;
@@ -10,6 +11,15 @@ class Word {
   }
 
   public generate = (): string => {
+    const tokens: string[] = splitString(this.words);
+
+    for (const token in tokens) {
+      if (tokens[token][0] === VARS.COMMAND) {
+        tokens[token] = "test";
+      }
+    }
+
+    // return tokens.join(" ");
     return this.words;
   }
 }
