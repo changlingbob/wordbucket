@@ -15,12 +15,11 @@ class Word {
 
     for (const token in tokens) {
       if (tokens[token][0] === VARS.COMMAND) {
-        tokens[token] = "test";
+        tokens[token] = Manager.generate(tokens[token].slice(2,-1));
       }
     }
 
-    // return tokens.join(" ");
-    return this.words;
+    return tokens.join(" ").trim();
   }
 }
 
