@@ -45,8 +45,8 @@ class Bucket {
     }
   }
   
-  public check = (title: string): boolean => {
-    if (title === undefined) {
+  public check = (title: string= ""): boolean => {
+    if (title.length === 0) {
       return true;
     }
     const {parent, child} = pathToTuple(title);
@@ -55,6 +55,20 @@ class Bucket {
     }
   
     return this.children[parent].check(child);
+  }
+  
+  public fetch = (title: string = ""): Bucket => {
+    if (title.length === 0) {
+      return this;
+    } else {
+      const {parent, child} = pathToTuple(title);
+      if (this.children[parent] !== undefined) {
+        return this.children[parent].fetch(child);
+      }
+    }
+    
+    throw new MissingBucketError(`Can't find bucket named ${title}`, title)
+    return new Bucket();
   }
 
   

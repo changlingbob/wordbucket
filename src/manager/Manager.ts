@@ -18,7 +18,15 @@ const check = (title: string = ""): boolean => {
 }
 
 const fetch = (title: string): Bucket => {
-  return buckets[title] || new Bucket();
+  if (title.length > 0) {
+    const {parent, child} = pathToTuple(title);
+    if (buckets[parent] !== undefined) {
+      return buckets[parent].fetch(child);
+    }
+  }
+  
+  throw new MissingBucketError(`Can't find bucket named ${title}`, title)
+  return new Bucket();
 }
 
 
