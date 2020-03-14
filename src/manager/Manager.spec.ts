@@ -2,14 +2,20 @@ import Manager from "./Manager";
 import { DuplicateNameError, MissingBucketError } from "../errors";
 
 const test = Manager.create("test-bucket");
-test.create("nested-bucket");
+const nested = test.create("nested-bucket");
 
 describe("Manager", () => {
   it("returns the correct bucket with fetch", () => {
-  // lies
     expect(Manager.fetch("test-bucket")).toBe(test);
+    expect(Manager.fetch("test-bucket.nested-bucket")).toBe(nested);
   });
-  
+
+  it("throws when fetching bad buckets", () => {
+    expect(() => {Manager.fetch()}).toThrow(MissingBucketError);
+    expect(() => {Manager.fetch("bad-bucket")}).toThrow(MissingBucketError);
+    expect(() => {Manager.fetch("test-bucket.bad-bucket")}).toThrow(MissingBucketError);
+  })
+
   it("correctly checks existing buckets", () => {
     expect(Manager.check("test-bucket")).toBe(true);
     expect(Manager.check("test-bucket.nested-bucket")).toBe(true);
@@ -18,7 +24,7 @@ describe("Manager", () => {
   it("correctly checks non-existant buckets", () => {
     expect(Manager.check("not-a-bucket")).toBe(false);
   })
-  
+
   it("handles checking null-y inputs", () => {
     expect(Manager.check()).toBe(true);
     expect(Manager.check("")).toBe(true);

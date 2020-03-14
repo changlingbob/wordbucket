@@ -44,7 +44,7 @@ class Bucket {
       return "";
     }
   }
-  
+
   public check = (title: string= ""): boolean => {
     if (title.length === 0) {
       return true;
@@ -53,10 +53,10 @@ class Bucket {
     if (this.children[parent] === undefined) {
       return false;
     }
-  
+
     return this.children[parent].check(child);
   }
-  
+
   public fetch = (title: string = ""): Bucket => {
     if (title.length === 0) {
       return this;
@@ -66,26 +66,9 @@ class Bucket {
         return this.children[parent].fetch(child);
       }
     }
-    
+
     throw new MissingBucketError(`Can't find bucket named ${title}`, title)
-    return new Bucket();
   }
-
-  
-  // public get = (title: string): Bucket => {
-  //   const name = pathToTuple(title);
-  //   if (this.children[name[0]] !== undefined) {
-  //     if (name[1] !== undefined) {
-  //       return this.children[title].get(name[1]);
-  //     } else {
-  //       return this.children[title];
-  //     }
-  //   }
-    
-  //   throw new MissingBucketError(`Bucket with the name ${title} not found`, title);
-  //   return new Bucket();
-  // }
-
 }
 
 export default Bucket;

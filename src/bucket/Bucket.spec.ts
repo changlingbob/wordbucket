@@ -29,28 +29,28 @@ describe("Bucket", () => {
   it("doesn't throw with no words", () => {
     expect(new Bucket().generate()).toBe("");
   });
-  
+
   it("checks for children", () => {
     const test = new Bucket();
     test.create("test").create("test");
-    
+
     expect(test.check("test")).toBe(true);
     expect(test.check("test.test")).toBe(true);
   });
-  
+
   it("checks for non-existant children", () => {
     expect(new Bucket().check("test")).toBe(false);
   });
-  
+
   it("fetches children", () => {
     const test = new Bucket();
     const child = test.create("child");
     const grandchild = child.create("grandchild");
-    
+
     expect(test.fetch("child")).toBe(child);
     expect(test.fetch("child.grandchild")).toBe(grandchild);
   });
-  
+
   it("doesn't fetch non-existant children", () => {
     expect(() => {new Bucket().fetch("test")}).toThrow(MissingBucketError);
   })
