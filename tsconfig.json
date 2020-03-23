@@ -58,5 +58,9 @@
   },
   "files": [
     "./src/index.ts"
+  ], 
+  "include": [
+    "src/**/*",
+    "node_modules/@types/jest"
   ]
 }
