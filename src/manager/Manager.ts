@@ -1,5 +1,5 @@
 import Bucket from "../bucket";
-import { DuplicateNameError, MissingBucketError } from "../errors";
+import { DuplicateNameError, MissingBucketError, DeserialiseBucketError } from "../errors";
 import { pathToTuple, getParentFromPath } from "../utils";
 
 const buckets: {[key:string]: Bucket} = {};
@@ -48,12 +48,52 @@ const generate = (title: string): string => {
 }
 
 const serialise = (spacing: number = 0): string => {
-  return JSON.stringify(buckets);
+  return JSON.stringify(buckets, null, spacing);
+}
+
+const decompress = (input: any, bucket: Bucket): void => {
+  for (const title of Object.keys(input)) {
+    const child = input[title];
+    if (bucket.check(title)) {
+      for (const word of child.words) {
+        bucket.fetch(title).add(word.words, word.weight);
+      }
+    } else {
+      bucket.create(title);
+    }
+    if (child.children) {
+      decompress(child.children, bucket.fetch(title));
+    }
+  }
+};
+
+const deserialise = (input: string): void => {
+  let title;
+  try {
+    const obj = JSON.parse(input);
+    for (title of Object.keys(obj)) {
+      const bucket = obj[title];
+      if (check(title)) {
+        for (const word of bucket.words) {
+          fetch(title).add(word.words, word.weight);
+        }
+      } else {
+        create(title);
+      }
+      if (bucket.children) {
+        decompress(bucket.children, fetch(title));
+      }
+    }
+  } catch (e) {
+    throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
+  }
+  console.log(serialise(2));
 }
 
 export default {
   check,
   create,
+  deserialise,
   fetch,
   generate,
   serialise,

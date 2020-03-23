@@ -13,5 +13,6 @@ describe("barrel file", () => {
     Bucket.generate("hex");
 
     expect(Bucket.serialise()).toBe(`{\"hex\":{\"children\":{\"subtable\":{\"children\":{},\"words\":[{\"words\":\"test3\",\"weight\":1}],\"title\":\"subtable\"}},\"words\":[{\"words\":\"test1\",\"weight\":1},{\"words\":\"test2\",\"weight\":1}],\"title\":\"hex\"}}`);
+    expect(Bucket.deserialise(`{\"hex\":{\"children\":{\"subtable\":{\"children\":{},\"words\":[{\"words\":\"test3\",\"weight\":1}],\"title\":\"subtable\"}},\"words\":[{\"words\":\"test1\",\"weight\":1},{\"words\":\"test2\",\"weight\":1}],\"title\":\"hex\"}}`));
   })
-})
+});
