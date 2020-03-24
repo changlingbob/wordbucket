@@ -24,6 +24,10 @@ class Bucket {
     this.words.push(new Word(word, weight));
     return;
   }
+  
+  public getWords = (): Word[] => {
+    return this.words;
+  }
 
   public generate = (): string => {
     const max = wordSummer(this.words) * 10;
