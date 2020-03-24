@@ -1,4 +1,5 @@
 import Bucket from "./Bucket";
+import Word from "../word";
 import { MissingBucketError } from "../errors";
 
 describe("Bucket", () => {
@@ -24,6 +25,10 @@ describe("Bucket", () => {
     }
 
     expect(testArray.filter(s => s === "rare string").length).toBeLessThan(200);
+  });
+  
+  it("returns words when they're created", () => {
+    expect(JSON.stringify(new Bucket().add("test"))).toBe(JSON.stringify(new Word("test")));
   });
 
   it("doesn't throw with no words", () => {
