@@ -20,9 +20,10 @@ class Bucket {
     return bucket;
   }
 
-  public add = (word: string, weight?: number): void => {
-    this.words.push(new Word(word, weight));
-    return;
+  public add = (word: string, weight?: number): Word => {
+    const words = new Word(word, weight)
+    this.words.push(words);
+    return words;
   }
   
   public getWords = (): Word[] => {
