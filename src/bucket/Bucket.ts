@@ -20,9 +20,15 @@ class Bucket {
     return bucket;
   }
 
-  public add = (word: string, weight?: number): Word => {
-    const words = new Word(word, weight)
-    this.words.push(words);
+  public add = (word: string, weight: number = 1): Word => {
+    let words: Word|undefined = this.words.find((currentWord) => currentWord.words === word);
+    if (words !== undefined) {
+      words.weight = weight
+    } else {
+      words = new Word(word, weight);
+      this.words.push(words);
+    }
+
     return words;
   }
   
