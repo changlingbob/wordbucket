@@ -15,7 +15,13 @@ class Word {
 
     for (const token in tokens) {
       if (tokens[token][0] === VARS.COMMAND) {
-        tokens[token] = Manager.generate(tokens[token].slice(2,-1));
+        let output;
+        try {
+          output = Manager.generate(tokens[token].slice(2,-1));
+        } catch (e) {
+          output = `!!! ${e.message} !!!`;
+        }
+        tokens[token] = output;
       }
     }
 
