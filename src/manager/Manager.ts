@@ -63,15 +63,13 @@ const serialise = (spacing: number = 0): string => {
 }
 
 const decompress = (input: any, bucket: Bucket): void => {
-  for (const name of Object.keys(input)) {
-    const title = bucket.title + "." + name;
+  for (const title of Object.keys(input)) {
     const child = input[title];
-    if (bucket.check(title)) {
-      for (const word of child.words) {
-        bucket.fetch(title).add(word.words, word.weight);
-      }
-    } else {
+    if (!bucket.check(title)) {
       bucket.create(title);
+    }
+    for (const word of child.words) {
+      bucket.fetch(title).add(word.words, word.weight);
     }
     if (child.children) {
       decompress(child.children, bucket.fetch(title));
@@ -81,7 +79,7 @@ const decompress = (input: any, bucket: Bucket): void => {
 
 const deserialise = (input: string): void => {
   let title;
-  try {
+  // try {
     const obj = JSON.parse(input);
     for (title of Object.keys(obj)) {
       const bucket = obj[title];
@@ -96,9 +94,9 @@ const deserialise = (input: string): void => {
         decompress(bucket.children, fetch(title));
       }
     }
-  } catch (e) {
-    throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
-  }
+  // } catch (e) {
+  //   throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
+  // }
   console.log(serialise(2));
 }
 
