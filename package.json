@@ -4,9 +4,6 @@
   "description": "A small project from rolling randomly on nested tables",
   "main": "out/index.js",
   "types": "out/index.d.ts",
-  "files": [
-    "out/**"
-  ],
   "scripts": {
     "build": "tsc -d",
     "build:dev": "tsc -d -w",
@@ -15,7 +12,10 @@
     "test:dev": "jest --watch"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Greg Skinner",
+    "email": "changling.bob@gmail.com"
+  },
   "license": "ISC",
   "dependencies": {
     "roll-parser": "^2.3.2",
