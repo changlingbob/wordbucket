@@ -54,7 +54,6 @@ const detach = (bucket: Bucket): void => {
   delete buckets[bucket.title];
 }
 
-
 const generate = (title: string): string => {
   return fetch(title).generate();
 }
@@ -100,6 +99,10 @@ const deserialise = (input: string): void => {
     throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
   }
   console.log(serialise(2));
+}
+
+const getBuckets = (): Bucket[] => {
+  return Object.values(buckets);
 }
 
 export default {

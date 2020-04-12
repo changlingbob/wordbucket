@@ -99,6 +99,9 @@ var deserialise = function (input) {
     }
     console.log(serialise(2));
 };
+var getBuckets = function () {
+    return Object.values(buckets);
+};
 exports.default = {
     attach: attach,
     check: check,

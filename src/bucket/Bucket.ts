@@ -55,6 +55,10 @@ class Bucket {
     return this.words;
   }
 
+  public getChildren = (): Bucket[] => {
+    return Object.values(this.children);
+  }
+
   public generate = (): string => {
     const max = wordSummer(this.words) * 10;
     let accumulator = 0;

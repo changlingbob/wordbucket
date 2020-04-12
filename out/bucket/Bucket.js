@@ -45,6 +45,9 @@ var Bucket = /** @class */ (function () {
         this.getWords = function () {
             return _this.words;
         };
+        this.getChildren = function () {
+            return Object.values(_this.children);
+        };
         this.generate = function () {
             var max = utils_1.wordSummer(_this.words) * 10;
             var accumulator = 0;

@@ -10,6 +10,7 @@ declare class Bucket {
     add: (word: string, weight?: number) => Word;
     remove: (word: Word) => void;
     getWords: () => Word[];
+    getChildren: () => Bucket[];
     generate: () => string;
     check: (title?: string) => boolean;
     fetch: (title?: string) => Bucket;
