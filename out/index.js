@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var manager_1 = __importDefault(require("./manager"));
 var bucket_1 = require("./bucket");
 exports.Bucket = bucket_1.default;
+var word_1 = require("./word");
+exports.Word = word_1.default;
 var errors_1 = require("./errors");
 exports.DuplicateNameError = errors_1.DuplicateNameError;
 exports.MissingBucketError = errors_1.MissingBucketError;
