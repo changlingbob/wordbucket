@@ -28,6 +28,17 @@ describe("Bucket", function () {
     it("returns words when they're created", function () {
         expect(JSON.stringify(new Bucket_1.default().add("test"))).toBe(JSON.stringify(new word_1.default("test")));
     });
+    it("can remove unwanted words", function () {
+        var bucket = new Bucket_1.default();
+        var word = bucket.add("test");
+        bucket.remove(word);
+        expect(bucket.getWords().indexOf(word)).toBe(-1);
+    });
+    it("remove doesn't explode", function () {
+        var bucket = new Bucket_1.default();
+        var word = new word_1.default("test");
+        expect(bucket.remove(word));
+    });
     it("doesn't throw with no words", function () {
         expect(new Bucket_1.default().generate()).toBe("");
     });
@@ -49,5 +60,25 @@ describe("Bucket", function () {
     });
     it("doesn't fetch non-existant children", function () {
         expect(function () { new Bucket_1.default().fetch("test"); }).toThrow(errors_1.MissingBucketError);
+    });
+    var testBucket = new Bucket_1.default("test");
+    it("attaches fresh buckets properly", function () {
+        var bucket = new Bucket_1.default("attached-bucket");
+        testBucket.attach(bucket);
+        expect(testBucket.fetch("attached-bucket")).toBe(bucket);
+    });
+    it("detaches buckets properly", function () {
+        var bucket = testBucket.create("detach-bucket");
+        testBucket.detach(bucket);
+        expect(function () { return testBucket.fetch("detach-bucket"); }).toThrow(errors_1.MissingBucketError);
+    });
+    it("detach doesn't explode", function () {
+        var bucket = new Bucket_1.default();
+        expect(testBucket.detach(bucket));
+    });
+    it("attach doesn't double attach", function () {
+        var bucket = new Bucket_1.default();
+        testBucket.attach(bucket);
+        expect(function () { return testBucket.attach(bucket); }).toThrow(errors_1.DuplicateNameError);
     });
 });

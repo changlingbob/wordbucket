@@ -22,6 +22,15 @@ var Word = /** @class */ (function () {
             }
             return tokens.join(" ").trim();
         };
+        this.update = function (update) {
+            var words = update.words, weight = update.weight;
+            if (words) {
+                _this.words = words;
+            }
+            if (weight) {
+                _this.weight = weight;
+            }
+        };
         this.words = words;
         this.weight = weight;
     }

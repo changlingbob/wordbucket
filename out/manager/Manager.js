@@ -39,6 +39,15 @@ var create = function (title) {
     buckets[title] = bucket;
     return bucket;
 };
+var attach = function (bucket) {
+    if (buckets[bucket.title]) {
+        throw new errors_1.DuplicateNameError("Tried to attach " + bucket.title + " to the root, but one already exists", bucket);
+    }
+    buckets[bucket.title] = bucket;
+};
+var detach = function (bucket) {
+    delete buckets[bucket.title];
+};
 var generate = function (title) {
     return fetch(title).generate();
 };
@@ -91,9 +100,11 @@ var deserialise = function (input) {
     console.log(serialise(2));
 };
 exports.default = {
+    attach: attach,
     check: check,
     create: create,
     deserialise: deserialise,
+    detach: detach,
     fetch: fetch,
     generate: generate,
     serialise: serialise,

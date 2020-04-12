@@ -13,4 +13,17 @@ describe("Word", function () {
         manager_1.default.create("test-bucket").add("words");
         expect(new Word_1.default("${test-bucket}").generate()).toBe("words");
     });
+    it("can be mutated", function () {
+        var word = new Word_1.default("test", 1);
+        word.update({ words: "foo" });
+        expect(word.words).toBe("foo");
+        word.update({ weight: 20 });
+        expect(word.weight).toBe(20);
+    });
+    it("handles bad update arguments", function () {
+        var word = new Word_1.default("test", 1);
+        word.update({});
+        expect(word.words).toBe("test");
+        expect(word.weight).toBe(1);
+    });
 });

@@ -15,6 +15,15 @@ var Bucket = /** @class */ (function () {
             _this.children[title] = bucket;
             return bucket;
         };
+        this.attach = function (bucket) {
+            if (_this.children[bucket.title]) {
+                throw new errors_1.DuplicateNameError("Tried to attach " + bucket.title + " to " + _this.title + ", but one already exists", _this);
+            }
+            _this.children[bucket.title] = bucket;
+        };
+        this.detach = function (bucket) {
+            delete _this.children[bucket.title];
+        };
         this.add = function (word, weight) {
             if (weight === void 0) { weight = 1; }
             var words = _this.words.find(function (currentWord) { return currentWord.words === word; });
@@ -26,6 +35,12 @@ var Bucket = /** @class */ (function () {
                 _this.words.push(words);
             }
             return words;
+        };
+        this.remove = function (word) {
+            var wordIndex = _this.words.indexOf(word);
+            if (wordIndex > -1) {
+                _this.words.splice(wordIndex, 1);
+            }
         };
         this.getWords = function () {
             return _this.words;
