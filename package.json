@@ -5,12 +5,10 @@
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "directories": {
-    "test": "test"
+    "out": "out"
   },
   "files": [
-    "**.js",
-    "**.d.ts",
-    "**.schema.json"
+    "out/**"
   ],
   "scripts": {
     "build": "tsc -d",
