@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var wordSummer_1 = require("./wordSummer");
+exports.wordSummer = wordSummer_1.wordSummer;
+var namespacing_1 = require("./namespacing");
+exports.getParentFromPath = namespacing_1.getParentFromPath;
+exports.splitPath = namespacing_1.splitPath;
+exports.pathEnding = namespacing_1.pathEnding;
+exports.pathToTuple = namespacing_1.pathToTuple;
+exports.tupleToPath = namespacing_1.tupleToPath;
+var splitter_1 = require("./splitter");
+exports.splitString = splitter_1.splitString;
