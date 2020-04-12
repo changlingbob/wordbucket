@@ -31,7 +31,7 @@ class Bucket {
 
     return words;
   }
-  
+
   public getWords = (): Word[] => {
     return this.words;
   }

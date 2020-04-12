@@ -26,7 +26,7 @@ describe("Bucket", () => {
 
     expect(testArray.filter(s => s === "rare string").length).toBeLessThan(200);
   });
-  
+
   it("returns words when they're created", () => {
     expect(JSON.stringify(new Bucket().add("test"))).toBe(JSON.stringify(new Word("test")));
   });
