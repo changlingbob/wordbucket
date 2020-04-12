@@ -59,14 +59,12 @@ var decompress = function (input, bucket) {
     for (var _i = 0, _a = Object.keys(input); _i < _a.length; _i++) {
         var title = _a[_i];
         var child = input[title];
-        if (bucket.check(title)) {
-            for (var _b = 0, _c = child.words; _b < _c.length; _b++) {
-                var word = _c[_b];
-                bucket.fetch(title).add(word.words, word.weight);
-            }
-        }
-        else {
+        if (!bucket.check(title)) {
             bucket.create(title);
+        }
+        for (var _b = 0, _c = child.words; _b < _c.length; _b++) {
+            var word = _c[_b];
+            bucket.fetch(title).add(word.words, word.weight);
         }
         if (child.children) {
             decompress(child.children, bucket.fetch(title));
@@ -75,28 +73,25 @@ var decompress = function (input, bucket) {
 };
 var deserialise = function (input) {
     var title;
-    try {
-        var obj = JSON.parse(input);
-        for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
-            title = _a[_i];
-            var bucket = obj[title];
-            if (check(title)) {
-                for (var _b = 0, _c = bucket.words; _b < _c.length; _b++) {
-                    var word = _c[_b];
-                    fetch(title).add(word.words, word.weight);
-                }
-            }
-            else {
-                create(title);
-            }
-            if (bucket.children) {
-                decompress(bucket.children, fetch(title));
-            }
+    // try {
+    var obj = JSON.parse(input);
+    for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
+        title = _a[_i];
+        var bucket = obj[title];
+        if (!check(title)) {
+            create(title);
+        }
+        for (var _b = 0, _c = bucket.words; _b < _c.length; _b++) {
+            var word = _c[_b];
+            fetch(title).add(word.words, word.weight);
+        }
+        if (bucket.children) {
+            decompress(bucket.children, fetch(title));
         }
     }
-    catch (e) {
-        throw new errors_1.DeserialiseBucketError("Couldn't parse bucket " + title, e);
-    }
+    // } catch (e) {
+    //   throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
+    // }
     console.log(serialise(2));
 };
 var getBuckets = function () {
