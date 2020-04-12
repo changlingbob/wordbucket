@@ -1,4 +1,5 @@
 import Manager from "./Manager";
+import Bucket from "../bucket";
 import { DuplicateNameError, MissingBucketError } from "../errors";
 
 const test = Manager.create("test-bucket");
@@ -43,5 +44,23 @@ describe("Manager", () => {
 
   it("handles duplicated names", () => {
     expect(() => Manager.create("test-bucket")).toThrow(DuplicateNameError);
+  });
+
+  it("attaches fresh buckets properly", () => {
+    const bucket = new Bucket ("attached-bucket");
+    Manager.attach(bucket);
+    expect(Manager.fetch("attached-bucket")).toBe(bucket);
+  });
+
+  it("detaches buckets properly", () => {
+    const bucket = Manager.create("detach-bucket");
+    Manager.detach(bucket);
+    expect(() => Manager.fetch("detach-bucket")).toThrow(MissingBucketError);
+  });
+
+  it("attach doesn't double attach", () => {
+    const bucket = new Bucket("double-attach");
+    Manager.attach(bucket);
+    expect(() => Manager.attach(bucket)).toThrow(DuplicateNameError);
   });
 });

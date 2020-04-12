@@ -1,6 +1,6 @@
 import Word from '../word';
 import { pathToTuple, wordSummer } from "../utils";
-import { MissingBucketError } from "../errors";
+import { MissingBucketError, DuplicateNameError } from "../errors";
 
 class Bucket {
   public title: string;
@@ -20,6 +20,18 @@ class Bucket {
     return bucket;
   }
 
+  public attach = (bucket: Bucket): void => {
+    if (this.children[bucket.title]) {
+      throw new DuplicateNameError(`Tried to attach ${bucket.title} to ${this.title}, but one already exists`, this)
+    }
+
+    this.children[bucket.title] = bucket;
+  }
+
+  public detach = (bucket: Bucket): void => {
+    delete this.children[bucket.title];
+  }
+
   public add = (word: string, weight: number = 1): Word => {
     let words: Word|undefined = this.words.find((currentWord) => currentWord.words === word);
     if (words !== undefined) {
@@ -30,6 +42,13 @@ class Bucket {
     }
 
     return words;
+  }
+
+  public remove = (word: Word): void => {
+    const wordIndex = this.words.indexOf(word);
+    if (wordIndex > -1) {
+      this.words.splice(wordIndex, 1);
+    }
   }
 
   public getWords = (): Word[] => {

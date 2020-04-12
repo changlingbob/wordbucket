@@ -21,6 +21,16 @@ class Word {
 
     return tokens.join(" ").trim();
   }
+
+  public update = (update: {words?: string, weight?: number}): void => {
+    const {words, weight} = update;
+    if (words) {
+      this.words = words;
+    }
+    if (weight) {
+      this.weight = weight;
+    }
+  }
 }
 
 export default Word;

@@ -28,7 +28,6 @@ const fetch = (title: string = ""): Bucket => {
   throw new MissingBucketError(`Can't find bucket named ${title}`, title)
 }
 
-
 const create = (title: string): Bucket => {
   if (check(title)) {
     throw new DuplicateNameError(`A bucket with the name '${title}' already exists`, fetch(title));
@@ -42,6 +41,19 @@ const create = (title: string): Bucket => {
 
   return bucket;
 }
+
+const attach = (bucket: Bucket): void => {
+  if (buckets[bucket.title]) {
+    throw new DuplicateNameError(`Tried to attach ${bucket.title} to the root, but one already exists`, bucket)
+  }
+
+  buckets[bucket.title] = bucket;
+}
+
+const detach = (bucket: Bucket): void => {
+  delete buckets[bucket.title];
+}
+
 
 const generate = (title: string): string => {
   return fetch(title).generate();
@@ -91,9 +103,11 @@ const deserialise = (input: string): void => {
 }
 
 export default {
+  attach,
   check,
   create,
   deserialise,
+  detach,
   fetch,
   generate,
   serialise,

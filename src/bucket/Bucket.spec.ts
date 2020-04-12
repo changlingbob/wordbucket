@@ -1,6 +1,6 @@
 import Bucket from "./Bucket";
 import Word from "../word";
-import { MissingBucketError } from "../errors";
+import { DuplicateNameError, MissingBucketError } from "../errors";
 
 describe("Bucket", () => {
   it("has a title", () => {
@@ -31,6 +31,19 @@ describe("Bucket", () => {
     expect(JSON.stringify(new Bucket().add("test"))).toBe(JSON.stringify(new Word("test")));
   });
 
+  it("can remove unwanted words", () => {
+    const bucket = new Bucket();
+    const word = bucket.add("test");
+    bucket.remove(word);
+    expect(bucket.getWords().indexOf(word)).toBe(-1);
+  });
+
+  it("remove doesn't explode", () => {
+    const bucket = new Bucket();
+    const word = new Word("test");
+    expect(bucket.remove(word));
+  })
+
   it("doesn't throw with no words", () => {
     expect(new Bucket().generate()).toBe("");
   });
@@ -59,4 +72,28 @@ describe("Bucket", () => {
   it("doesn't fetch non-existant children", () => {
     expect(() => {new Bucket().fetch("test")}).toThrow(MissingBucketError);
   })
+
+  const testBucket = new Bucket("test");
+  it("attaches fresh buckets properly", () => {
+    const bucket = new Bucket ("attached-bucket");
+    testBucket.attach(bucket);
+    expect(testBucket.fetch("attached-bucket")).toBe(bucket);
+  });
+
+  it("detaches buckets properly", () => {
+    const bucket = testBucket.create("detach-bucket");
+    testBucket.detach(bucket);
+    expect(() => testBucket.fetch("detach-bucket")).toThrow(MissingBucketError);
+  });
+
+  it("detach doesn't explode", () => {
+    const bucket = new Bucket();
+    expect(testBucket.detach(bucket));
+  });
+
+  it("attach doesn't double attach", () => {
+    const bucket = new Bucket();
+    testBucket.attach(bucket);
+    expect(() => testBucket.attach(bucket)).toThrow(DuplicateNameError);
+  });
 });
