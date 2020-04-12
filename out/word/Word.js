@@ -16,8 +16,18 @@ var Word = /** @class */ (function () {
         this.generate = function () {
             var tokens = utils_1.splitString(_this.words);
             for (var token in tokens) {
-                if (tokens[token][0] === manager_1.VARS.COMMAND) {
-                    tokens[token] = manager_1.default.generate(tokens[token].slice(2, -1));
+                if (tokens[token][0] === manager_1.VARS.COMMAND
+                    && tokens[token][1] === manager_1.VARS.BRACE[0]
+                    && tokens[token].slice(-1) === manager_1.VARS.BRACE[1]) {
+                    var output = void 0;
+                    try {
+                        output = manager_1.default.generate(tokens[token].slice(2, -1));
+                    }
+                    catch (e) {
+                        console.log("swallowing error");
+                        output = "!!! " + e.message + " !!!";
+                    }
+                    tokens[token] = output;
                 }
             }
             return tokens.join(" ").trim();

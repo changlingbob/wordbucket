@@ -14,11 +14,14 @@ class Word {
     const tokens: string[] = splitString(this.words);
 
     for (const token in tokens) {
-      if (tokens[token][0] === VARS.COMMAND) {
+      if (tokens[token][0] === VARS.COMMAND
+        && tokens[token][1] === VARS.BRACE[0]
+        && tokens[token].slice(-1) === VARS.BRACE[1]) {
         let output;
         try {
           output = Manager.generate(tokens[token].slice(2,-1));
         } catch (e) {
+          console.log("swallowing error")
           output = `!!! ${e.message} !!!`;
         }
         tokens[token] = output;
