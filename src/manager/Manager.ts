@@ -63,7 +63,8 @@ const serialise = (spacing: number = 0): string => {
 }
 
 const decompress = (input: any, bucket: Bucket): void => {
-  for (const title of Object.keys(input)) {
+  for (const name of Object.keys(input)) {
+    const title = bucket.title + "." + name;
     const child = input[title];
     if (bucket.check(title)) {
       for (const word of child.words) {
@@ -84,13 +85,13 @@ const deserialise = (input: string): void => {
     const obj = JSON.parse(input);
     for (title of Object.keys(obj)) {
       const bucket = obj[title];
-      if (check(title)) {
-        for (const word of bucket.words) {
-          fetch(title).add(word.words, word.weight);
-        }
-      } else {
+      if (!check(title)) {
         create(title);
       }
+      for (const word of bucket.words) {
+        fetch(title).add(word.words, word.weight);
+      }
+
       if (bucket.children) {
         decompress(bucket.children, fetch(title));
       }
