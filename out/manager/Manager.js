@@ -110,5 +110,6 @@ exports.default = {
     detach: detach,
     fetch: fetch,
     generate: generate,
+    getBuckets: getBuckets,
     serialise: serialise,
 };

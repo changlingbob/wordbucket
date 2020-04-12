@@ -113,5 +113,6 @@ export default {
   detach,
   fetch,
   generate,
+  getBuckets,
   serialise,
 };

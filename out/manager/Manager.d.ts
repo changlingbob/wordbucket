@@ -7,6 +7,7 @@ declare const _default: {
     detach: (bucket: Bucket) => void;
     fetch: (title?: string) => Bucket;
     generate: (title: string) => string;
+    getBuckets: () => Bucket[];
     serialise: (spacing?: number) => string;
 };
 export default _default;
