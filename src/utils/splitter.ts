@@ -15,7 +15,7 @@ export const splitString = (input: string, output: string[] = []): string[] => {
 }
 
 export const findCommand = (input: string): {commandChar:number, commandEnd:number} => {
-  const re = new RegExp(`\\${VARS.COMMAND}\\${VARS.BRACE[0]}[^\\${VARS.BRACE[1]}]+\\${VARS.BRACE[1]}`);
+  const re = new RegExp(`\\${VARS.COMMAND}\\${VARS.BRACE[0]}[^\\${VARS.BRACE[1]}]+?\\${VARS.BRACE[1]}`);
   const results = re.exec(input);
 
   if (results) {
