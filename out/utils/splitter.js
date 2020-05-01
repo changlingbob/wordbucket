@@ -13,7 +13,7 @@ exports.splitString = function (input, output) {
     return exports.splitString(input.slice(commandEnd).trim(), output);
 };
 exports.findCommand = function (input) {
-    var re = new RegExp("\\" + manager_1.VARS.COMMAND + "\\" + manager_1.VARS.BRACE[0] + "[^\\" + manager_1.VARS.BRACE[1] + "]+\\" + manager_1.VARS.BRACE[1]);
+    var re = new RegExp("\\" + manager_1.VARS.COMMAND + "\\" + manager_1.VARS.BRACE[0] + "[^\\" + manager_1.VARS.BRACE[1] + "]+?\\" + manager_1.VARS.BRACE[1]);
     var results = re.exec(input);
     if (results) {
         return {

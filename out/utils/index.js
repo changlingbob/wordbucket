@@ -10,3 +10,6 @@ exports.pathToTuple = namespacing_1.pathToTuple;
 exports.tupleToPath = namespacing_1.tupleToPath;
 var splitter_1 = require("./splitter");
 exports.splitString = splitter_1.splitString;
+var tokeniser_1 = require("./tokeniser");
+exports.checkFullToken = tokeniser_1.checkFullToken;
+exports.checkSubToken = tokeniser_1.checkSubToken;
