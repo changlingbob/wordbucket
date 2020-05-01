@@ -2,6 +2,7 @@ import { wordSummer} from "./wordSummer";
 import { getParentFromPath, splitPath, pathEnding, pathToTuple, tupleToPath } from "./namespacing";
 import { findCommand, splitString } from "./splitter";
 import Word from "../word";
+import { checkFullToken, checkSubToken } from ".";
 
 const word = new Word("the", 1);
 
@@ -70,5 +71,37 @@ describe("splitString", () => {
   it("handles weird spacing, punctuation, etc", () => {
     expect(splitString("lo, I spot a ${creature}; I guess he is of ${size}-ish height"))
     .toEqual(["lo, I spot a", "${creature}", "; I guess he is of", "${size}", "-ish height"]);
+  });
+});
+
+describe("tokeniser", () => {
+  describe("full token", () => {
+    it("finds a good full token", () => {
+      expect(checkFullToken("${foo}")).toBe(true);
+    });
+
+    it("rejects a malformed full token", () => {
+      expect(checkFullToken("${foo")).toBe(false);
+    });
+
+    it("rejects typo'd full token", () => {
+      expect(checkFullToken("${foo}1")).toBe(false);
+      expect(checkFullToken("$1{foo}")).toBe(false);
+      expect(checkFullToken("${foo]")).toBe(false);
+    });
+  });
+
+  describe("subtokens", () => {
+    it("finds good subtokens", () => {
+      expect(checkSubToken("$a")).toBe(true);
+    });
+
+    it("rejects bad subtokens", () => {
+      expect(checkSubToken("$bad")).toBe(false);
+    });
+
+    it("specifically rejects full tokens", () => {
+      expect(checkSubToken("${a}")).toBe(false);
+    });
   });
 });
