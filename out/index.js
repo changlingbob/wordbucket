@@ -1,8 +1,14 @@
 "use strict";
-exports.__esModule = true;
-var Bucket_1 = require("./Bucket");
-var WordEntry_1 = require("./WordEntry");
-exports.WordEntry = WordEntry_1["default"];
-var Errors_1 = require("./Errors");
-exports.DuplicateNameError = Errors_1.DuplicateNameError;
-exports["default"] = Bucket_1["default"];
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var manager_1 = __importDefault(require("./manager"));
+var bucket_1 = require("./bucket");
+exports.Bucket = bucket_1.default;
+var errors_1 = require("./errors");
+exports.DuplicateNameError = errors_1.DuplicateNameError;
+exports.MissingBucketError = errors_1.MissingBucketError;
+var word_1 = require("./word");
+exports.Word = word_1.default;
+exports.default = manager_1.default;

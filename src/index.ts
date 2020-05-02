@@ -1,5 +1,6 @@
-import Bucket from "./Bucket";
-export { default as WordEntry } from "./WordEntry";
-export { DuplicateNameError as DuplicateNameError } from "./Errors";
+import Manager from "./manager";
+export { default as Bucket } from "./bucket";
+export { DuplicateNameError, MissingBucketError } from "./errors";
+export { default as Word } from "./word";
 
-export default Bucket;
+export default Manager;

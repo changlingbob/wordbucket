@@ -4,12 +4,12 @@
   "description": "A small project from rolling randomly on nested tables",
   "main": "out/index.js",
   "types": "out/index.d.ts",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "build": "tsc src/* --outDir out/ -d",
-    "dev": "tsc src/* --outDir out/ -d -w"
+    "build": "tsc -d",
+    "build:dev": "tsc -d -w",
+    "lint": "tslint --fix 'src/**/*.ts'",
+    "test": "jest --coverage",
+    "test:dev": "jest --watch"
   },
   "keywords": [],
   "author": {
@@ -19,7 +19,13 @@
   "license": "ISC",
   "dependencies": {
     "roll-parser": "^2.3.2",
-    "tslint": "^5.12.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.8.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.1",
+    "jest": "^25.3.0",
+    "ts-jest": "^25.3.1",
+    "tslint": "^6.1.1"
   }
 }
