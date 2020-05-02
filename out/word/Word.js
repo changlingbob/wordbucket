@@ -13,7 +13,7 @@ var Word = /** @class */ (function () {
         this.generate = function () {
             var _a;
             var tokens = utils_1.splitString(_this.words);
-            for (var token in tokens) {
+            var _loop_1 = function (token) {
                 if (utils_1.checkFullToken(tokens[token])) {
                     var fragments = [];
                     var subTokens = tokens[token].slice(2, -1).split(/, ?/);
@@ -24,11 +24,8 @@ var Word = /** @class */ (function () {
                             // set flags for special cases here;
                             switch (subToken.slice(1)) {
                                 case "a":
-                                    aOrAn = "a ";
                                 case "an":
-                                    aOrAn = "an ";
-                                    break;
-                                default:
+                                    aOrAn = subToken.slice(1);
                                     break;
                             }
                         }
@@ -40,9 +37,12 @@ var Word = /** @class */ (function () {
                                 }
                             }
                             catch (e) {
+                                // Jest gets this type wrong, so it isn't tested.
                                 if (typeof e === typeof errors_1.MissingBucketError) {
                                     // tslint:disable-next-line: no-console
-                                    console.error("swallowing error");
+                                    console.error("Swallowing error:");
+                                    // tslint:disable-next-line: no-console
+                                    console.error(e);
                                     fragments.push("!!! " + e.message + " in " + e.bucket + " !!!");
                                 }
                                 else {
@@ -51,24 +51,33 @@ var Word = /** @class */ (function () {
                             }
                         }
                     }
-                    var output = fragments.join(", ");
-                    if (output.length > 0) {
-                        if (aOrAn.length > 0) {
-                            var vowelArray = ["a", "e", "i", "o", "u", "1", "8"];
-                            var firstChar = (_a = output.match(/[a-zA-Z0-9]/)) === null || _a === void 0 ? void 0 : _a.pop();
-                            if (firstChar && vowelArray.indexOf(firstChar) > -1) {
-                                output = "an " + output;
-                            }
-                            else if (firstChar) {
-                                output = "a " + output;
-                            }
-                            else {
-                                output = aOrAn + output;
-                            }
+                    var outputPrepend = function (fragment) {
+                        if (output_1.length > 0) {
+                            output_1 = fragment + " " + output_1;
+                        }
+                        else {
+                            output_1 = fragment;
+                        }
+                    };
+                    var output_1 = fragments.join(", ");
+                    if (aOrAn.length > 0) {
+                        var vowelArray = ["a", "e", "i", "o", "u", "1", "8"];
+                        var firstChar = (_a = output_1.match(/[a-zA-Z0-9]/)) === null || _a === void 0 ? void 0 : _a.pop();
+                        if (firstChar && vowelArray.indexOf(firstChar) > -1) {
+                            outputPrepend("an");
+                        }
+                        else if (firstChar) {
+                            outputPrepend("a");
+                        }
+                        else {
+                            outputPrepend(aOrAn);
                         }
                     }
-                    tokens[token] = output;
+                    tokens[token] = output_1;
                 }
+            };
+            for (var token in tokens) {
+                _loop_1(token);
             }
             return tokens.join(" ").trim();
         };

@@ -40,6 +40,13 @@ describe("Manager", function () {
     it("handles duplicated names", function () {
         expect(function () { return Manager_1.default.create("test-bucket"); }).toThrow(errors_1.DuplicateNameError);
     });
+    it("handles command clashes", function () {
+        expect(function () { return Manager_1.default.create("$test"); }).toThrow(errors_1.ReservedWordError);
+    });
+    it("handles reserved names", function () {
+        expect(function () { return Manager_1.default.create("$a"); }).toThrow(errors_1.ReservedWordError);
+        expect(function () { return Manager_1.default.create("£a"); }).toThrow(errors_1.ReservedWordError);
+    });
     it("attaches fresh buckets properly", function () {
         var bucket = new bucket_1.default("attached-bucket");
         Manager_1.default.attach(bucket);

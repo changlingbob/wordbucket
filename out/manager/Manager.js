@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var bucket_1 = __importDefault(require("../bucket"));
 var errors_1 = require("../errors");
 var utils_1 = require("../utils");
+var word_1 = require("../word");
+var _1 = require(".");
 var buckets = {};
 var check = function (title) {
     if (title === void 0) { title = ""; }
@@ -35,6 +37,12 @@ var create = function (title) {
     if (!!!check(utils_1.getParentFromPath(title))) {
         throw new errors_1.MissingBucketError("The parent of the bucket " + title + " does not exist yet!", title);
     }
+    if (!!!title[0].match(_1.CONST.BAD_COMMANDS) && word_1.SUBTOKENS.indexOf(title.slice(1)) > -1) {
+        throw new errors_1.ReservedWordError("The title " + title + " is too close to a reserved command word", title);
+    }
+    if (title[0] === _1.VARS.COMMAND) {
+        throw new errors_1.ReservedWordError("The title " + title + " begins with the command character", title);
+    }
     var bucket = new bucket_1.default(title);
     buckets[title] = bucket;
     return bucket;
@@ -51,8 +59,18 @@ var detach = function (bucket) {
 var generate = function (title) {
     return fetch(title).generate();
 };
-var serialise = function (spacing) {
+var serialise = function (bucketTitle, spacing) {
     if (spacing === void 0) { spacing = 0; }
+    if (bucketTitle) {
+        if (check(bucketTitle)) {
+            var serialObj = {};
+            serialObj[bucketTitle] = fetch(bucketTitle);
+            return JSON.stringify(serialObj);
+        }
+        else {
+            throw new errors_1.MissingBucketError("Could not find bucket named " + bucketTitle + " to serialise", bucketTitle);
+        }
+    }
     return JSON.stringify(buckets, null, spacing);
 };
 var decompress = function (input, bucket) {
@@ -73,26 +91,29 @@ var decompress = function (input, bucket) {
 };
 var deserialise = function (input) {
     var title;
-    // try {
-    var obj = JSON.parse(input);
-    for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
-        title = _a[_i];
-        var bucket = obj[title];
-        if (!check(title)) {
-            create(title);
-        }
-        for (var _b = 0, _c = bucket.words; _b < _c.length; _b++) {
-            var word = _c[_b];
-            fetch(title).add(word.words, word.weight);
-        }
-        if (bucket.children) {
-            decompress(bucket.children, fetch(title));
+    try {
+        var obj = JSON.parse(input);
+        for (var _i = 0, _a = Object.keys(obj); _i < _a.length; _i++) {
+            title = _a[_i];
+            var bucket = obj[title];
+            var toAdd = void 0;
+            if (!check(title)) {
+                toAdd = new bucket_1.default(title);
+                for (var _b = 0, _c = bucket.words; _b < _c.length; _b++) {
+                    var word = _c[_b];
+                    toAdd.add(word.words, word.weight);
+                }
+                attach(toAdd);
+                if (bucket.children) {
+                    decompress(bucket.children, fetch(title));
+                }
+            }
         }
     }
-    // } catch (e) {
-    //   throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
-    // }
-    console.log(serialise(2));
+    catch (e) {
+        throw new errors_1.DeserialiseBucketError("Couldn't parse bucket " + title, e);
+    }
+    // console.log(serialise(2));
 };
 var getBuckets = function () {
     return Object.values(buckets);

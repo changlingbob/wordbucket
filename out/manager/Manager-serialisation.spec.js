@@ -4,9 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Manager_1 = __importDefault(require("./Manager"));
+var errors_1 = require("../errors");
 describe("deserialise", function () {
     it("basically deserialises", function () {
         Manager_1.default.deserialise('{"bucket": {"words":[{"words":"word1", "weight":1}, {"words":"word2", "weight":2}], "children":{}}}');
+    });
+    it("throws on bad input", function () {
+        expect(function () { return Manager_1.default.deserialise('{"bucket": {"1words":[{"words":"word1", "weight":1}, {"words":"word2", "weight":2}], "children":{}}}'); })
+            .toThrow(errors_1.DeserialiseBucketError);
     });
 });
 describe.skip("serialise", function () {

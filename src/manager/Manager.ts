@@ -66,7 +66,17 @@ const generate = (title: string): string => {
   return fetch(title).generate();
 }
 
-const serialise = (spacing: number = 0): string => {
+const serialise = (bucketTitle?: string, spacing: number = 0): string => {
+  if (bucketTitle) {
+    if (check(bucketTitle)) {
+      const serialObj: {[key:string]: Bucket} = {};
+      serialObj[bucketTitle] = fetch(bucketTitle)
+
+      return JSON.stringify(serialObj);
+    } else {
+      throw new MissingBucketError(`Could not find bucket named ${bucketTitle} to serialise`, bucketTitle);
+    }
+  }
   return JSON.stringify(buckets, null, spacing);
 }
 
@@ -91,15 +101,18 @@ const deserialise = (input: string): void => {
     const obj = JSON.parse(input);
     for (title of Object.keys(obj)) {
       const bucket = obj[title];
+      let toAdd: Bucket;
       if (!check(title)) {
-        create(title);
-      }
-      for (const word of bucket.words) {
-        fetch(title).add(word.words, word.weight);
-      }
+        toAdd = new Bucket(title);
+        for (const word of bucket.words) {
+          toAdd.add(word.words, word.weight);
+        }
 
-      if (bucket.children) {
-        decompress(bucket.children, fetch(title));
+        attach(toAdd);
+
+        if (bucket.children) {
+          decompress(bucket.children, fetch(title));
+        }
       }
     }
   } catch (e) {

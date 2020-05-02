@@ -8,6 +8,6 @@ declare const _default: {
     fetch: (title?: string) => Bucket;
     generate: (title: string) => string;
     getBuckets: () => Bucket[];
-    serialise: (spacing?: number) => string;
+    serialise: (bucketTitle?: string | undefined, spacing?: number) => string;
 };
 export default _default;

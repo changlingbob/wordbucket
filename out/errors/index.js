@@ -6,3 +6,5 @@ var DuplicateNameError_1 = require("./DuplicateNameError");
 exports.DuplicateNameError = DuplicateNameError_1.DuplicateNameError;
 var MissingBucketError_1 = require("./MissingBucketError");
 exports.MissingBucketError = MissingBucketError_1.MissingBucketError;
+var ReservedWordError_1 = require("./ReservedWordError");
+exports.ReservedWordError = ReservedWordError_1.ReservedWordError;
