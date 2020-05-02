@@ -20,17 +20,13 @@ class Word {
 
         let aOrAn = "";
 
-        console.log(subTokens);
         for (const subToken of subTokens) {
           if (checkSubToken(subToken)) {
             // set flags for special cases here;
             switch (subToken.slice(1)) {
               case "a":
-                aOrAn = "a ";
               case "an":
-                aOrAn = "an ";
-                break;
-              default:
+                aOrAn = subToken.slice(1);
                 break;
             }
           } else {
@@ -40,9 +36,12 @@ class Word {
                 fragments.push(word);
               }
             } catch (e) {
+              // Jest gets this type wrong, so it isn't tested.
               if (typeof e === typeof MissingBucketError) {
                 // tslint:disable-next-line: no-console
-                console.error("swallowing error")
+                console.error("Swallowing error:");
+                // tslint:disable-next-line: no-console
+                console.error(e);
                 fragments.push(`!!! ${e.message} in ${e.bucket} !!!`);
               } else {
                 throw e;
@@ -51,19 +50,24 @@ class Word {
           }
         }
 
+        const outputPrepend = (fragment: string) => {
+          if (output.length > 0) {
+            output = fragment + " " + output;
+          } else {
+            output = fragment;
+          }
+        }
+
         let output = fragments.join(", ");
-        console.log(output);
-        if (output.length > 0) {
-          if (aOrAn.length > 0) {
-            const vowelArray = ["a", "e", "i", "o", "u", "1", "8"];
-            const firstChar = output.match(/[a-zA-Z0-9]/)?.pop();
-            if (firstChar && vowelArray.indexOf(firstChar) > -1) {
-              output = "an " + output;
-            } else if (firstChar) {
-              output = "a " + output;
-            } else {
-              output = aOrAn + output;
-            }
+        if (aOrAn.length > 0) {
+          const vowelArray = ["a", "e", "i", "o", "u", "1", "8"];
+          const firstChar = output.match(/[a-zA-Z0-9]/)?.pop();
+          if (firstChar && vowelArray.indexOf(firstChar) > -1) {
+            outputPrepend("an");
+          } else if (firstChar) {
+            outputPrepend("a");
+          } else {
+            outputPrepend(aOrAn);
           }
         }
 

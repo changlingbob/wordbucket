@@ -1,6 +1,8 @@
 import Bucket from "../bucket";
-import { DuplicateNameError, MissingBucketError, DeserialiseBucketError } from "../errors";
+import { DuplicateNameError, MissingBucketError, DeserialiseBucketError, ReservedWordError } from "../errors";
 import { pathToTuple, getParentFromPath } from "../utils";
+import { SUBTOKENS } from "../word";
+import { VARS, CONST } from ".";
 
 const buckets: {[key:string]: Bucket} = {};
 
@@ -34,6 +36,12 @@ const create = (title: string): Bucket => {
   }
   if (!!!check(getParentFromPath(title))) {
     throw new MissingBucketError(`The parent of the bucket ${title} does not exist yet!`, title);
+  }
+  if (!!!title[0].match(CONST.BAD_COMMANDS) && SUBTOKENS.indexOf(title.slice(1)) > -1) {
+    throw new ReservedWordError(`The title ${title} is too close to a reserved command word`, title);
+  }
+  if (title[0] === VARS.COMMAND) {
+    throw new ReservedWordError(`The title ${title} begins with the command character`, title);
   }
 
   const bucket = new Bucket(title);
@@ -79,7 +87,7 @@ const decompress = (input: any, bucket: Bucket): void => {
 
 const deserialise = (input: string): void => {
   let title;
-  // try {
+  try {
     const obj = JSON.parse(input);
     for (title of Object.keys(obj)) {
       const bucket = obj[title];
@@ -94,10 +102,10 @@ const deserialise = (input: string): void => {
         decompress(bucket.children, fetch(title));
       }
     }
-  // } catch (e) {
-  //   throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
-  // }
-  console.log(serialise(2));
+  } catch (e) {
+    throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
+  }
+  // console.log(serialise(2));
 }
 
 const getBuckets = (): Bucket[] => {

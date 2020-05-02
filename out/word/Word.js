@@ -18,7 +18,6 @@ var Word = /** @class */ (function () {
                     var fragments = [];
                     var subTokens = tokens[token].slice(2, -1).split(/, ?/);
                     var aOrAn = "";
-                    console.log(subTokens);
                     for (var _i = 0, subTokens_1 = subTokens; _i < subTokens_1.length; _i++) {
                         var subToken = subTokens_1[_i];
                         if (utils_1.checkSubToken(subToken)) {
@@ -53,7 +52,6 @@ var Word = /** @class */ (function () {
                         }
                     }
                     var output = fragments.join(", ");
-                    console.log(output);
                     if (output.length > 0) {
                         if (aOrAn.length > 0) {
                             var vowelArray = ["a", "e", "i", "o", "u", "1", "8"];

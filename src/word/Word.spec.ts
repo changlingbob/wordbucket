@@ -24,5 +24,26 @@ describe("Word", () => {
     word.update({});
     expect(word.words).toBe("test");
     expect(word.weight).toBe(1);
-  })
+  });
+
+  describe("command words", () => {
+
+    Manager.create("vowel-bucket").add("elephant");
+    Manager.create("consonant-bucket").add("words");
+
+    describe("a/an", () => {
+      it("defaults to the command", () => {
+         expect(new Word("${$a} test").generate()).toBe("a test");
+         expect(new Word("${$an} test").generate()).toBe("an test");
+      });
+
+      it("manages vowel lookup command", () => {
+        expect(new Word("${$a, vowel-bucket} test").generate()).toBe("an elephant test");
+      });
+
+      it("manages consonant lookup command", () => {
+        expect(new Word("${$a, consonant-bucket} test").generate()).toBe("a words test");
+      });
+    });
+  });
 })

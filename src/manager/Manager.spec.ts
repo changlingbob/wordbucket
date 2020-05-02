@@ -1,6 +1,6 @@
 import Manager from "./Manager";
 import Bucket from "../bucket";
-import { DuplicateNameError, MissingBucketError } from "../errors";
+import { DuplicateNameError, MissingBucketError, ReservedWordError } from "../errors";
 
 const test = Manager.create("test-bucket");
 const nested = test.create("nested-bucket");
@@ -44,6 +44,15 @@ describe("Manager", () => {
 
   it("handles duplicated names", () => {
     expect(() => Manager.create("test-bucket")).toThrow(DuplicateNameError);
+  });
+
+  it("handles command clashes", () => {
+    expect(() => Manager.create("$test")).toThrow(ReservedWordError);
+  });
+
+  it("handles reserved names", () => {
+    expect(() => Manager.create("$a")).toThrow(ReservedWordError);
+    expect(() => Manager.create("£a")).toThrow(ReservedWordError);
   });
 
   it("attaches fresh buckets properly", () => {

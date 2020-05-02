@@ -7,6 +7,7 @@ var wordSummer_1 = require("./wordSummer");
 var namespacing_1 = require("./namespacing");
 var splitter_1 = require("./splitter");
 var word_1 = __importDefault(require("../word"));
+var _1 = require(".");
 var word = new word_1.default("the", 1);
 describe("wordSummer", function () {
     it("..sums weights", function () {
@@ -62,5 +63,31 @@ describe("splitString", function () {
     it("handles weird spacing, punctuation, etc", function () {
         expect(splitter_1.splitString("lo, I spot a ${creature}; I guess he is of ${size}-ish height"))
             .toEqual(["lo, I spot a", "${creature}", "; I guess he is of", "${size}", "-ish height"]);
+    });
+});
+describe("tokeniser", function () {
+    describe("full token", function () {
+        it("finds a good full token", function () {
+            expect(_1.checkFullToken("${foo}")).toBe(true);
+        });
+        it("rejects a malformed full token", function () {
+            expect(_1.checkFullToken("${foo")).toBe(false);
+        });
+        it("rejects typo'd full token", function () {
+            expect(_1.checkFullToken("${foo}1")).toBe(false);
+            expect(_1.checkFullToken("$1{foo}")).toBe(false);
+            expect(_1.checkFullToken("${foo]")).toBe(false);
+        });
+    });
+    describe("subtokens", function () {
+        it("finds good subtokens", function () {
+            expect(_1.checkSubToken("$a")).toBe(true);
+        });
+        it("rejects bad subtokens", function () {
+            expect(_1.checkSubToken("$bad")).toBe(false);
+        });
+        it("specifically rejects full tokens", function () {
+            expect(_1.checkSubToken("${a}")).toBe(false);
+        });
     });
 });
