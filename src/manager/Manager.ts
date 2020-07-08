@@ -101,18 +101,20 @@ const deserialise = (input: string): void => {
     const obj = JSON.parse(input);
     for (title of Object.keys(obj)) {
       const bucket = obj[title];
+
       let toAdd: Bucket;
       if (!check(title)) {
         toAdd = new Bucket(title);
-        for (const word of bucket.words) {
-          toAdd.add(word.words, word.weight);
-        }
-
         attach(toAdd);
+      } else {
+        toAdd = fetch(title);
+      }
+      for (const word of bucket.words) {
+        toAdd.add(word.words, word.weight);
+      }
 
-        if (bucket.children) {
-          decompress(bucket.children, fetch(title));
-        }
+      if (bucket.children) {
+        decompress(bucket.children, fetch(title));
       }
     }
   } catch (e) {

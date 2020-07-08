@@ -99,14 +99,17 @@ var deserialise = function (input) {
             var toAdd = void 0;
             if (!check(title)) {
                 toAdd = new bucket_1.default(title);
-                for (var _b = 0, _c = bucket.words; _b < _c.length; _b++) {
-                    var word = _c[_b];
-                    toAdd.add(word.words, word.weight);
-                }
                 attach(toAdd);
-                if (bucket.children) {
-                    decompress(bucket.children, fetch(title));
-                }
+            }
+            else {
+                toAdd = fetch(title);
+            }
+            for (var _b = 0, _c = bucket.words; _b < _c.length; _b++) {
+                var word = _c[_b];
+                toAdd.add(word.words, word.weight);
+            }
+            if (bucket.children) {
+                decompress(bucket.children, fetch(title));
             }
         }
     }
