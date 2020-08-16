@@ -19,6 +19,10 @@ describe("Word", function () {
         expect(word.words).toBe("foo");
         word.update({ weight: 20 });
         expect(word.weight).toBe(20);
+        word.update({ words: "" });
+        expect(word.words).toBe("");
+        word.update({ weight: 0 });
+        expect(word.weight).toBe(0);
     });
     it("handles bad update arguments", function () {
         var word = new Word_1.default("test", 1);

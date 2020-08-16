@@ -83,10 +83,10 @@ var Word = /** @class */ (function () {
         };
         this.update = function (update) {
             var words = update.words, weight = update.weight;
-            if (words) {
+            if (words !== undefined) {
                 _this.words = words;
             }
-            if (weight) {
+            if (weight !== undefined) {
                 _this.weight = weight;
             }
         };

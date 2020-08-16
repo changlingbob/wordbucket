@@ -80,10 +80,10 @@ class Word {
 
   public update = (update: {words?: string, weight?: number}): void => {
     const {words, weight} = update;
-    if (words) {
+    if (words !== undefined) {
       this.words = words;
     }
-    if (weight) {
+    if (weight !== undefined) {
       this.weight = weight;
     }
   }
