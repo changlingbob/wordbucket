@@ -8,7 +8,8 @@
     "airbnb-base",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
-    "prettier"
+    "prettier",
+    "plugin:eslint-comments/recommended"
   ],
   "ignorePatterns": [
     "**/node_modules/**/*.*",
@@ -82,7 +83,9 @@
           "{}": false
         }
       }
-    ]
+    ],
+    "eslint-comments/no-use": "warn",
+    "eslint-comments/require-description": "error"
   },
   "settings": {
     "import/parser": {
