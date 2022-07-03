@@ -1,4 +1,3 @@
-import Manager from './Manager';
-export { default as VARS } from './vars';
-export { default as CONST } from './constants';
-export default Manager;
+export { WordManager } from './Manager';
+export { VARS } from './vars';
+export { CONST } from './constants';

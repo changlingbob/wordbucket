@@ -1,16 +1,19 @@
-import Bucket from './index';
+import { WordManager } from './index';
 describe('barrel file', () => {
     it('has well typed exports', () => {
-        const hex = Bucket.create('hex');
+        const hex = WordManager.create('hex');
         hex.add('test1', 1);
         hex.add('test2', 1);
-        hex.create('subtable');
-        const subtable = Bucket.fetch('hex.subtable');
+        WordManager.create('hex.subtable');
+        const subtable = WordManager.fetch('hex.subtable');
         subtable.add('test3', 1);
         subtable.generate();
-        Bucket.generate('hex');
-        expect(Bucket.serialise()).toBe(`{"hex":{"children":{"subtable":{"children":{},"words":[{"words":"test3","weight":1}],"title":"subtable"}},"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"}}`);
-        expect(Bucket.deserialise(`{"hex":{"children":{"subtable":{"children":{},"words":[{"words":"test3","weight":1}],"title":"subtable"}},"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"}}`));
+        WordManager.generate('hex');
+        expect(WordManager.serialise()).toBe(`{"hex":{"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"},"hex.subtable":{"words":[{"words":"test3","weight":1}],"title":"hex.subtable"}}`);
+        WordManager.detach(WordManager.fetch('hex'));
+        WordManager.detach(WordManager.fetch('hex.subtable'));
+        expect(WordManager.deserialise(`{"hex":{"children":{"subtable":{"children":{},"words":[{"words":"test3","weight":1}],"title":"subtable"}},"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"}}`));
+        expect(WordManager.serialise()).toBe(`{"hex":{"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"},"hex.subtable":{"words":[{"words":"test3","weight":1}],"title":"hex.subtable"}}`);
     });
 });
 //# sourceMappingURL=wordbucket.spec.js.map

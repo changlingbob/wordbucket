@@ -1,4 +1,4 @@
-declare class Word {
+export declare class Word {
     words: string;
     weight: number;
     constructor(words: string, weight?: number);
@@ -8,4 +8,3 @@ declare class Word {
         weight?: number;
     }) => void;
 }
-export default Word;

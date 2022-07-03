@@ -1,40 +1,16 @@
-import Word from '../word';
+import { Word } from '../word';
 import { checkFullToken, checkSubToken } from '.';
-import { getParentFromPath, pathEnding, pathToTuple, splitPath, tupleToPath, } from './namespacing';
 import { findCommand, splitString } from './splitter';
 import { wordSummer } from './wordSummer';
-const word = new Word('the', 1);
+const word = new Word('word', 1);
+const smallWord = new Word('the', 0.1);
+const bigWord = new Word('plethora', 4);
 describe('wordSummer', () => {
     it('..sums weights', () => {
         expect(wordSummer([word, word, word])).toBe(3);
-    });
-});
-describe('splitPath', () => {
-    it('splits paths', () => {
-        expect(splitPath('a.b.c')).toEqual(['a', 'b', 'c']);
-    });
-});
-describe('pathEnding', () => {
-    it('gets the last part of a dotted path', () => {
-        expect(pathEnding('a.b.c')).toBe('c');
-    });
-});
-describe('getParentFromPath', () => {
-    it('gets the leading parts of a dotted path', () => {
-        expect(getParentFromPath('a.b.c')).toBe('a.b');
-    });
-});
-describe('pathToTuple', () => {
-    it('splits the first part off a path', () => {
-        expect(pathToTuple('a.b.c')).toEqual({
-            parent: 'a',
-            child: 'b.c',
-        });
-    });
-});
-describe('tupleToPath', () => {
-    it('joins paths back together', () => {
-        expect(tupleToPath(['a', 'b.c'])).toBe('a.b.c');
+        expect(wordSummer([smallWord, smallWord, smallWord])).toBeCloseTo(0.3);
+        expect(wordSummer([bigWord, bigWord, bigWord])).toBe(12);
+        expect(wordSummer([smallWord, word, bigWord])).toBeCloseTo(5.1);
     });
 });
 describe('findCommand', () => {

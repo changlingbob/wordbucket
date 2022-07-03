@@ -1,19 +1,17 @@
 import { MissingBucketError } from '../errors';
-import Manager from '../manager';
+import { WordManager } from '../manager';
 import { checkFullToken, checkSubToken, splitString } from '../utils';
-class Word {
+export class Word {
     constructor(words, weight = 1) {
         this.generate = () => {
-            var _a;
             const tokens = splitString(this.words);
-            // eslint-disable-next-line no-restricted-syntax
-            for (const token in tokens) {
-                if (checkFullToken(tokens[token])) {
-                    const fragments = [];
-                    const subTokens = tokens[token].slice(2, -1).split(/, ?/);
+            return tokens
+                .map((token) => {
+                var _a;
+                if (checkFullToken(token)) {
+                    const subTokens = token.slice(2, -1).split(/, ?/);
                     let aOrAn = '';
-                    // eslint-disable-next-line no-restricted-syntax
-                    for (const subToken of subTokens) {
+                    const fragments = subTokens.map((subToken) => {
                         if (checkSubToken(subToken)) {
                             // set flags for special cases here;
                             switch (subToken.slice(1)) {
@@ -27,25 +25,22 @@ class Word {
                         }
                         else {
                             try {
-                                const word = Manager.generate(subToken);
+                                const word = WordManager.generate(subToken);
                                 if (word.length > 0) {
-                                    fragments.push(word);
+                                    return word;
                                 }
                             }
                             catch (e) {
                                 if (typeof e === typeof MissingBucketError) {
-                                    // eslint-disable-next-line no-console
-                                    console.error('Swallowing error:');
-                                    // eslint-disable-next-line no-console
-                                    console.error(e);
-                                    fragments.push(`!!! ${e.message} !!!`);
+                                    // eslint-disable-next-line no-console -- error handling
+                                    console.error('Swallowing error: \n', e);
+                                    return `!!! ${e.message} !!!`;
                                 }
-                                else {
-                                    throw e;
-                                }
+                                throw e;
                             }
                         }
-                    }
+                        return '';
+                    });
                     let output = fragments.join(', ');
                     const outputPrepend = (fragment) => {
                         if (output.length > 0) {
@@ -68,10 +63,12 @@ class Word {
                             outputPrepend(aOrAn);
                         }
                     }
-                    tokens[token] = output;
+                    return output;
                 }
-            }
-            return tokens.join(' ').trim();
+                return '';
+            })
+                .join(' ')
+                .trim();
         };
         this.update = (update) => {
             const { words, weight } = update;
@@ -86,5 +83,4 @@ class Word {
         this.weight = weight;
     }
 }
-export default Word;
 //# sourceMappingURL=Word.js.map

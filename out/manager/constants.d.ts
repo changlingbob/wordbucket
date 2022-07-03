@@ -1,4 +1,4 @@
-declare const _default: {
+export declare const CONST: {
     BAD_COMMANDS: RegExp;
     BRACE_PAIRS: {
         '{': string[];
@@ -12,4 +12,3 @@ declare const _default: {
     };
     RESERVED_WORDS: string[];
 };
-export default _default;

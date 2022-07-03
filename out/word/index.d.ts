@@ -1,3 +1,2 @@
-import Word from './Word';
+export { Word } from './Word';
 export { SUBTOKENS } from './subTokens';
-export default Word;

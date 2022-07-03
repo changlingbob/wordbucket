@@ -1,4 +1,3 @@
-// This works where other, more comprehensible custom errors don't.
 export class DuplicateNameError extends Error {
     constructor(message, bucket) {
         super(message);

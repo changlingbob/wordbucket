@@ -1,4 +1,3 @@
-// This works where other, more comprehensible custom errors don't.
 export class DeserialiseBucketError extends Error {
     constructor(message, error) {
         super(message);

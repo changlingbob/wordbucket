@@ -1,3 +1,2 @@
-import Bucket from './Bucket';
-export default Bucket;
+export { Bucket } from './Bucket';
 //# sourceMappingURL=index.js.map

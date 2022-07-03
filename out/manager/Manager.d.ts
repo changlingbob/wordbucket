@@ -1,5 +1,5 @@
-import Bucket from '../bucket';
-declare const _default: {
+import { Bucket } from '../bucket';
+export declare const WordManager: {
     attach: (bucket: Bucket) => void;
     check: (title?: string) => boolean;
     create: (title: string) => Bucket;
@@ -8,6 +8,5 @@ declare const _default: {
     fetch: (title?: string) => Bucket;
     generate: (title: string) => string;
     getBuckets: () => Bucket[];
-    serialise: (bucketTitle?: string | undefined, spacing?: number) => string;
+    serialise: (bucketTitle?: string, spacing?: number) => string;
 };
-export default _default;

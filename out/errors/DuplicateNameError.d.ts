@@ -1,4 +1,4 @@
-import Bucket from '../bucket';
+import { Bucket } from '../bucket';
 export declare class DuplicateNameError extends Error {
     name: string;
     message: string;

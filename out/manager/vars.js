@@ -6,7 +6,7 @@ const setCommand = (command) => {
 const setBrace = (braces) => {
     BRACE = braces;
 };
-export default {
+export const VARS = {
     BRACE,
     COMMAND,
     setBrace,
