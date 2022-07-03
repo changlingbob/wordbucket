@@ -39,7 +39,7 @@ export class Bucket {
     const target = Math.floor(Math.random() * max) + 1;
     let word: Word | undefined;
 
-    for (let iii = 0; iii < max; iii++) {
+    for (let iii = 0; iii < max - 1; iii++) {
       accumulator += this.words[iii].weight * 10;
       if (accumulator > target) {
         break;

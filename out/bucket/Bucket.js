@@ -25,7 +25,7 @@ export class Bucket {
             let accumulator = 0;
             const target = Math.floor(Math.random() * max) + 1;
             let word;
-            for (let iii = 0; iii < max; iii++) {
+            for (let iii = 0; iii < max - 1; iii++) {
                 accumulator += this.words[iii].weight * 10;
                 if (accumulator > target) {
                     break;
