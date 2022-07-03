@@ -41,7 +41,9 @@ export class Word {
                         }
                         return '';
                     });
-                    let output = fragments.join(', ');
+                    let output = fragments
+                        .filter((fragment) => fragment.length > 0)
+                        .join(', ');
                     const outputPrepend = (fragment) => {
                         if (output.length > 0) {
                             output = `${fragment} ${output}`;
@@ -65,7 +67,7 @@ export class Word {
                     }
                     return output;
                 }
-                return '';
+                return token;
             })
                 .join(' ')
                 .trim();

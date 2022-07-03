@@ -41,7 +41,8 @@ export class Bucket {
 
     for (let iii = 0; iii < max - 1; iii++) {
       accumulator += this.words[iii].weight * 10;
-      if (accumulator > target) {
+      if (accumulator >= target) {
+        word = this.words[iii];
         break;
       }
     }

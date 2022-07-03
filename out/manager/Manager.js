@@ -3,7 +3,7 @@ import { DeserialiseBucketError, DuplicateNameError, MissingBucketError, Reserve
 import { SUBTOKENS } from '../word';
 import { CONST, VARS } from '.';
 const buckets = {};
-const check = (title = '') => !!buckets[title];
+const check = (title = '') => !title || !!buckets[title];
 const fetch = (title = '') => {
     if (buckets[title]) {
         return buckets[title];

@@ -48,12 +48,6 @@ describe('WordManager', () => {
     expect(WordManager.generate('test-bucket')).toBe('test string');
   });
 
-  it('handles creating on non-existant buckets', () => {
-    expect(() => WordManager.create('bad-bucket.worse-bucket')).toThrow(
-      MissingBucketError
-    );
-  });
-
   it('handles duplicated names', () => {
     expect(() => WordManager.create('test-bucket')).toThrow(DuplicateNameError);
   });

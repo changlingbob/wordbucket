@@ -10,7 +10,7 @@ import { CONST, VARS } from '.';
 
 const buckets: { [key: string]: Bucket } = {};
 
-const check = (title = ''): boolean => !!buckets[title];
+const check = (title = ''): boolean => !title || !!buckets[title];
 
 const fetch = (title = ''): Bucket => {
   if (buckets[title]) {
