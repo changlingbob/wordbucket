@@ -1,4 +1,4 @@
-import Bucket from '../bucket';
+import { Bucket } from '../bucket';
 import {
   DeserialiseBucketError,
   DuplicateNameError,
@@ -156,7 +156,7 @@ const deserialise = (input: string): void => {
 
 const getBuckets = (): Bucket[] => Object.values(buckets);
 
-export default {
+export const WordManager = {
   attach,
   check,
   create,

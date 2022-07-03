@@ -1,6 +1,6 @@
 import { DuplicateNameError, MissingBucketError } from '../errors';
-import Word from '../word';
-import Bucket from './Bucket';
+import { Word } from '../word';
+import { Bucket } from './Bucket';
 
 describe('Bucket', () => {
   it('has a title', () => {

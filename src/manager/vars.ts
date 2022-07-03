@@ -9,7 +9,7 @@ const setBrace = (braces: string[]): void => {
   BRACE = braces;
 };
 
-export default {
+export const VARS = {
   BRACE,
   COMMAND,
   setBrace,

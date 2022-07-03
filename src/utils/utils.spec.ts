@@ -1,4 +1,4 @@
-import Word from '../word';
+import { Word } from '../word';
 import { checkFullToken, checkSubToken } from '.';
 import {
   getParentFromPath,

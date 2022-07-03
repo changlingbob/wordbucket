@@ -1,87 +1,89 @@
-import Bucket from '../bucket';
+import { Bucket } from '../bucket';
 import {
   DuplicateNameError,
   MissingBucketError,
   ReservedWordError,
 } from '../errors';
-import Manager from './Manager';
+import { WordManager } from './Manager';
 
-const test = Manager.create('test-bucket');
+const test = WordManager.create('test-bucket');
 const nested = test.create('nested-bucket');
 
-describe('Manager', () => {
+describe('WordManager', () => {
   it('returns the correct bucket with fetch', () => {
-    expect(Manager.fetch('test-bucket')).toBe(test);
-    expect(Manager.fetch('test-bucket.nested-bucket')).toBe(nested);
+    expect(WordManager.fetch('test-bucket')).toBe(test);
+    expect(WordManager.fetch('test-bucket.nested-bucket')).toBe(nested);
   });
 
   it('throws when fetching bad buckets', () => {
     expect(() => {
-      Manager.fetch();
+      WordManager.fetch();
     }).toThrow(MissingBucketError);
     expect(() => {
-      Manager.fetch('bad-bucket');
+      WordManager.fetch('bad-bucket');
     }).toThrow(MissingBucketError);
     expect(() => {
-      Manager.fetch('test-bucket.bad-bucket');
+      WordManager.fetch('test-bucket.bad-bucket');
     }).toThrow(MissingBucketError);
   });
 
   it('correctly checks existing buckets', () => {
-    expect(Manager.check('test-bucket')).toBe(true);
-    expect(Manager.check('test-bucket.nested-bucket')).toBe(true);
+    expect(WordManager.check('test-bucket')).toBe(true);
+    expect(WordManager.check('test-bucket.nested-bucket')).toBe(true);
   });
 
   it('correctly checks non-existant buckets', () => {
-    expect(Manager.check('not-a-bucket')).toBe(false);
+    expect(WordManager.check('not-a-bucket')).toBe(false);
   });
 
   it('handles checking null-y inputs', () => {
-    expect(Manager.check()).toBe(true);
-    expect(Manager.check('')).toBe(true);
-    expect(Manager.check(undefined)).toBe(true);
+    expect(WordManager.check()).toBe(true);
+    expect(WordManager.check('')).toBe(true);
+    expect(WordManager.check(undefined)).toBe(true);
   });
 
   it('generates down the tables', () => {
     test.add('test string');
 
-    expect(Manager.generate('test-bucket')).toBe('test string');
+    expect(WordManager.generate('test-bucket')).toBe('test string');
   });
 
   it('handles creating on non-existant buckets', () => {
-    expect(() => Manager.create('bad-bucket.worse-bucket')).toThrow(
+    expect(() => WordManager.create('bad-bucket.worse-bucket')).toThrow(
       MissingBucketError
     );
   });
 
   it('handles duplicated names', () => {
-    expect(() => Manager.create('test-bucket')).toThrow(DuplicateNameError);
+    expect(() => WordManager.create('test-bucket')).toThrow(DuplicateNameError);
   });
 
   it('handles command clashes', () => {
-    expect(() => Manager.create('$test')).toThrow(ReservedWordError);
+    expect(() => WordManager.create('$test')).toThrow(ReservedWordError);
   });
 
   it('handles reserved names', () => {
-    expect(() => Manager.create('$a')).toThrow(ReservedWordError);
-    expect(() => Manager.create('£a')).toThrow(ReservedWordError);
+    expect(() => WordManager.create('$a')).toThrow(ReservedWordError);
+    expect(() => WordManager.create('£a')).toThrow(ReservedWordError);
   });
 
   it('attaches fresh buckets properly', () => {
     const bucket = new Bucket('attached-bucket');
-    Manager.attach(bucket);
-    expect(Manager.fetch('attached-bucket')).toBe(bucket);
+    WordManager.attach(bucket);
+    expect(WordManager.fetch('attached-bucket')).toBe(bucket);
   });
 
   it('detaches buckets properly', () => {
-    const bucket = Manager.create('detach-bucket');
-    Manager.detach(bucket);
-    expect(() => Manager.fetch('detach-bucket')).toThrow(MissingBucketError);
+    const bucket = WordManager.create('detach-bucket');
+    WordManager.detach(bucket);
+    expect(() => WordManager.fetch('detach-bucket')).toThrow(
+      MissingBucketError
+    );
   });
 
   it("attach doesn't double attach", () => {
     const bucket = new Bucket('double-attach');
-    Manager.attach(bucket);
-    expect(() => Manager.attach(bucket)).toThrow(DuplicateNameError);
+    WordManager.attach(bucket);
+    expect(() => WordManager.attach(bucket)).toThrow(DuplicateNameError);
   });
 });

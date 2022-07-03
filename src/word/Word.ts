@@ -1,8 +1,8 @@
 import { MissingBucketError } from '../errors';
-import Manager, { VARS } from '../manager';
+import { WordManager, VARS } from '../manager';
 import { checkFullToken, checkSubToken, splitString } from '../utils';
 
-class Word {
+export class Word {
   public words: string;
   public weight: number;
 
@@ -35,7 +35,7 @@ class Word {
             }
           } else {
             try {
-              const word = Manager.generate(subToken);
+              const word = WordManager.generate(subToken);
               if (word.length > 0) {
                 fragments.push(word);
               }
@@ -91,5 +91,3 @@ class Word {
     }
   };
 }
-
-export default Word;

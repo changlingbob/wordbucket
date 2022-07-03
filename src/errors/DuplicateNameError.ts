@@ -1,4 +1,4 @@
-import Bucket from '../bucket';
+import { Bucket } from '../bucket';
 
 // This works where other, more comprehensible custom errors don't.
 

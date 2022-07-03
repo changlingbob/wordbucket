@@ -1,5 +1,5 @@
-import Manager from '../manager';
-import Word from './Word';
+import { WordManager } from '../manager';
+import { Word } from './Word';
 
 describe('Word', () => {
   it('generates real good', () => {
@@ -7,7 +7,7 @@ describe('Word', () => {
   });
 
   it('calls other buckets', () => {
-    Manager.create('test-bucket').add('words');
+    WordManager.create('test-bucket').add('words');
     expect(new Word('${test-bucket}').generate()).toBe('words');
   });
 
@@ -32,8 +32,8 @@ describe('Word', () => {
   });
 
   describe('command words', () => {
-    Manager.create('vowel-bucket').add('elephant');
-    Manager.create('consonant-bucket').add('words');
+    WordManager.create('vowel-bucket').add('elephant');
+    WordManager.create('consonant-bucket').add('words');
 
     describe('a/an', () => {
       it('defaults to the command', () => {

@@ -1,8 +1,8 @@
 import { DuplicateNameError, MissingBucketError } from '../errors';
 import { pathToTuple, wordSummer } from '../utils';
-import Word from '../word';
+import { Word } from '../word';
 
-class Bucket {
+export class Bucket {
   public title: string;
   private children: { [key: string]: Bucket };
   private words: Word[];
@@ -105,5 +105,3 @@ class Bucket {
     throw new MissingBucketError(`Can't find bucket named ${title}`, title);
   };
 }
-
-export default Bucket;
