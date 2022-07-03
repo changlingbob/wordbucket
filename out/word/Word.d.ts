@@ -4,8 +4,8 @@ declare class Word {
     constructor(words: string, weight?: number);
     generate: () => string;
     update: (update: {
-        words?: string | undefined;
-        weight?: number | undefined;
+        words?: string;
+        weight?: number;
     }) => void;
 }
 export default Word;

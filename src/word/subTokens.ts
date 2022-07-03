@@ -1,4 +1,1 @@
-export const SUBTOKENS = [
-  "a",
-  "an",
-];
+export const SUBTOKENS = ['a', 'an'];

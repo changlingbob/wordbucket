@@ -1,7 +1,6 @@
-export declare class MissingBucketError {
+export declare class MissingBucketError extends Error {
     name: string;
-    message?: string;
+    message: string;
     title: string;
-    stack: any;
     constructor(message: string, title: string);
 }

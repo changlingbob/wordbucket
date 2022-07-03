@@ -1,0 +1,1 @@
+{"version":3,"file":"MissingBucketError.js","sourceRoot":"","sources":["../../src/errors/MissingBucketError.ts"],"names":[],"mappings":"AAAA,mEAAmE;AAEnE,MAAM,OAAO,kBAAmB,SAAQ,KAAK;IAK3C,YAAY,OAAe,EAAE,KAAa;QACxC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,IAAI,GAAG,oBAAoB,CAAC;QACjC,IAAI,CAAC,OAAO,GAAG,OAAO,IAAI,mBAAmB,CAAC;QAC9C,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACrB,CAAC;CACF"}

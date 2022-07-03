@@ -1,19 +1,16 @@
-import Bucket from "../bucket";
+import Bucket from '../bucket';
 
 // This works where other, more comprehensible custom errors don't.
 
-export class DuplicateNameError {
+export class DuplicateNameError extends Error {
   public name: string;
-  public message?: string;
+  public message: string;
   public duplicate: Bucket;
-  public stack: any;
 
   constructor(message: string, bucket: Bucket) {
-    this.name = "DuplicateNameError";
-    this.message = message || "Duplicate name!";
+    super(message);
+    this.name = 'DuplicateNameError';
+    this.message = message || 'Duplicate name!';
     this.duplicate = bucket;
-    this.stack = (new Error()).stack;
   }
 }
-DuplicateNameError.prototype = Object.create(Error.prototype);
-DuplicateNameError.prototype.constructor = DuplicateNameError;

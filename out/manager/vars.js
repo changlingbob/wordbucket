@@ -1,16 +1,15 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var COMMAND = "$";
-var BRACE = ["{", "}"];
-var setCommand = function (command) {
+let COMMAND = '$';
+let BRACE = ['{', '}'];
+const setCommand = (command) => {
     COMMAND = command;
 };
-var setBrace = function (braces) {
+const setBrace = (braces) => {
     BRACE = braces;
 };
-exports.default = {
-    BRACE: BRACE,
-    COMMAND: COMMAND,
-    setBrace: setBrace,
-    setCommand: setCommand,
+export default {
+    BRACE,
+    COMMAND,
+    setBrace,
+    setCommand,
 };
+//# sourceMappingURL=vars.js.map

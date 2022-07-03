@@ -1,6 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SUBTOKENS = [
-    "a",
-    "an",
-];
+export const SUBTOKENS = ['a', 'an'];
+//# sourceMappingURL=subTokens.js.map

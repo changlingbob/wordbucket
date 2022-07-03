@@ -1,7 +1,6 @@
-export declare class DeserialiseBucketError {
+export declare class DeserialiseBucketError extends Error {
     name: string;
-    message?: string;
+    message: string;
     rootError: Error;
-    stack: any;
     constructor(message: string, error: Error);
 }

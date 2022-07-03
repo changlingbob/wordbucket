@@ -1,7 +1,5 @@
-export declare class ReservedWordError {
+export declare class ReservedWordError extends Error {
     name: string;
-    message?: string;
     title: string;
-    stack: any;
     constructor(message: string, title: string);
 }

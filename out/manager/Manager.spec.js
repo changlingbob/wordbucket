@@ -1,65 +1,67 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Manager_1 = __importDefault(require("./Manager"));
-var bucket_1 = __importDefault(require("../bucket"));
-var errors_1 = require("../errors");
-var test = Manager_1.default.create("test-bucket");
-var nested = test.create("nested-bucket");
-describe("Manager", function () {
-    it("returns the correct bucket with fetch", function () {
-        expect(Manager_1.default.fetch("test-bucket")).toBe(test);
-        expect(Manager_1.default.fetch("test-bucket.nested-bucket")).toBe(nested);
+import Bucket from '../bucket';
+import { DuplicateNameError, MissingBucketError, ReservedWordError, } from '../errors';
+import Manager from './Manager';
+const test = Manager.create('test-bucket');
+const nested = test.create('nested-bucket');
+describe('Manager', () => {
+    it('returns the correct bucket with fetch', () => {
+        expect(Manager.fetch('test-bucket')).toBe(test);
+        expect(Manager.fetch('test-bucket.nested-bucket')).toBe(nested);
     });
-    it("throws when fetching bad buckets", function () {
-        expect(function () { Manager_1.default.fetch(); }).toThrow(errors_1.MissingBucketError);
-        expect(function () { Manager_1.default.fetch("bad-bucket"); }).toThrow(errors_1.MissingBucketError);
-        expect(function () { Manager_1.default.fetch("test-bucket.bad-bucket"); }).toThrow(errors_1.MissingBucketError);
+    it('throws when fetching bad buckets', () => {
+        expect(() => {
+            Manager.fetch();
+        }).toThrow(MissingBucketError);
+        expect(() => {
+            Manager.fetch('bad-bucket');
+        }).toThrow(MissingBucketError);
+        expect(() => {
+            Manager.fetch('test-bucket.bad-bucket');
+        }).toThrow(MissingBucketError);
     });
-    it("correctly checks existing buckets", function () {
-        expect(Manager_1.default.check("test-bucket")).toBe(true);
-        expect(Manager_1.default.check("test-bucket.nested-bucket")).toBe(true);
+    it('correctly checks existing buckets', () => {
+        expect(Manager.check('test-bucket')).toBe(true);
+        expect(Manager.check('test-bucket.nested-bucket')).toBe(true);
     });
-    it("correctly checks non-existant buckets", function () {
-        expect(Manager_1.default.check("not-a-bucket")).toBe(false);
+    it('correctly checks non-existant buckets', () => {
+        expect(Manager.check('not-a-bucket')).toBe(false);
     });
-    it("handles checking null-y inputs", function () {
-        expect(Manager_1.default.check()).toBe(true);
-        expect(Manager_1.default.check("")).toBe(true);
-        expect(Manager_1.default.check(undefined)).toBe(true);
+    it('handles checking null-y inputs', () => {
+        expect(Manager.check()).toBe(true);
+        expect(Manager.check('')).toBe(true);
+        expect(Manager.check(undefined)).toBe(true);
     });
-    it("generates down the tables", function () {
-        test.add("test string");
-        expect(Manager_1.default.generate("test-bucket")).toBe("test string");
+    it('generates down the tables', () => {
+        test.add('test string');
+        expect(Manager.generate('test-bucket')).toBe('test string');
     });
-    it("handles creating on non-existant buckets", function () {
-        expect(function () { return Manager_1.default.create("bad-bucket.worse-bucket"); }).toThrow(errors_1.MissingBucketError);
+    it('handles creating on non-existant buckets', () => {
+        expect(() => Manager.create('bad-bucket.worse-bucket')).toThrow(MissingBucketError);
     });
-    it("handles duplicated names", function () {
-        expect(function () { return Manager_1.default.create("test-bucket"); }).toThrow(errors_1.DuplicateNameError);
+    it('handles duplicated names', () => {
+        expect(() => Manager.create('test-bucket')).toThrow(DuplicateNameError);
     });
-    it("handles command clashes", function () {
-        expect(function () { return Manager_1.default.create("$test"); }).toThrow(errors_1.ReservedWordError);
+    it('handles command clashes', () => {
+        expect(() => Manager.create('$test')).toThrow(ReservedWordError);
     });
-    it("handles reserved names", function () {
-        expect(function () { return Manager_1.default.create("$a"); }).toThrow(errors_1.ReservedWordError);
-        expect(function () { return Manager_1.default.create("£a"); }).toThrow(errors_1.ReservedWordError);
+    it('handles reserved names', () => {
+        expect(() => Manager.create('$a')).toThrow(ReservedWordError);
+        expect(() => Manager.create('£a')).toThrow(ReservedWordError);
     });
-    it("attaches fresh buckets properly", function () {
-        var bucket = new bucket_1.default("attached-bucket");
-        Manager_1.default.attach(bucket);
-        expect(Manager_1.default.fetch("attached-bucket")).toBe(bucket);
+    it('attaches fresh buckets properly', () => {
+        const bucket = new Bucket('attached-bucket');
+        Manager.attach(bucket);
+        expect(Manager.fetch('attached-bucket')).toBe(bucket);
     });
-    it("detaches buckets properly", function () {
-        var bucket = Manager_1.default.create("detach-bucket");
-        Manager_1.default.detach(bucket);
-        expect(function () { return Manager_1.default.fetch("detach-bucket"); }).toThrow(errors_1.MissingBucketError);
+    it('detaches buckets properly', () => {
+        const bucket = Manager.create('detach-bucket');
+        Manager.detach(bucket);
+        expect(() => Manager.fetch('detach-bucket')).toThrow(MissingBucketError);
     });
-    it("attach doesn't double attach", function () {
-        var bucket = new bucket_1.default("double-attach");
-        Manager_1.default.attach(bucket);
-        expect(function () { return Manager_1.default.attach(bucket); }).toThrow(errors_1.DuplicateNameError);
+    it("attach doesn't double attach", () => {
+        const bucket = new Bucket('double-attach');
+        Manager.attach(bucket);
+        expect(() => Manager.attach(bucket)).toThrow(DuplicateNameError);
     });
 });
+//# sourceMappingURL=Manager.spec.js.map

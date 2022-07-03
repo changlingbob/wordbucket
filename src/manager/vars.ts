@@ -1,5 +1,5 @@
-let COMMAND = "$";
-let BRACE = ["{","}"];
+let COMMAND = '$';
+let BRACE = ['{', '}'];
 
 const setCommand = (command: string): void => {
   COMMAND = command;
@@ -14,4 +14,4 @@ export default {
   COMMAND,
   setBrace,
   setCommand,
-}
+};

@@ -1,0 +1,1 @@
+{"version":3,"file":"DuplicateNameError.js","sourceRoot":"","sources":["../../src/errors/DuplicateNameError.ts"],"names":[],"mappings":"AAEA,mEAAmE;AAEnE,MAAM,OAAO,kBAAmB,SAAQ,KAAK;IAK3C,YAAY,OAAe,EAAE,MAAc;QACzC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,IAAI,GAAG,oBAAoB,CAAC;QACjC,IAAI,CAAC,OAAO,GAAG,OAAO,IAAI,iBAAiB,CAAC;QAC5C,IAAI,CAAC,SAAS,GAAG,MAAM,CAAC;IAC1B,CAAC;CACF"}

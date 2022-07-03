@@ -1,5 +1,4 @@
-import Word from "../word";
+import Word from '../word';
 
-export const wordSummer = (words:Word[]): number => {
-  return words.reduce((sum, word) => sum + word.weight, 0);
-}
+export const wordSummer = (words: Word[]): number =>
+  words.reduce((sum, word) => sum + word.weight, 0);

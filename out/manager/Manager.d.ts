@@ -1,4 +1,4 @@
-import Bucket from "../bucket";
+import Bucket from '../bucket';
 declare const _default: {
     attach: (bucket: Bucket) => void;
     check: (title?: string) => boolean;

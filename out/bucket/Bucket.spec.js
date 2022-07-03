@@ -1,84 +1,82 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Bucket_1 = __importDefault(require("./Bucket"));
-var word_1 = __importDefault(require("../word"));
-var errors_1 = require("../errors");
-describe("Bucket", function () {
-    it("has a title", function () {
-        expect(new Bucket_1.default("title").title).toBe("title");
+import { DuplicateNameError, MissingBucketError } from '../errors';
+import Word from '../word';
+import Bucket from './Bucket';
+describe('Bucket', () => {
+    it('has a title', () => {
+        expect(new Bucket('title').title).toBe('title');
     });
-    it("generate does a roll", function () {
-        var test = new Bucket_1.default();
-        test.add("test string");
-        expect(test.generate()).toBe("test string");
+    it('generate does a roll', () => {
+        const test = new Bucket();
+        test.add('test string');
+        expect(test.generate()).toBe('test string');
     });
-    it("probably respects weighting of words", function () {
-        var test = new Bucket_1.default();
-        test.add("common string", 9);
-        test.add("rare string", 1);
-        var testArray = [];
-        for (var iii = 0; iii < 1000; iii++) {
+    it('probably respects weighting of words', () => {
+        const test = new Bucket();
+        test.add('common string', 9);
+        test.add('rare string', 1);
+        const testArray = [];
+        for (let iii = 0; iii < 1000; iii++) {
             testArray.push(test.generate());
         }
-        expect(testArray.filter(function (s) { return s === "rare string"; }).length).toBeLessThan(200);
+        expect(testArray.filter((s) => s === 'rare string').length).toBeLessThan(200);
     });
-    it("returns words when they're created", function () {
-        expect(JSON.stringify(new Bucket_1.default().add("test"))).toBe(JSON.stringify(new word_1.default("test")));
+    it("returns words when they're created", () => {
+        expect(JSON.stringify(new Bucket().add('test'))).toBe(JSON.stringify(new Word('test')));
     });
-    it("can remove unwanted words", function () {
-        var bucket = new Bucket_1.default();
-        var word = bucket.add("test");
+    it('can remove unwanted words', () => {
+        const bucket = new Bucket();
+        const word = bucket.add('test');
         bucket.remove(word);
         expect(bucket.getWords().indexOf(word)).toBe(-1);
     });
-    it("remove doesn't explode", function () {
-        var bucket = new Bucket_1.default();
-        var word = new word_1.default("test");
+    it("remove doesn't explode", () => {
+        const bucket = new Bucket();
+        const word = new Word('test');
         expect(bucket.remove(word));
     });
-    it("doesn't throw with no words", function () {
-        expect(new Bucket_1.default().generate()).toBe("");
+    it("doesn't throw with no words", () => {
+        expect(new Bucket().generate()).toBe('');
     });
-    it("checks for children", function () {
-        var test = new Bucket_1.default();
-        test.create("test").create("test");
-        expect(test.check("test")).toBe(true);
-        expect(test.check("test.test")).toBe(true);
+    it('checks for children', () => {
+        const test = new Bucket();
+        test.create('test').create('test');
+        expect(test.check('test')).toBe(true);
+        expect(test.check('test.test')).toBe(true);
     });
-    it("checks for non-existant children", function () {
-        expect(new Bucket_1.default().check("test")).toBe(false);
+    it('checks for non-existant children', () => {
+        expect(new Bucket().check('test')).toBe(false);
     });
-    it("fetches children", function () {
-        var test = new Bucket_1.default();
-        var child = test.create("child");
-        var grandchild = child.create("grandchild");
-        expect(test.fetch("child")).toBe(child);
-        expect(test.fetch("child.grandchild")).toBe(grandchild);
+    it('fetches children', () => {
+        const test = new Bucket();
+        const child = test.create('child');
+        const grandchild = child.create('grandchild');
+        expect(test.fetch('child')).toBe(child);
+        expect(test.fetch('child.grandchild')).toBe(grandchild);
     });
-    it("doesn't fetch non-existant children", function () {
-        expect(function () { new Bucket_1.default().fetch("test"); }).toThrow(errors_1.MissingBucketError);
+    it("doesn't fetch non-existant children", () => {
+        expect(() => {
+            new Bucket().fetch('test');
+        }).toThrow(MissingBucketError);
     });
-    var testBucket = new Bucket_1.default("test");
-    it("attaches fresh buckets properly", function () {
-        var bucket = new Bucket_1.default("attached-bucket");
+    const testBucket = new Bucket('test');
+    it('attaches fresh buckets properly', () => {
+        const bucket = new Bucket('attached-bucket');
         testBucket.attach(bucket);
-        expect(testBucket.fetch("attached-bucket")).toBe(bucket);
+        expect(testBucket.fetch('attached-bucket')).toBe(bucket);
     });
-    it("detaches buckets properly", function () {
-        var bucket = testBucket.create("detach-bucket");
+    it('detaches buckets properly', () => {
+        const bucket = testBucket.create('detach-bucket');
         testBucket.detach(bucket);
-        expect(function () { return testBucket.fetch("detach-bucket"); }).toThrow(errors_1.MissingBucketError);
+        expect(() => testBucket.fetch('detach-bucket')).toThrow(MissingBucketError);
     });
-    it("detach doesn't explode", function () {
-        var bucket = new Bucket_1.default();
+    it("detach doesn't explode", () => {
+        const bucket = new Bucket();
         expect(testBucket.detach(bucket));
     });
-    it("attach doesn't double attach", function () {
-        var bucket = new Bucket_1.default();
+    it("attach doesn't double attach", () => {
+        const bucket = new Bucket();
         testBucket.attach(bucket);
-        expect(function () { return testBucket.attach(bucket); }).toThrow(errors_1.DuplicateNameError);
+        expect(() => testBucket.attach(bucket)).toThrow(DuplicateNameError);
     });
 });
+//# sourceMappingURL=Bucket.spec.js.map
