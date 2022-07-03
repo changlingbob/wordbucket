@@ -5,31 +5,16 @@ import {
   MissingBucketError,
   ReservedWordError,
 } from '../errors';
-import { getParentFromPath, pathToTuple } from '../utils';
-import { SUBTOKENS } from '../word';
+import { SUBTOKENS, Word } from '../word';
 import { CONST, VARS } from '.';
 
 const buckets: { [key: string]: Bucket } = {};
 
-const check = (title = ''): boolean => {
-  if (title.length === 0) {
-    return true;
-  }
-
-  const { parent, child } = pathToTuple(title);
-  if (buckets[parent] === undefined) {
-    return false;
-  }
-
-  return buckets[parent].check(child);
-};
+const check = (title = ''): boolean => !!buckets[title];
 
 const fetch = (title = ''): Bucket => {
-  if (title.length > 0) {
-    const { parent, child } = pathToTuple(title);
-    if (buckets[parent] !== undefined) {
-      return buckets[parent].fetch(child);
-    }
+  if (buckets[title]) {
+    return buckets[title];
   }
 
   throw new MissingBucketError(`Can't find bucket named ${title}`, title);
@@ -40,12 +25,6 @@ const create = (title: string): Bucket => {
     throw new DuplicateNameError(
       `A bucket with the name '${title}' already exists`,
       fetch(title)
-    );
-  }
-  if (!check(getParentFromPath(title))) {
-    throw new MissingBucketError(
-      `The parent of the bucket ${title} does not exist yet!`,
-      title
     );
   }
   if (
@@ -71,7 +50,7 @@ const create = (title: string): Bucket => {
 };
 
 const attach = (bucket: Bucket): void => {
-  if (buckets[bucket.title]) {
+  if (check(bucket.title)) {
     throw new DuplicateNameError(
       `Tried to attach ${bucket.title} to the root, but one already exists`,
       bucket
@@ -82,7 +61,9 @@ const attach = (bucket: Bucket): void => {
 };
 
 const detach = (bucket: Bucket): void => {
-  delete buckets[bucket.title];
+  if (check(bucket.title)) {
+    delete buckets[bucket.title];
+  }
 };
 
 const generate = (title: string): string => fetch(title).generate();
@@ -104,29 +85,35 @@ const serialise = (bucketTitle?: string, spacing = 0): string => {
   return JSON.stringify(buckets, null, spacing);
 };
 
-const decompress = (input: any, bucket: Bucket): void => {
-  // eslint-disable-next-line no-restricted-syntax
-  for (const title of Object.keys(input)) {
+type OldBuckets = {
+  [key: string]: { title: string; words: Word[]; children: OldBuckets };
+};
+
+const decompress = (input: OldBuckets, bucket: string): void => {
+  Object.keys(input).forEach((title) => {
     const child = input[title];
-    if (!bucket.check(title)) {
-      bucket.create(title);
+    const newTitle = `${bucket}.${title}`;
+    if (!check(newTitle)) {
+      create(newTitle);
     }
-    // eslint-disable-next-line no-restricted-syntax
-    for (const word of child.words) {
-      bucket.fetch(title).add(word.words, word.weight);
-    }
+
+    child.words.forEach((word) => {
+      fetch(newTitle).add(word.words, word.weight);
+    });
+
     if (child.children) {
-      decompress(child.children, bucket.fetch(title));
+      decompress(child.children, newTitle);
     }
-  }
+  });
 };
 
 const deserialise = (input: string): void => {
-  let title;
+  let title = '';
   try {
     const obj = JSON.parse(input);
-    // eslint-disable-next-line no-restricted-syntax
-    for (title of Object.keys(obj)) {
+
+    Object.keys(obj).forEach((dataTitle) => {
+      title = dataTitle;
       const bucket = obj[title];
 
       let toAdd: Bucket;
@@ -136,15 +123,15 @@ const deserialise = (input: string): void => {
       } else {
         toAdd = fetch(title);
       }
-      // eslint-disable-next-line no-restricted-syntax
-      for (const word of bucket.words) {
-        toAdd.add(word.words, word.weight);
-      }
+
+      bucket.words.forEach((word: Word) => {
+        fetch(title).add(word.words, word.weight);
+      });
 
       if (bucket.children) {
-        decompress(bucket.children, fetch(title));
+        decompress(bucket.children, bucket.title);
       }
-    }
+    });
   } catch (e) {
     throw new DeserialiseBucketError(
       `Couldn't parse bucket ${title}`,

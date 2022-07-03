@@ -1,5 +1,3 @@
-// This works where other, more comprehensible custom errors don't.
-
 export class ReservedWordError extends Error {
   public name: string;
   public title: string;

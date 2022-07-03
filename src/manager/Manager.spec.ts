@@ -7,7 +7,7 @@ import {
 import { WordManager } from './Manager';
 
 const test = WordManager.create('test-bucket');
-const nested = test.create('nested-bucket');
+const nested = WordManager.create('test-bucket.nested-bucket');
 
 describe('WordManager', () => {
   it('returns the correct bucket with fetch', () => {

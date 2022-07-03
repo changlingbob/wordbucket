@@ -1,5 +1,5 @@
 import { MissingBucketError } from '../errors';
-import { WordManager, VARS } from '../manager';
+import { VARS, WordManager } from '../manager';
 import { checkFullToken, checkSubToken, splitString } from '../utils';
 
 export class Word {
@@ -13,72 +13,74 @@ export class Word {
 
   public generate = (): string => {
     const tokens: string[] = splitString(this.words);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const token in tokens) {
-      if (checkFullToken(tokens[token])) {
-        const fragments = [];
-        const subTokens = tokens[token].slice(2, -1).split(/, ?/);
 
-        let aOrAn = '';
+    return tokens
+      .map((token) => {
+        if (checkFullToken(token)) {
+          const subTokens = token.slice(2, -1).split(/, ?/);
 
-        // eslint-disable-next-line no-restricted-syntax
-        for (const subToken of subTokens) {
-          if (checkSubToken(subToken)) {
-            // set flags for special cases here;
-            switch (subToken.slice(1)) {
-              case 'a':
-              case 'an':
-                aOrAn = subToken.slice(1);
-                break;
-              default:
-                break;
-            }
-          } else {
-            try {
-              const word = WordManager.generate(subToken);
-              if (word.length > 0) {
-                fragments.push(word);
+          let aOrAn = '';
+
+          const fragments = subTokens.map((subToken) => {
+            if (checkSubToken(subToken)) {
+              // set flags for special cases here;
+              switch (subToken.slice(1)) {
+                case 'a':
+                case 'an':
+                  aOrAn = subToken.slice(1);
+                  break;
+                default:
+                  break;
               }
-            } catch (e: any) {
-              if (typeof e === typeof MissingBucketError) {
-                // eslint-disable-next-line no-console
-                console.error('Swallowing error:');
-                // eslint-disable-next-line no-console
-                console.error(e);
-                fragments.push(`!!! ${e.message} !!!`);
-              } else {
+            } else {
+              try {
+                const word = WordManager.generate(subToken);
+                if (word.length > 0) {
+                  return word;
+                }
+              } catch (e: any) {
+                if (typeof e === typeof MissingBucketError) {
+                  // eslint-disable-next-line no-console -- error handling
+                  console.error('Swallowing error: \n', e);
+
+                  return `!!! ${e.message} !!!`;
+                }
+
                 throw e;
               }
             }
+
+            return '';
+          });
+
+          let output = fragments.join(', ');
+          const outputPrepend = (fragment: string) => {
+            if (output.length > 0) {
+              output = `${fragment} ${output}`;
+            } else {
+              output = fragment;
+            }
+          };
+
+          if (aOrAn.length > 0) {
+            const vowelArray = ['a', 'e', 'i', 'o', 'u', '1', '8'];
+            const firstChar = output.match(/[a-zA-Z0-9]/)?.pop();
+            if (firstChar && vowelArray.indexOf(firstChar) > -1) {
+              outputPrepend('an');
+            } else if (firstChar) {
+              outputPrepend('a');
+            } else {
+              outputPrepend(aOrAn);
+            }
           }
+
+          return output;
         }
 
-        let output = fragments.join(', ');
-        const outputPrepend = (fragment: string) => {
-          if (output.length > 0) {
-            output = `${fragment} ${output}`;
-          } else {
-            output = fragment;
-          }
-        };
-
-        if (aOrAn.length > 0) {
-          const vowelArray = ['a', 'e', 'i', 'o', 'u', '1', '8'];
-          const firstChar = output.match(/[a-zA-Z0-9]/)?.pop();
-          if (firstChar && vowelArray.indexOf(firstChar) > -1) {
-            outputPrepend('an');
-          } else if (firstChar) {
-            outputPrepend('a');
-          } else {
-            outputPrepend(aOrAn);
-          }
-        }
-
-        tokens[token] = output;
-      }
-    }
-
-    return tokens.join(' ').trim();
+        return '';
+      })
+      .join(' ')
+      .trim();
   };
 
   public update = (update: { words?: string; weight?: number }): void => {

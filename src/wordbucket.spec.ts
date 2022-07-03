@@ -5,7 +5,7 @@ describe('barrel file', () => {
     const hex = WordManager.create('hex');
     hex.add('test1', 1);
     hex.add('test2', 1);
-    hex.create('subtable');
+    WordManager.create('hex.subtable');
     const subtable = WordManager.fetch('hex.subtable');
     subtable.add('test3', 1);
     subtable.generate();
@@ -13,12 +13,18 @@ describe('barrel file', () => {
     WordManager.generate('hex');
 
     expect(WordManager.serialise()).toBe(
-      `{"hex":{"children":{"subtable":{"children":{},"words":[{"words":"test3","weight":1}],"title":"subtable"}},"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"}}`
+      `{"hex":{"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"},"hex.subtable":{"words":[{"words":"test3","weight":1}],"title":"hex.subtable"}}`
     );
+    WordManager.detach(WordManager.fetch('hex'));
+    WordManager.detach(WordManager.fetch('hex.subtable'));
+
     expect(
       WordManager.deserialise(
         `{"hex":{"children":{"subtable":{"children":{},"words":[{"words":"test3","weight":1}],"title":"subtable"}},"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"}}`
       )
+    );
+    expect(WordManager.serialise()).toBe(
+      `{"hex":{"words":[{"words":"test1","weight":1},{"words":"test2","weight":1}],"title":"hex"},"hex.subtable":{"words":[{"words":"test3","weight":1}],"title":"hex.subtable"}}`
     );
   });
 });

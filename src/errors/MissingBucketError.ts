@@ -1,5 +1,3 @@
-// This works where other, more comprehensible custom errors don't.
-
 export class MissingBucketError extends Error {
   public name: string;
   public message: string;
