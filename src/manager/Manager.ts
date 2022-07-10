@@ -7,6 +7,7 @@ import {
 } from '../errors';
 import { SUBTOKENS, Word } from '../word';
 import { CONST, VARS } from '.';
+import { Variables } from 'src/bucket/Bucket.types';
 
 const buckets: { [key: string]: Bucket } = {};
 
@@ -72,7 +73,8 @@ const detach = (bucket: Bucket): void => {
   }
 };
 
-const generate = (title: string): string => fetch(title).generate();
+const generate = (title: string, variables?: Variables): string =>
+  fetch(title).generate(variables);
 
 const serialise = (bucketTitle?: string, spacing = 0): string => {
   if (bucketTitle) {

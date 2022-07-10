@@ -1,4 +1,4 @@
-import { Word } from '../word';
+import { SUBTOKENS, Word } from '../word';
 import { checkFullToken, checkSubToken } from '.';
 import { findCommand, splitString } from './splitter';
 import { wordSummer } from './wordSummer';
@@ -78,8 +78,10 @@ describe('tokeniser', () => {
   });
 
   describe('subtokens', () => {
-    it('finds good subtokens', () => {
-      expect(checkSubToken('$a')).toBe(true);
+    it('finds all good subtokens', () => {
+      SUBTOKENS.forEach((token) => {
+        expect(checkSubToken(`$${token}`)).toBe(true);
+      });
     });
 
     it('rejects bad subtokens', () => {

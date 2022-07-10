@@ -1,5 +1,6 @@
 import { wordSummer } from '../utils';
 import { Word } from '../word';
+import { Variables } from './Bucket.types';
 
 export class Bucket {
   public title: string;
@@ -33,7 +34,8 @@ export class Bucket {
 
   public getWords = (): Word[] => this.words;
 
-  public generate = (): string => {
+  public generate = (variables?: Variables): string => {
+    const genVariables = variables || {};
     const max = wordSummer(this.words) * 10;
     let accumulator = 0;
     const target = Math.floor(Math.random() * max) + 1;
@@ -48,7 +50,7 @@ export class Bucket {
     }
 
     if (word !== undefined) {
-      return word.generate();
+      return word.generate(genVariables);
     }
 
     return '';
