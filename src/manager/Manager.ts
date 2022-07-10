@@ -60,6 +60,12 @@ const attach = (bucket: Bucket): void => {
   buckets[bucket.title] = bucket;
 };
 
+const remove = (bucket: string): void => {
+  if (check(bucket)) {
+    delete buckets[bucket];
+  }
+};
+
 const detach = (bucket: Bucket): void => {
   if (check(bucket.title)) {
     delete buckets[bucket.title];
@@ -133,6 +139,7 @@ const deserialise = (input: string): void => {
       }
     });
   } catch (e) {
+    remove(title);
     throw new DeserialiseBucketError(
       `Couldn't parse bucket ${title}`,
       e as Error
@@ -152,5 +159,6 @@ export const WordManager = {
   fetch,
   generate,
   getBuckets,
+  remove,
   serialise,
 };
