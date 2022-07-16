@@ -1,5 +1,9 @@
 import { Variables } from 'src/bucket/Bucket.types';
-import { ReadVariableError, SetVariableError } from '../errors';
+import {
+  MissingBucketError,
+  ReadVariableError,
+  SetVariableError,
+} from '../errors';
 import { WordManager } from '../manager';
 import { Word } from './Word';
 
@@ -129,6 +133,32 @@ describe('Word', () => {
         expect(new Word('${$var foo bar}').generate({ foo: 'foo' })).toBe(
           'foo bar'
         );
+      });
+    });
+
+    describe('table', () => {
+      it('rolls a table specified by a variable', () => {
+        expect(
+          new Word('${$table test}').generate({ test: 'vowel-bucket' })
+        ).toBe('elephant');
+      });
+
+      it('works in the middle of a sequence', () => {
+        expect(
+          new Word('${$a $table test bar}').generate({ test: 'vowel-bucket' })
+        ).toBe('an elephant bar');
+      });
+
+      it('reports a missing variable', () => {
+        expect(new Word('${$table test}').generate({ foo: 'bar' })).toBe(
+          '!!! Missing variable !!!'
+        );
+      });
+
+      it("throws if a variable doesn't specify a table", () => {
+        expect(() =>
+          new Word('${$table test}').generate({ test: 'non-existant' })
+        ).toThrow(MissingBucketError);
       });
     });
   });

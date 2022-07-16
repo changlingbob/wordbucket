@@ -28,6 +28,7 @@ export class Word {
           let aOrAn = -1;
           let setWord = false;
           let varWord = -1;
+          let varTable = false;
 
           const fragments = subTokens.map((subToken, index) => {
             if (checkSubToken(subToken)) {
@@ -38,6 +39,9 @@ export class Word {
                   aOrAn = index;
 
                   return subToken.slice(1);
+                case 'table':
+                  varTable = true;
+                // eslint-disable-next-line no-fallthrough -- explicit fallthrough
                 case 'var':
                   if (subTokens.length <= index + 1) {
                     throw new ReadVariableError(
@@ -66,6 +70,10 @@ export class Word {
 
               if (!output && output !== '') {
                 return '!!! Missing variable !!!';
+              }
+
+              if (varTable) {
+                return WordManager.fetch(output).generate();
               }
 
               return output;

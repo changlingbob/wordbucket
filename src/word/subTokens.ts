@@ -1,1 +1,1 @@
-export const SUBTOKENS = ['a', 'an', 'set', 'var'];
+export const SUBTOKENS = ['a', 'an', 'set', 'var', 'table'];
