@@ -88,8 +88,8 @@ describe('Word', () => {
 
       it('stores data', () => {
         const output: Variables = {};
-        new Word('${$set foo bar}').generate(output);
-        expect(output.foo).toBe('bar');
+        new Word('${$set foo vowel-bucket}').generate(output);
+        expect(output.foo).toBe('elephant');
       });
     });
 
