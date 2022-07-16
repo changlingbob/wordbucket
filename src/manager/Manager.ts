@@ -77,21 +77,19 @@ const detach = (bucket: Bucket): void => {
 const generate = (title: string, variables?: Variables): string =>
   fetch(title).generate(variables);
 
-const serialise = (bucketTitle?: string, spacing = 0): string => {
-  if (bucketTitle) {
-    if (check(bucketTitle)) {
-      const serialObj: { [key: string]: Bucket } = {};
-      serialObj[bucketTitle] = fetch(bucketTitle);
+const serialise = (...bucketTitle: string[]): string => {
+  if (bucketTitle.length > 0) {
+    const serialObj: { [key: string]: Bucket } = {};
+    bucketTitle.forEach((title) => {
+      if (check(title)) {
+        serialObj[title] = fetch(title);
+      }
+    });
 
-      return JSON.stringify(serialObj);
-    }
-    throw new MissingBucketError(
-      `Could not find bucket named ${bucketTitle} to serialise`,
-      bucketTitle
-    );
+    return JSON.stringify(serialObj);
   }
 
-  return JSON.stringify(buckets, null, spacing);
+  return JSON.stringify(buckets);
 };
 
 type OldBuckets = {

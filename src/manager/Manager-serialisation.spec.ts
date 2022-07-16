@@ -38,8 +38,23 @@ describe('serialise', () => {
     const test = WordManager.create('test');
     test.add('word');
 
-    expect(WordManager.serialise()).toBe(
+    expect(WordManager.serialise('test')).toBe(
       '{"test":{"words":[{"words":"word","weight":1}],"title":"test"}}'
+    );
+  });
+
+  it('serialises multiple buckets', () => {
+    const test = WordManager.create('test-2');
+    test.add('word');
+
+    expect(WordManager.serialise('test', 'test-2')).toBe(
+      '{"test":{"words":[{"words":"word","weight":1}],"title":"test"},"test-2":{"words":[{"words":"word","weight":1}],"title":"test-2"}}'
+    );
+  });
+
+  it('serialises everything', () => {
+    expect(WordManager.serialise()).toBe(
+      '{"test":{"words":[{"words":"word","weight":1}],"title":"test"},"test-2":{"words":[{"words":"word","weight":1}],"title":"test-2"}}'
     );
   });
 });
