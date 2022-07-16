@@ -8,6 +8,11 @@ import { WordManager } from '../manager';
 import { Word } from './Word';
 
 describe('Word', () => {
+  WordManager.create('vowel-bucket').add('elephant');
+  WordManager.create('consonant-bucket').add('words');
+  WordManager.create('bar').add('bar');
+  WordManager.create('baz').add('baz');
+
   it('generates real good', () => {
     expect(new Word('hello').generate({})).toBe('hello');
   });
@@ -37,12 +42,12 @@ describe('Word', () => {
     expect(word.weight).toBe(1);
   });
 
-  describe('command words', () => {
-    WordManager.create('vowel-bucket').add('elephant');
-    WordManager.create('consonant-bucket').add('words');
-    WordManager.create('bar').add('bar');
-    WordManager.create('baz').add('baz');
+  it('generates space separated inputs', () => {
+    expect(new Word('${bar baz}').generate({})).toBe('bar baz');
+    expect(new Word('${bar, baz}').generate({})).toBe('bar baz');
+  });
 
+  describe('command words', () => {
     describe('a/an', () => {
       it('defaults to the command', () => {
         expect(new Word('${$a} test').generate({})).toBe('a test');
