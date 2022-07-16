@@ -1,0 +1,1 @@
+{"version":3,"file":"ReadVariableError.js","sourceRoot":"","sources":["../../src/errors/ReadVariableError.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,iBAAkB,SAAQ,KAAK;IAI1C,YAAY,OAAe,EAAE,IAAY;QACvC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,IAAI,GAAG,mBAAmB,CAAC;QAChC,IAAI,CAAC,OAAO,GAAG,OAAO,IAAI,wCAAwC,IAAI,EAAE,CAAC;QACzE,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACnB,CAAC;CACF"}

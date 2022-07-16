@@ -20,7 +20,8 @@ export class Bucket {
             }
         };
         this.getWords = () => this.words;
-        this.generate = () => {
+        this.generate = (variables) => {
+            const genVariables = variables || {};
             const max = wordSummer(this.words) * 10;
             let accumulator = 0;
             const target = Math.floor(Math.random() * max) + 1;
@@ -33,7 +34,7 @@ export class Bucket {
                 }
             }
             if (word !== undefined) {
-                return word.generate();
+                return word.generate(genVariables);
             }
             return '';
         };

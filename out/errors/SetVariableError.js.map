@@ -1,0 +1,1 @@
+{"version":3,"file":"SetVariableError.js","sourceRoot":"","sources":["../../src/errors/SetVariableError.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,gBAAiB,SAAQ,KAAK;IAIzC,YAAY,OAAe,EAAE,IAAY;QACvC,KAAK,CAAC,OAAO,CAAC,CAAC;QACf,IAAI,CAAC,IAAI,GAAG,kBAAkB,CAAC;QAC/B,IAAI,CAAC,OAAO,GAAG,OAAO,IAAI,2CAA2C,IAAI,EAAE,CAAC;QAC5E,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACnB,CAAC;CACF"}

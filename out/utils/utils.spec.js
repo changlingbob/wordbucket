@@ -1,4 +1,4 @@
-import { Word } from '../word';
+import { SUBTOKENS, Word } from '../word';
 import { checkFullToken, checkSubToken } from '.';
 import { findCommand, splitString } from './splitter';
 import { wordSummer } from './wordSummer';
@@ -30,16 +30,16 @@ describe('splitString', () => {
     });
     it('breaks apart commands', () => {
         expect(splitString('test ${command} test')).toEqual([
-            'test',
+            'test ',
             '${command}',
-            'test',
+            ' test',
         ]);
     });
     it('handles weird spacing, punctuation, etc', () => {
         expect(splitString('lo, I spot a ${creature}; I guess he is of ${size}-ish height')).toEqual([
-            'lo, I spot a',
+            'lo, I spot a ',
             '${creature}',
-            '; I guess he is of',
+            '; I guess he is of ',
             '${size}',
             '-ish height',
         ]);
@@ -60,8 +60,10 @@ describe('tokeniser', () => {
         });
     });
     describe('subtokens', () => {
-        it('finds good subtokens', () => {
-            expect(checkSubToken('$a')).toBe(true);
+        it('finds all good subtokens', () => {
+            SUBTOKENS.forEach((token) => {
+                expect(checkSubToken(`$${token}`)).toBe(true);
+            });
         });
         it('rejects bad subtokens', () => {
             expect(checkSubToken('$bad')).toBe(false);

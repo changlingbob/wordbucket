@@ -52,8 +52,15 @@ describe('WordManager', () => {
     });
     it('detaches buckets properly', () => {
         const bucket = WordManager.create('detach-bucket');
+        bucket.add('test');
         WordManager.detach(bucket);
         expect(() => WordManager.fetch('detach-bucket')).toThrow(MissingBucketError);
+    });
+    it('removes buckets properly', () => {
+        const bucket = WordManager.create('remove-bucket');
+        bucket.add('test');
+        WordManager.remove('remove-bucket');
+        expect(() => WordManager.fetch('remove-bucket')).toThrow(MissingBucketError);
     });
     it("attach doesn't double attach", () => {
         const bucket = new Bucket('double-attach');

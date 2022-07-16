@@ -31,12 +31,17 @@ const attach = (bucket) => {
     }
     buckets[bucket.title] = bucket;
 };
+const remove = (bucket) => {
+    if (check(bucket)) {
+        delete buckets[bucket];
+    }
+};
 const detach = (bucket) => {
     if (check(bucket.title)) {
         delete buckets[bucket.title];
     }
 };
-const generate = (title) => fetch(title).generate();
+const generate = (title, variables) => fetch(title).generate(variables);
 const serialise = (bucketTitle, spacing = 0) => {
     if (bucketTitle) {
         if (check(bucketTitle)) {
@@ -87,6 +92,7 @@ const deserialise = (input) => {
         });
     }
     catch (e) {
+        remove(title);
         throw new DeserialiseBucketError(`Couldn't parse bucket ${title}`, e);
     }
     // console.log(serialise(2));
@@ -101,6 +107,7 @@ export const WordManager = {
     fetch,
     generate,
     getBuckets,
+    remove,
     serialise,
 };
 //# sourceMappingURL=Manager.js.map

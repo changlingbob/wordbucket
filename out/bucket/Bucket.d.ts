@@ -1,4 +1,5 @@
 import { Word } from '../word';
+import { Variables } from './Bucket.types';
 export declare class Bucket {
     title: string;
     private words;
@@ -6,5 +7,5 @@ export declare class Bucket {
     add: (word: string, weight?: number) => Word;
     remove: (word: Word) => void;
     getWords: () => Word[];
-    generate: () => string;
+    generate: (variables?: Variables) => string;
 }
