@@ -26,8 +26,8 @@ export const splitString = (input: string, output: string[] = []): string[] => {
     return output;
   }
 
-  output.push(input.slice(0, commandChar).trim());
-  output.push(input.slice(commandChar, commandEnd).trim());
+  output.push(input.slice(0, commandChar));
+  output.push(input.slice(commandChar, commandEnd));
 
-  return splitString(input.slice(commandEnd).trim(), output);
+  return splitString(input.slice(commandEnd), output);
 };

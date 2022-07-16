@@ -122,7 +122,7 @@ export class Word {
 
         return token;
       })
-      .join(' ')
+      .join('')
       .trim();
   };
 

@@ -39,9 +39,9 @@ describe('splitString', () => {
 
   it('breaks apart commands', () => {
     expect(splitString('test ${command} test')).toEqual([
-      'test',
+      'test ',
       '${command}',
-      'test',
+      ' test',
     ]);
   });
 
@@ -51,9 +51,9 @@ describe('splitString', () => {
         'lo, I spot a ${creature}; I guess he is of ${size}-ish height'
       )
     ).toEqual([
-      'lo, I spot a',
+      'lo, I spot a ',
       '${creature}',
-      '; I guess he is of',
+      '; I guess he is of ',
       '${size}',
       '-ish height',
     ]);

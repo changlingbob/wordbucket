@@ -1,4 +1,5 @@
 import { Variables } from 'src/bucket/Bucket.types';
+
 import {
   MissingBucketError,
   ReadVariableError,
@@ -8,6 +9,7 @@ import { WordManager } from '../manager';
 import { Word } from './Word';
 
 describe('Word', () => {
+  WordManager.create('test-bucket').add('words');
   WordManager.create('vowel-bucket').add('elephant');
   WordManager.create('consonant-bucket').add('words');
   WordManager.create('bar').add('bar');
@@ -18,8 +20,15 @@ describe('Word', () => {
   });
 
   it('calls other buckets', () => {
-    WordManager.create('test-bucket').add('words');
     expect(new Word('${test-bucket}').generate({})).toBe('words');
+  });
+
+  it('can generate sentences', () => {
+    expect(
+      new Word(
+        'This generates ${test-bucket}. I like ${vowel-bucket}.'
+      ).generate({})
+    ).toBe('This generates words. I like elephant.');
   });
 
   it('can be mutated', () => {
