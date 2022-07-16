@@ -1,3 +1,5 @@
+import { Variables } from 'src/bucket/Bucket.types';
+
 import { Bucket } from '../bucket';
 import {
   DeserialiseBucketError,
@@ -7,7 +9,6 @@ import {
 } from '../errors';
 import { SUBTOKENS, Word } from '../word';
 import { CONST, VARS } from '.';
-import { Variables } from 'src/bucket/Bucket.types';
 
 const buckets: { [key: string]: Bucket } = {};
 
@@ -137,7 +138,7 @@ const deserialise = (input: string): void => {
       });
 
       if (bucket.children) {
-        decompress(bucket.children, bucket.title);
+        decompress(bucket.children, title);
       }
     });
   } catch (e) {

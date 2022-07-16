@@ -87,7 +87,7 @@ const deserialise = (input) => {
                 fetch(title).add(word.words, word.weight);
             });
             if (bucket.children) {
-                decompress(bucket.children, bucket.title);
+                decompress(bucket.children, title);
             }
         });
     }

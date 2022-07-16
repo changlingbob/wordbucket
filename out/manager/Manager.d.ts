@@ -1,5 +1,5 @@
-import { Bucket } from '../bucket';
 import { Variables } from 'src/bucket/Bucket.types';
+import { Bucket } from '../bucket';
 export declare const WordManager: {
     attach: (bucket: Bucket) => void;
     check: (title?: string) => boolean;
