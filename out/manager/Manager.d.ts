@@ -10,5 +10,5 @@ export declare const WordManager: {
     generate: (title: string, variables?: Variables) => string;
     getBuckets: () => Bucket[];
     remove: (bucket: string) => void;
-    serialise: (bucketTitle?: string, spacing?: number) => string;
+    serialise: (...bucketTitle: string[]) => string;
 };
