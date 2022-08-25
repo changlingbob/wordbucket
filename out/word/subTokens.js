@@ -1,5 +1,5 @@
 "use strict";
 exports.__esModule = true;
 exports.SUBTOKENS = void 0;
-exports.SUBTOKENS = ['a', 'an', 'set', 'var', 'table'];
+exports.SUBTOKENS = ['a', 'an', 'set', 'var', 'table', 'title'];
 //# sourceMappingURL=subTokens.js.map

@@ -29,6 +29,7 @@ export class Word {
           let setWord = false;
           let varWord = -1;
           let varTable = false;
+          let title = -1;
 
           const fragments = subTokens.map((subToken, index) => {
             if (checkSubToken(subToken)) {
@@ -59,6 +60,9 @@ export class Word {
                     );
                   }
                   setWord = true;
+                  break;
+                case 'title':
+                  title = index;
                   break;
                 default:
                   break;
@@ -115,6 +119,11 @@ export class Word {
             } else if (firstChar) {
               output[aOrAn] = 'a';
             }
+          }
+
+          if (title >= 0 && output.length >= title + 1) {
+            output[title] =
+              output[title][0].toUpperCase() + output[title].slice(1);
           }
 
           return output.join(' ');

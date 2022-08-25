@@ -19,6 +19,7 @@ var Word = /** @class */ (function () {
                     var setWord_1 = false;
                     var varWord_1 = -1;
                     var varTable_1 = false;
+                    var title_1 = -1;
                     var fragments = subTokens_1.map(function (subToken, index) {
                         if ((0, utils_1.checkSubToken)(subToken)) {
                             // set flags for special cases here;
@@ -41,6 +42,9 @@ var Word = /** @class */ (function () {
                                         throw new errors_1.SetVariableError("Set variable syntax error with '".concat(token, " in ").concat(_this.words), _this.words);
                                     }
                                     setWord_1 = true;
+                                    break;
+                                case 'title':
+                                    title_1 = index;
                                     break;
                                 default:
                                     break;
@@ -92,6 +96,10 @@ var Word = /** @class */ (function () {
                         else if (firstChar) {
                             output[aOrAn_1] = 'a';
                         }
+                    }
+                    if (title_1 >= 0 && output.length >= title_1 + 1) {
+                        output[title_1] =
+                            output[title_1][0].toUpperCase() + output[title_1].slice(1);
                     }
                     return output.join(' ');
                 }

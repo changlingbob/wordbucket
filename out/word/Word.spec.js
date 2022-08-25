@@ -112,6 +112,14 @@ describe('Word', function () {
                 }).toThrow(errors_1.MissingBucketError);
             });
         });
+        describe('title', function () {
+            it('puts results into title case', function () {
+                expect(new Word_1.Word('${$title vowel-bucket}').generate({})).toBe('Elephant');
+            });
+            it('puts variables into title case', function () {
+                expect(new Word_1.Word('${$title $var test}').generate({ test: 'elephant' })).toBe('Elephant');
+            });
+        });
     });
 });
 //# sourceMappingURL=Word.spec.js.map

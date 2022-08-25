@@ -175,5 +175,19 @@ describe('Word', () => {
         ).toThrow(MissingBucketError);
       });
     });
+
+    describe('title', () => {
+      it('puts results into title case', () => {
+        expect(new Word('${$title vowel-bucket}').generate({})).toBe(
+          'Elephant'
+        );
+      });
+
+      it('puts variables into title case', () => {
+        expect(
+          new Word('${$title $var test}').generate({ test: 'elephant' })
+        ).toBe('Elephant');
+      });
+    });
   });
 });
