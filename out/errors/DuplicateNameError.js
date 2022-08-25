@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13,6 +14,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+exports.__esModule = true;
+exports.DuplicateNameError = void 0;
 var DuplicateNameError = /** @class */ (function (_super) {
     __extends(DuplicateNameError, _super);
     function DuplicateNameError(message, bucket) {
@@ -24,5 +27,5 @@ var DuplicateNameError = /** @class */ (function (_super) {
     }
     return DuplicateNameError;
 }(Error));
-export { DuplicateNameError };
+exports.DuplicateNameError = DuplicateNameError;
 //# sourceMappingURL=DuplicateNameError.js.map

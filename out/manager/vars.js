@@ -1,3 +1,6 @@
+"use strict";
+exports.__esModule = true;
+exports.VARS = void 0;
 var COMMAND = '$';
 var BRACE = ['{', '}'];
 var setCommand = function (command) {
@@ -6,7 +9,7 @@ var setCommand = function (command) {
 var setBrace = function (braces) {
     BRACE = braces;
 };
-export var VARS = {
+exports.VARS = {
     BRACE: BRACE,
     COMMAND: COMMAND,
     setBrace: setBrace,

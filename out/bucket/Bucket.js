@@ -1,5 +1,8 @@
-import { wordSummer } from '../utils';
-import { Word } from '../word';
+"use strict";
+exports.__esModule = true;
+exports.Bucket = void 0;
+var utils_1 = require("../utils");
+var word_1 = require("../word");
 var Bucket = /** @class */ (function () {
     function Bucket(title) {
         if (title === void 0) { title = '__MISSING__'; }
@@ -11,7 +14,7 @@ var Bucket = /** @class */ (function () {
                 words.weight = weight;
             }
             else {
-                words = new Word(word, weight);
+                words = new word_1.Word(word, weight);
                 _this.words.push(words);
             }
             return words;
@@ -25,7 +28,7 @@ var Bucket = /** @class */ (function () {
         this.getWords = function () { return _this.words; };
         this.generate = function (variables) {
             var genVariables = variables || {};
-            var max = wordSummer(_this.words) * 10;
+            var max = (0, utils_1.wordSummer)(_this.words) * 10;
             var accumulator = 0;
             var target = Math.floor(Math.random() * max) + 1;
             var word;
@@ -46,5 +49,5 @@ var Bucket = /** @class */ (function () {
     }
     return Bucket;
 }());
-export { Bucket };
+exports.Bucket = Bucket;
 //# sourceMappingURL=Bucket.js.map

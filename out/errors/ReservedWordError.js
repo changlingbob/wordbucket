@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -13,6 +14,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+exports.__esModule = true;
+exports.ReservedWordError = void 0;
 var ReservedWordError = /** @class */ (function (_super) {
     __extends(ReservedWordError, _super);
     function ReservedWordError(message, title) {
@@ -24,5 +27,5 @@ var ReservedWordError = /** @class */ (function (_super) {
     }
     return ReservedWordError;
 }(Error));
-export { ReservedWordError };
+exports.ReservedWordError = ReservedWordError;
 //# sourceMappingURL=ReservedWordError.js.map

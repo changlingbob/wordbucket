@@ -1,7 +1,10 @@
-import { Bucket } from '../bucket';
-import { DeserialiseBucketError, DuplicateNameError, MissingBucketError, ReservedWordError, } from '../errors';
-import { SUBTOKENS } from '../word';
-import { CONST, VARS } from '.';
+"use strict";
+exports.__esModule = true;
+exports.WordManager = void 0;
+var bucket_1 = require("../bucket");
+var errors_1 = require("../errors");
+var word_1 = require("../word");
+var _1 = require(".");
 var buckets = {};
 var check = function (title) {
     if (title === void 0) { title = ''; }
@@ -12,26 +15,26 @@ var fetch = function (title) {
     if (buckets[title]) {
         return buckets[title];
     }
-    throw new MissingBucketError("Can't find bucket named ".concat(title), title);
+    throw new errors_1.MissingBucketError("Can't find bucket named ".concat(title), title);
 };
 var create = function (title) {
     if (check(title)) {
-        throw new DuplicateNameError("A bucket with the name '".concat(title, "' already exists"), fetch(title));
+        throw new errors_1.DuplicateNameError("A bucket with the name '".concat(title, "' already exists"), fetch(title));
     }
-    if (!title[0].match(CONST.BAD_COMMANDS) &&
-        SUBTOKENS.indexOf(title.slice(1)) > -1) {
-        throw new ReservedWordError("The title ".concat(title, " is too close to a reserved command word"), title);
+    if (!title[0].match(_1.CONST.BAD_COMMANDS) &&
+        word_1.SUBTOKENS.indexOf(title.slice(1)) > -1) {
+        throw new errors_1.ReservedWordError("The title ".concat(title, " is too close to a reserved command word"), title);
     }
-    if (title[0] === VARS.COMMAND) {
-        throw new ReservedWordError("The title ".concat(title, " begins with the command character"), title);
+    if (title[0] === _1.VARS.COMMAND) {
+        throw new errors_1.ReservedWordError("The title ".concat(title, " begins with the command character"), title);
     }
-    var bucket = new Bucket(title);
+    var bucket = new bucket_1.Bucket(title);
     buckets[title] = bucket;
     return bucket;
 };
 var attach = function (bucket) {
     if (check(bucket.title)) {
-        throw new DuplicateNameError("Tried to attach ".concat(bucket.title, " to the root, but one already exists"), bucket);
+        throw new errors_1.DuplicateNameError("Tried to attach ".concat(bucket.title, " to the root, but one already exists"), bucket);
     }
     buckets[bucket.title] = bucket;
 };
@@ -88,7 +91,7 @@ var deserialise = function (input) {
             var bucket = obj_1[title];
             var toAdd;
             if (!check(title)) {
-                toAdd = new Bucket(title);
+                toAdd = new bucket_1.Bucket(title);
                 attach(toAdd);
             }
             else {
@@ -104,12 +107,12 @@ var deserialise = function (input) {
     }
     catch (e) {
         remove(title);
-        throw new DeserialiseBucketError("Couldn't parse bucket ".concat(title), e);
+        throw new errors_1.DeserialiseBucketError("Couldn't parse bucket ".concat(title), e);
     }
     // console.log(serialise(2));
 };
 var getBuckets = function () { return Object.values(buckets); };
-export var WordManager = {
+exports.WordManager = {
     attach: attach,
     check: check,
     create: create,

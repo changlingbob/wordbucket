@@ -1,23 +1,26 @@
-import { MissingBucketError, ReadVariableError, SetVariableError, } from '../errors';
-import { WordManager } from '../manager';
-import { checkFullToken, checkSubToken, splitString } from '../utils';
+"use strict";
+exports.__esModule = true;
+exports.Word = void 0;
+var errors_1 = require("../errors");
+var manager_1 = require("../manager");
+var utils_1 = require("../utils");
 var Word = /** @class */ (function () {
     function Word(words, weight) {
         if (weight === void 0) { weight = 1; }
         var _this = this;
         this.generate = function (variables) {
-            var tokens = splitString(_this.words);
+            var tokens = (0, utils_1.splitString)(_this.words);
             return tokens
                 .map(function (token) {
                 var _a;
-                if (checkFullToken(token)) {
+                if ((0, utils_1.checkFullToken)(token)) {
                     var subTokens_1 = token.slice(2, -1).split(/,? /);
                     var aOrAn_1 = -1;
                     var setWord_1 = false;
                     var varWord_1 = -1;
                     var varTable_1 = false;
                     var fragments = subTokens_1.map(function (subToken, index) {
-                        if (checkSubToken(subToken)) {
+                        if ((0, utils_1.checkSubToken)(subToken)) {
                             // set flags for special cases here;
                             switch (subToken.slice(1)) {
                                 case 'a':
@@ -29,13 +32,13 @@ var Word = /** @class */ (function () {
                                 // eslint-disable-next-line no-fallthrough -- explicit fallthrough
                                 case 'var':
                                     if (subTokens_1.length <= index + 1) {
-                                        throw new ReadVariableError("Read variable syntax error with '".concat(token, " in ").concat(_this.words), _this.words);
+                                        throw new errors_1.ReadVariableError("Read variable syntax error with '".concat(token, " in ").concat(_this.words), _this.words);
                                     }
                                     varWord_1 = index;
                                     break;
                                 case 'set':
                                     if (subTokens_1.length !== 3) {
-                                        throw new SetVariableError("Set variable syntax error with '".concat(token, " in ").concat(_this.words), _this.words);
+                                        throw new errors_1.SetVariableError("Set variable syntax error with '".concat(token, " in ").concat(_this.words), _this.words);
                                     }
                                     setWord_1 = true;
                                     break;
@@ -52,19 +55,19 @@ var Word = /** @class */ (function () {
                                 return '!!! Missing variable !!!';
                             }
                             if (varTable_1) {
-                                return WordManager.fetch(output_1).generate();
+                                return manager_1.WordManager.fetch(output_1).generate();
                             }
                             return output_1;
                         }
                         else {
                             try {
-                                var word = WordManager.generate(subToken, variables);
+                                var word = manager_1.WordManager.generate(subToken, variables);
                                 if (word.length > 0) {
                                     return word;
                                 }
                             }
                             catch (e) {
-                                if (typeof e === typeof MissingBucketError) {
+                                if (typeof e === typeof errors_1.MissingBucketError) {
                                     // eslint-disable-next-line no-console -- error handling
                                     console.error('Swallowing error: \n', e);
                                     return "!!! ".concat(e.message, " !!!");
@@ -111,5 +114,5 @@ var Word = /** @class */ (function () {
     }
     return Word;
 }());
-export { Word };
+exports.Word = Word;
 //# sourceMappingURL=Word.js.map
