@@ -5,7 +5,7 @@ export declare class Word {
     constructor(words: string, weight?: number);
     generate: (variables: Variables) => string;
     update: (update: {
-        words?: string;
-        weight?: number;
+        words?: string | undefined;
+        weight?: number | undefined;
     }) => void;
 }

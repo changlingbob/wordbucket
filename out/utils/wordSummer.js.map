@@ -1,1 +1,1 @@
-{"version":3,"file":"wordSummer.js","sourceRoot":"","sources":["../../src/utils/wordSummer.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,MAAM,UAAU,GAAG,CAAC,KAAa,EAAU,EAAE,CAClD,KAAK,CAAC,MAAM,CAAC,CAAC,GAAG,EAAE,IAAI,EAAE,EAAE,CAAC,GAAG,GAAG,IAAI,CAAC,MAAM,EAAE,CAAC,CAAC,CAAC"}
+{"version":3,"file":"wordSummer.js","sourceRoot":"","sources":["../../src/utils/wordSummer.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,IAAM,UAAU,GAAG,UAAC,KAAa;IACtC,OAAA,KAAK,CAAC,MAAM,CAAC,UAAC,GAAG,EAAE,IAAI,IAAK,OAAA,GAAG,GAAG,IAAI,CAAC,MAAM,EAAjB,CAAiB,EAAE,CAAC,CAAC;AAAjD,CAAiD,CAAC"}

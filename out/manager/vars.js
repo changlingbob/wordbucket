@@ -1,15 +1,15 @@
-let COMMAND = '$';
-let BRACE = ['{', '}'];
-const setCommand = (command) => {
+var COMMAND = '$';
+var BRACE = ['{', '}'];
+var setCommand = function (command) {
     COMMAND = command;
 };
-const setBrace = (braces) => {
+var setBrace = function (braces) {
     BRACE = braces;
 };
-export const VARS = {
-    BRACE,
-    COMMAND,
-    setBrace,
-    setCommand,
+export var VARS = {
+    BRACE: BRACE,
+    COMMAND: COMMAND,
+    setBrace: setBrace,
+    setCommand: setCommand
 };
 //# sourceMappingURL=vars.js.map
