@@ -1,11 +1,10 @@
-import { Variables } from 'src/bucket/Bucket.types';
-
+import { Variables } from '../bucket/Bucket.types';
 import {
   MissingBucketError,
   ReadVariableError,
   SetVariableError,
 } from '../errors';
-import { VARS, WordManager } from '../manager';
+import { WordManager } from '../manager';
 import { checkFullToken, checkSubToken, splitString } from '../utils';
 
 export class Word {

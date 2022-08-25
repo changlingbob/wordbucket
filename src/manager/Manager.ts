@@ -1,6 +1,5 @@
-import { Variables } from 'src/bucket/Bucket.types';
-
 import { Bucket } from '../bucket';
+import { Variables } from '../bucket/Bucket.types';
 import {
   DeserialiseBucketError,
   DuplicateNameError,

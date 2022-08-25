@@ -1,4 +1,4 @@
-import { Variables } from 'src/bucket/Bucket.types';
+import { Variables } from '../bucket/Bucket.types';
 export declare class Word {
     words: string;
     weight: number;
