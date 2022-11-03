@@ -3,6 +3,7 @@ exports.__esModule = true;
 exports.WordManager = void 0;
 var bucket_1 = require("../bucket");
 var errors_1 = require("../errors");
+var rng_1 = require("../rng");
 var word_1 = require("../word");
 var _1 = require(".");
 var buckets = {};
@@ -111,6 +112,15 @@ var deserialise = function (input) {
     }
     // console.log(serialise(2));
 };
+var seedRNG = function (seed) {
+    if (seed !== undefined) {
+        rng_1.RNG.fix(true);
+        rng_1.RNG.setSeed(seed);
+    }
+    else {
+        rng_1.RNG.fix(false);
+    }
+};
 var getBuckets = function () { return Object.values(buckets); };
 exports.WordManager = {
     attach: attach,
@@ -122,6 +132,7 @@ exports.WordManager = {
     generate: generate,
     getBuckets: getBuckets,
     remove: remove,
+    seedRNG: seedRNG,
     serialise: serialise
 };
 //# sourceMappingURL=Manager.js.map
