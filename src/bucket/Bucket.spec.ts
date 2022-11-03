@@ -1,4 +1,5 @@
 import { DuplicateNameError, MissingBucketError } from '../errors';
+import { RNG } from '../rng';
 import { Word } from '../word';
 import { Bucket } from './Bucket';
 
@@ -26,6 +27,38 @@ describe('Bucket', () => {
 
     expect(testArray.filter((s) => s === 'rare string').length).toBeLessThan(
       200
+    );
+  });
+
+  it('respects seeded inputs', () => {
+    RNG.fix(true);
+
+    const test = new Bucket();
+    test.add('1', 1);
+    test.add('2', 1);
+    test.add('3', 1);
+    test.add('4', 1);
+    test.add('5', 1);
+    test.add('6', 1);
+    test.add('7', 1);
+    test.add('8', 1);
+    test.add('9', 1);
+    test.add('10', 1);
+
+    expect(test.generate({ seed: 'test-1' })).toEqual(
+      test.generate({ seed: 'test-1' })
+    );
+    expect(test.generate({ seed: 'test-2' })).toEqual(
+      test.generate({ seed: 'test-2' })
+    );
+    expect(test.generate({ seed: 'test-3' })).toEqual(
+      test.generate({ seed: 'test-3' })
+    );
+    expect(test.generate({ seed: 'test-4' })).toEqual(
+      test.generate({ seed: 'test-4' })
+    );
+    expect(test.generate({ seed: 'test-5' })).toEqual(
+      test.generate({ seed: 'test-5' })
     );
   });
 

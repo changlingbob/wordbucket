@@ -6,6 +6,7 @@ import {
   MissingBucketError,
   ReservedWordError,
 } from '../errors';
+import { RNG } from '../rng';
 import { SUBTOKENS, Word } from '../word';
 import { CONST, VARS } from '.';
 
@@ -148,6 +149,15 @@ const deserialise = (input: string): void => {
   // console.log(serialise(2));
 };
 
+const seedRNG = (seed?: number) => {
+  if (seed !== undefined) {
+    RNG.fix(true);
+    RNG.setSeed(seed);
+  } else {
+    RNG.fix(false);
+  }
+};
+
 const getBuckets = (): Bucket[] => Object.values(buckets);
 
 export const WordManager = {
@@ -160,5 +170,6 @@ export const WordManager = {
   generate,
   getBuckets,
   remove,
+  seedRNG,
   serialise,
 };

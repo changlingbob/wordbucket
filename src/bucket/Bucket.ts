@@ -1,3 +1,4 @@
+import { RNG } from '../rng';
 import { wordSummer } from '../utils';
 import { Word } from '../word';
 import { Variables } from './Bucket.types';
@@ -38,7 +39,10 @@ export class Bucket {
     const genVariables = variables || {};
     const max = wordSummer(this.words) * 10;
     let accumulator = 0;
-    const target = Math.floor(Math.random() * max) + 1;
+
+    const rng = RNG.next(variables?.seed);
+
+    const target = Math.floor(rng * max) + 1;
     let word: Word | undefined;
 
     for (let iii = 0; iii < max - 1; iii++) {
@@ -50,7 +54,7 @@ export class Bucket {
     }
 
     if (word !== undefined) {
-      return word.generate(genVariables);
+      return word.generate({ ...genVariables, seed: `${rng}` });
     }
 
     return '';
