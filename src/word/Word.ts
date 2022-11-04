@@ -1,4 +1,3 @@
-import { RNG } from '../rng';
 import { Variables } from '../bucket/Bucket.types';
 import {
   MissingBucketError,
@@ -6,6 +5,7 @@ import {
   SetVariableError,
 } from '../errors';
 import { WordManager } from '../manager';
+import { RNG } from '../rng';
 import { checkFullToken, checkSubToken, splitString } from '../utils';
 
 export class Word {
@@ -21,7 +21,7 @@ export class Word {
     const tokens: string[] = splitString(this.words);
 
     return tokens
-      .map((token) => {
+      .map((token, tokenId) => {
         if (checkFullToken(token)) {
           const subTokens = token.slice(2, -1).split(/,? /);
 
@@ -86,7 +86,9 @@ export class Word {
                 const vars = RNG.fixed
                   ? {
                       ...variables,
-                      seed: `${RNG.next(variables.seed)}${this.words}`,
+                      seed: `${RNG.next(variables.seed)}${tokens
+                        .slice(0, tokenId)
+                        .join('')}`,
                     }
                   : variables;
                 const word = WordManager.generate(subToken, vars);

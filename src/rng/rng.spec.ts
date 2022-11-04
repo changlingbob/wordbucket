@@ -85,4 +85,20 @@ describe('RNG', () => {
     expect(buckets[4]).toBeLessThan(300);
     expect(buckets[4]).toBeGreaterThan(100);
   });
+
+  it('generates enough entropy from seeds when fixed', () => {
+    RNG.fix(true);
+    RNG.setSeed(3);
+
+    // Discovered collision in previous iteration
+    expect(RNG.next(`0.13692402659772152`)).not.toEqual(
+      RNG.next(`0.26087661565322273`)
+    );
+
+    expect(RNG.next('123abc')).not.toEqual(RNG.next('cba321'));
+    expect(RNG.next('123abc')).not.toEqual(RNG.next('123abcd'));
+    expect(RNG.next('123abc')).not.toEqual(RNG.next('123ab'));
+    expect(RNG.next('123abc')).not.toEqual(RNG.next('23abc'));
+    expect(RNG.next('123abc')).not.toEqual(RNG.next('0123abc'));
+  });
 });

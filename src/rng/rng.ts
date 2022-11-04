@@ -26,8 +26,11 @@ export abstract class RNG {
       output = point;
     } else {
       output = 0;
-      Array.from(point).forEach((char) => {
+      Array.from(point).forEach((char, idx) => {
         output += char.charCodeAt(0);
+        output ^= output >> 3;
+        output *= idx;
+        output ^= output >> 7;
       });
     }
 
