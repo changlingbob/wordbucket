@@ -14,7 +14,7 @@ var RNG = /** @class */ (function () {
     RNG.SQ5_BIT_NOISE3 = 0x6c736f4b; // 01101100011100110110111101001011
     RNG.SQ5_BIT_NOISE4 = 0xb79f3abb; // 10110111100111110011101010111011
     RNG.SQ5_BIT_NOISE5 = 0x1b56c4f5; // 00011011010101101100010011110101
-    RNG.MAX_INT = 0xffffffff;
+    RNG.MAX_INT = 0x7fffffff; // 2147483647
     RNG.fixed = false;
     RNG.fallback = 1;
     RNG.next = function (point) {
@@ -24,7 +24,6 @@ var RNG = /** @class */ (function () {
         var output;
         if (point === undefined) {
             output = _a.fallback;
-            _a.fallback += 1;
         }
         else if (typeof point === 'number') {
             output = point;
@@ -47,6 +46,9 @@ var RNG = /** @class */ (function () {
         output ^= output >> 15;
         output *= _a.SQ5_BIT_NOISE5;
         output ^= output >> 17;
+        if (point === undefined) {
+            _a.fallback = output;
+        }
         return Math.abs(output / _a.MAX_INT);
     };
     RNG.fix = function (fix) {

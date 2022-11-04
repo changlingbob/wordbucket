@@ -6,7 +6,7 @@ export declare abstract class RNG {
     private static SQ5_BIT_NOISE4;
     private static SQ5_BIT_NOISE5;
     private static MAX_INT;
-    private static fixed;
+    static fixed: boolean;
     private static fallback;
     static next: (point?: string | number) => number;
     static fix: (fix: boolean) => void;

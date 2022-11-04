@@ -1,5 +1,6 @@
 "use strict";
 exports.__esModule = true;
 exports.SUBTOKENS = void 0;
-exports.SUBTOKENS = ['a', 'an', 'set', 'var', 'table', 'title'];
+// These are reserved words that can't be used as variable names
+exports.SUBTOKENS = ['a', 'an', 'set', 'var', 'seed', 'table', 'title'];
 //# sourceMappingURL=subTokens.js.map
