@@ -1,3 +1,4 @@
+import { RNG } from '../rng';
 import { Variables } from '../bucket/Bucket.types';
 import {
   MissingBucketError,
@@ -82,7 +83,13 @@ export class Word {
               return output;
             } else {
               try {
-                const word = WordManager.generate(subToken, variables);
+                const vars = RNG.fixed
+                  ? {
+                      ...variables,
+                      seed: `${RNG.next(variables.seed)}${this.words}`,
+                    }
+                  : variables;
+                const word = WordManager.generate(subToken, vars);
                 if (word.length > 0) {
                   return word;
                 }

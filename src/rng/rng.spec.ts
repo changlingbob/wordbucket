@@ -54,4 +54,35 @@ describe('RNG', () => {
     expect(RNG.next()).not.toEqual(RNG.next());
     expect(RNG.next()).not.toEqual(RNG.next());
   });
+
+  it('is evenly-ish deistributed', () => {
+    RNG.fix(true);
+    RNG.setSeed(1);
+    const buckets = [0, 0, 0, 0, 0];
+    [...new Array(1000)].forEach(() => {
+      const out = RNG.next();
+      if (out < 0.2) {
+        buckets[0] += 1;
+      } else if (out < 0.4) {
+        buckets[1] += 1;
+      } else if (out < 0.6) {
+        buckets[2] += 1;
+      } else if (out < 0.8) {
+        buckets[3] += 1;
+      } else {
+        buckets[4] += 1;
+      }
+    });
+
+    expect(buckets[0]).toBeLessThan(300);
+    expect(buckets[0]).toBeGreaterThan(100);
+    expect(buckets[1]).toBeLessThan(300);
+    expect(buckets[1]).toBeGreaterThan(100);
+    expect(buckets[2]).toBeLessThan(300);
+    expect(buckets[2]).toBeGreaterThan(100);
+    expect(buckets[3]).toBeLessThan(300);
+    expect(buckets[3]).toBeGreaterThan(100);
+    expect(buckets[4]).toBeLessThan(300);
+    expect(buckets[4]).toBeGreaterThan(100);
+  });
 });

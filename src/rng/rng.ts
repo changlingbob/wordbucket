@@ -8,9 +8,9 @@ export abstract class RNG {
   private static SQ5_BIT_NOISE3 = 0x6c736f4b; // 01101100011100110110111101001011
   private static SQ5_BIT_NOISE4 = 0xb79f3abb; // 10110111100111110011101010111011
   private static SQ5_BIT_NOISE5 = 0x1b56c4f5; // 00011011010101101100010011110101
-  private static MAX_INT = 0xffffffff;
+  private static MAX_INT = 0x7fffffff; // 2147483647
 
-  private static fixed = false;
+  public static fixed = false;
   private static fallback = 1;
 
   public static next = (point?: string | number): number => {
@@ -22,7 +22,6 @@ export abstract class RNG {
 
     if (point === undefined) {
       output = this.fallback;
-      this.fallback += 1;
     } else if (typeof point === 'number') {
       output = point;
     } else {
@@ -44,6 +43,10 @@ export abstract class RNG {
     output ^= output >> 15;
     output *= this.SQ5_BIT_NOISE5;
     output ^= output >> 17;
+
+    if (point === undefined) {
+      this.fallback = output;
+    }
 
     return Math.abs(output / this.MAX_INT);
   };
