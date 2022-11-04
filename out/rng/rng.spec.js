@@ -62,6 +62,7 @@ describe('RNG', function () {
         rng_1.RNG.fix(true);
         rng_1.RNG.setSeed(1);
         var buckets = [0, 0, 0, 0, 0];
+        var testOutput = [];
         __spreadArray([], new Array(1000), true).forEach(function () {
             var out = rng_1.RNG.next();
             if (out < 0.2) {
@@ -79,6 +80,7 @@ describe('RNG', function () {
             else {
                 buckets[4] += 1;
             }
+            testOutput.push(out);
         });
         expect(buckets[0]).toBeLessThan(300);
         expect(buckets[0]).toBeGreaterThan(100);
@@ -90,6 +92,17 @@ describe('RNG', function () {
         expect(buckets[3]).toBeGreaterThan(100);
         expect(buckets[4]).toBeLessThan(300);
         expect(buckets[4]).toBeGreaterThan(100);
+    });
+    it('generates enough entropy from seeds when fixed', function () {
+        rng_1.RNG.fix(true);
+        rng_1.RNG.setSeed(3);
+        // Discovered collision in previous iteration
+        expect(rng_1.RNG.next("0.13692402659772152")).not.toEqual(rng_1.RNG.next("0.26087661565322273"));
+        expect(rng_1.RNG.next('123abc')).not.toEqual(rng_1.RNG.next('cba321'));
+        expect(rng_1.RNG.next('123abc')).not.toEqual(rng_1.RNG.next('123abcd'));
+        expect(rng_1.RNG.next('123abc')).not.toEqual(rng_1.RNG.next('123ab'));
+        expect(rng_1.RNG.next('123abc')).not.toEqual(rng_1.RNG.next('23abc'));
+        expect(rng_1.RNG.next('123abc')).not.toEqual(rng_1.RNG.next('0123abc'));
     });
 });
 //# sourceMappingURL=rng.spec.js.map

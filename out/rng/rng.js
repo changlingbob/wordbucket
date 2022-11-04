@@ -30,8 +30,11 @@ var RNG = /** @class */ (function () {
         }
         else {
             output = 0;
-            Array.from(point).forEach(function (char) {
+            Array.from(point).forEach(function (char, idx) {
                 output += char.charCodeAt(0);
+                output ^= output >> 3;
+                output *= idx;
+                output ^= output >> 7;
             });
         }
         // Squirrel5

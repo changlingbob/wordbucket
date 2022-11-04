@@ -1,6 +1,6 @@
 {
   "name": "wordbucket",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A small project from rolling randomly on nested tables",
   "main": "out/index.js",
   "types": "out/index.d.ts",

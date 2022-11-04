@@ -12,9 +12,9 @@ var __assign = (this && this.__assign) || function () {
 };
 exports.__esModule = true;
 exports.Word = void 0;
-var rng_1 = require("../rng");
 var errors_1 = require("../errors");
 var manager_1 = require("../manager");
+var rng_1 = require("../rng");
 var utils_1 = require("../utils");
 var Word = /** @class */ (function () {
     function Word(words, weight) {
@@ -23,7 +23,7 @@ var Word = /** @class */ (function () {
         this.generate = function (variables) {
             var tokens = (0, utils_1.splitString)(_this.words);
             return tokens
-                .map(function (token) {
+                .map(function (token, tokenId) {
                 var _a;
                 if ((0, utils_1.checkFullToken)(token)) {
                     var subTokens_1 = token.slice(2, -1).split(/,? /);
@@ -78,7 +78,9 @@ var Word = /** @class */ (function () {
                         else {
                             try {
                                 var vars = rng_1.RNG.fixed
-                                    ? __assign(__assign({}, variables), { seed: "".concat(rng_1.RNG.next(variables.seed)).concat(_this.words) }) : variables;
+                                    ? __assign(__assign({}, variables), { seed: "".concat(rng_1.RNG.next(variables.seed)).concat(tokens
+                                            .slice(0, tokenId)
+                                            .join('')) }) : variables;
                                 var word = manager_1.WordManager.generate(subToken, vars);
                                 if (word.length > 0) {
                                     return word;
