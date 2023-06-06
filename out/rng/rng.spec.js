@@ -62,7 +62,6 @@ describe('RNG', function () {
         rng_1.RNG.fix(true);
         rng_1.RNG.setSeed(1);
         var buckets = [0, 0, 0, 0, 0];
-        var testOutput = [];
         __spreadArray([], new Array(1000), true).forEach(function () {
             var out = rng_1.RNG.next();
             if (out < 0.2) {
@@ -80,7 +79,6 @@ describe('RNG', function () {
             else {
                 buckets[4] += 1;
             }
-            testOutput.push(out);
         });
         expect(buckets[0]).toBeLessThan(300);
         expect(buckets[0]).toBeGreaterThan(100);
