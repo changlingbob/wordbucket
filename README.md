@@ -8,52 +8,6 @@ Wordbucket handles random generation for typescript/javascript projects, by roll
 
 You will need to both define random tables and add wordbucket to your project.
 
-### Random tables
-
-Tables (buckets) are defined as JSON strings, which are parsed by wordbucket. Each bucket should have a `title` which matches its key, and a `words` list of options it can generate. A sample bucket looks like this:
-
-```json
-{
-  "test": {
-    "title": "test",
-    "words": [
-      {
-        "words": "elephant",
-        "weight": 1
-      },
-      {
-        "words": "banana",
-        "weight": 1
-      }
-    ]
-  }
-}
-```
-
-Each entry in `words` includes a `words` property, which are the displayed result, and a `weight`, which is the relative chance of that option being chose, and which respects one decimal place.
-
-Buckets can call other buckets, using `${bucket.name}`:
-
-```json
-{
-  "demo": {
-    "title": "demo",
-    "words": [
-      {
-        "words": "I like my ${test}",
-        "weight": 1
-      },
-      {
-        "words": "My ${test} sucks",
-        "weight": 1
-      }
-    ]
-  }
-}
-```
-
-This can cause infinite loops if you call a bucket from itself, however this also lets you set up recursive calls.
-
 ### Including wordbucket
 
 Install wordbucket into your project with npm:
@@ -80,6 +34,20 @@ WordManager.generate('bucket-name');
 
 WordManager is static and allows access to buckets between files, but individual buckets can be spun up as you need them. If you call out to another bucket, it will use the WordManager to find them, so you will need to `attach` those buckets.
 
+```ts
+const nested = new Bucket('nested-table');
+nested.add('apples');
+nested.add('bananas');
+nested.add('pears');
+WordManager.attach(nested);
+
+const topLevel = new Bucket('top-level');
+topLevel.add('this tree grows ${nested-table}');
+topLevel.add('I like ${nested-table}');
+topLevel.add("we don't have any ${nested-table}");
+WordManager.attach(topLevel);
+```
+
 If you want to store buckets as data, you can serialise and deserialise to and from string:
 
 ```ts
@@ -100,6 +68,32 @@ WordManager.generate('some-bucket');
 // Unset the seeded RNG with no arguments
 WordManager.setSeed();
 ```
+
+### Random tables
+
+Buckets can be serialised to JSON string, but can also be written longhand, to be parsed by wordbucket. Each bucket should have a `title` which matches its key, and a `words` list of options it can generate. A sample bucket looks like this:
+
+```json
+{
+  "test": {
+    "title": "test",
+    "words": [
+      {
+        "words": "elephant",
+        "weight": 1
+      },
+      {
+        "words": "banana",
+        "weight": 1
+      }
+    ]
+  }
+}
+```
+
+Each entry in `words` includes a `words` property, which are the displayed result, and a `weight`, which is the relative chance of that option being chose, and which respects one decimal place.
+
+Writing buckets in JSON saves you from having to build the buckets in code, as you can import external files that just store the data. I have built a proof of concept bucket editor, available [here](https://wordbucket-fe.github.io), where you can import and export json to see what they look like and test things out.
 
 ## Commands
 
