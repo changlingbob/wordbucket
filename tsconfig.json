@@ -4,7 +4,7 @@
     "lib": ["es2015"],
     "jsx": "react",
     "sourceMap": true,
-    "outDir": "./out/",
+    "outDir": "./lib/",
     "noEmit": false,
     "strict": true,
     "moduleResolution": "node",
@@ -14,5 +14,6 @@
     "esModuleInterop": true
   },
   "files": ["./src/index.ts"],
-  "include": ["src/**/*", "node_modules/@types/jest"]
+  "include": ["src/**/*", "node_modules/@types/jest"],
+  "exclude": ["src/**/*.spec.*"]
 }

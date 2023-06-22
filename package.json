@@ -1,9 +1,9 @@
 {
   "name": "wordbucket",
-  "version": "0.3.1",
-  "description": "A small project from rolling randomly on nested tables",
-  "main": "out/index.js",
-  "types": "out/index.d.ts",
+  "version": "0.3.2",
+  "description": "A tool for rolling randomly on nested tables",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc -d",
     "build:dev": "tsc -d -w",
@@ -16,16 +16,23 @@
   },
   "keywords": [],
   "author": {
-    "name": "Greg Skinner",
-    "email": "changling.bob@gmail.com"
+    "name": "Gregory Skinner",
+    "email": "wordbucket@powerful-wizard.games"
+  },
+  "homepage": "https://github.com/changlingbob/wordbucket#readme",
+  "bugs": {
+    "url": "https://github.com/changlingbob/wordbucket/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/changlingbob/wordbucket.git"
   },
   "license": "ISC",
   "dependencies": {
-    "roll-parser": "^2.3.2",
-    "typescript": "^4.7.4"
+    "roll-parser": "^2.3.2"
   },
   "devDependencies": {
-    "@types/jest": "^28.1.4",
+    "@types/jest": "^28.1.8",
     "@types/node": "^13.13.4",
     "@typescript-eslint/eslint-plugin": "^5.30.4",
     "@typescript-eslint/parser": "^5.30.4",
@@ -40,6 +47,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "jest": "^28.1.2",
     "prettier": "^2.7.1",
-    "ts-jest": "^28.0.5"
+    "ts-jest": "^28.0.5",
+    "typescript": "^4.7.4"
   }
 }

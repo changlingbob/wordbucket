@@ -14,7 +14,7 @@
   "ignorePatterns": [
     "**/node_modules/**/*.*",
     "**/*.svg",
-    "**/out/**",
+    "**/lib/**",
     "jest.config.js"
   ],
   "parser": "@typescript-eslint/parser",

@@ -1,5 +1,4 @@
-import { Variables } from 'src/bucket/Bucket.types';
-
+import { Variables } from '../bucket/Bucket.types';
 import {
   MissingBucketError,
   ReadVariableError,
