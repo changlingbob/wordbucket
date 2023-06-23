@@ -26,10 +26,14 @@ bucket.add('entry in the table');
 bucket.add('a different entry');
 bucket.add('an entry with a weighting other than 1', 0.2);
 
-bucket.generate();
+let text;
+
+text = bucket.generate();
+// one of 'entry in the table', 'a different entry', or 'an entry with a weighting other than 1' at a lower frequency
 
 WordManager.attach(bucket);
-WordManager.generate('bucket-name');
+text = WordManager.generate('bucket-name');
+// same as above
 ```
 
 WordManager is static and allows access to buckets between files, but individual buckets can be spun up as you need them. If you call out to another bucket, it will use the WordManager to find them, so you will need to `attach` those buckets.
@@ -46,6 +50,8 @@ topLevel.add('this tree grows ${nested-table}');
 topLevel.add('I like ${nested-table}');
 topLevel.add("we don't have any ${nested-table}");
 WordManager.attach(topLevel);
+WordManager.generate('top-level');
+// something of the form 'this tree grows pears' or 'I like apples'
 ```
 
 If you want to store buckets as data, you can serialise and deserialise to and from string:
@@ -136,7 +142,8 @@ const result = new Bucket('result');
 result.add('${$set size size}${output}');
 
 result.generate();
-// Both `${$var size}` in the text will be the same.
+// 'I said it would be tiny, and it is tiny!'
+// (both `${$var size}` in the text will always be the same)
 ```
 
 ### `table`
